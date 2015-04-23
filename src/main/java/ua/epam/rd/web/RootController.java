@@ -15,10 +15,17 @@ public class RootController {
         return "hello";
     }
 
+    @RequestMapping(value = "/login", method = RequestMethod.GET) // always set method
+//    @ResponseBody  //просто в поток вывода выводит (response), а не во вьz
+    public String login(Model model) {
+        model.addAttribute("msg", "Hi!");
+        return "login";
+    }
+
     @RequestMapping(value = "/body", method = RequestMethod.GET) // always set method
     @ResponseBody  //просто в поток вывода выводит (response), а не во вьz
     public String body(Model model) {
         model.addAttribute("msg","Hi!");
-        return "hello";
+        return "body";
     }
 }

@@ -2,3 +2,17 @@ VERSION 0.1:
 23.04.2015.
 1) JPA+Hibernate+Postgresql - test
 2) Sring MVC - hello world
+
+
+VERSION 0.2:
+in progress
+1)+ DAO - User
+2)+ DAO - UT
+3)+ User - MD5 hash support
+4) Service - USer
+5) Service - UT
+6) Login page + Controller
+7) Restore password page + Controller
+8) Logout msg page + Controller
+9) Page 404 + auto-redirect in 5 seconds
+10) Mailing system muck

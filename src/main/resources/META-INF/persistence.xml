@@ -4,14 +4,14 @@
         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
         xmlns="http://xmlns.jcp.org/xml/ns/persistence"
         version="2.1">
-    <persistence-unit transaction-type="RESOURCE_LOCAL" name="myPersistentUnitPostgres">
+    <persistence-unit transaction-type="RESOURCE_LOCAL" name="myPersistentUnit">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect"/>
             <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
-            <property name="hibernate.hbm2ddl.auto" value="create"/>
-            <property name="hibernate.show_sql" value="false"/>
-            <property name="hibernate.format_sql" value="false"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
         </properties>
     </persistence-unit>
 </persistence>

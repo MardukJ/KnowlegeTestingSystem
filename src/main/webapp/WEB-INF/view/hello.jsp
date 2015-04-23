@@ -6,6 +6,6 @@
   <title>Spring4 MVC -HelloWorld</title>
 </head>
 <body>
-<h1>Hello : ${msg}</h1>
+<h1>${msg}</h1>
 </body>
 </html>
