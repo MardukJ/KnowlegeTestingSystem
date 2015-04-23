@@ -1,0 +1,4 @@
+VERSION 0.1:
+23.04.2015.
+1) JPA+Hibernate+Postgresql - test
+2) Sring MVC - hello world
