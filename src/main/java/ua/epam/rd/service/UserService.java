@@ -14,7 +14,9 @@ public interface UserService {
 
     User checkPasswordAndGetUser(String mail, String password);
 
-    long getAllTotalPages();
+    int getAllTotalPages();
 
-    List<User> getAllPage(int page);
+    List<User> getAllFromPage(int page);
+
+    List<User> getAllNow();
 }

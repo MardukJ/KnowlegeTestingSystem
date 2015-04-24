@@ -78,7 +78,7 @@ public class UserRepositoryJPA implements UserRepository {
     }
 
     @Override
-    public List<User> getEntrysInRange(int first, int size) {
+    public List<User> getEntryInRange(int first, int size) {
         Query query = em.createQuery("FROM User");
         query.setFirstResult(first);
         query.setMaxResults(size);

@@ -89,6 +89,11 @@ public class User {
         return passwordBuffer;
     }
 
+    public String verifyMe() {
+        //null if all field r correct
+        throw new UnsupportedOperationException();
+    }
+
     @Override
     public String toString() {
         return "User{" +

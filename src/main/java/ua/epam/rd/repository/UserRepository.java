@@ -26,5 +26,5 @@ public interface UserRepository {
 
     long getTotalEntry();
 
-    List<User> getEntrysInRange(int first, int size);
+    List<User> getEntryInRange(int first, int size);
 }

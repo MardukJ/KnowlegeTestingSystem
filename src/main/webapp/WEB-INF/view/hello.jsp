@@ -7,5 +7,7 @@
 </head>
 <body>
 <h1>${msg}</h1>
+
+<h3>Creation time (ms): ${creationTime}</h3>
 </body>
 </html>

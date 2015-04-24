@@ -9,10 +9,10 @@ in progress
 1)+ DAO - User
 2)+ DAO - UT
 3)+ User - MD5 hash support
-4) Service - USer
-5) Service - UT
-6) Login page + Controller
-7) Restore password page + Controller
+4)+ Service - User
+5)+ Service - User - unit test
+6) Login page + Controller (session authentication)
 8) Logout msg page + Controller
+9) Restore password page + Controller
 9) Page 404 + auto-redirect in 5 seconds
 10) Mailing system muck
