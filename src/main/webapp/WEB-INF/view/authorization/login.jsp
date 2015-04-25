@@ -14,7 +14,6 @@
     <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>
 <body>
-<h1>${msg}</h1>
 <section class="container">
     <div class="login">
         <h1>Login to Web App</h1>
@@ -27,7 +26,7 @@
             <p class="remember_me">
                 <label>
                     <input type="checkbox" name="remember_me" id="remember_me">
-                    Remember me on this computer
+                    <strike> Remember me on this computer </strike>
                 </label>
             </p>
 
@@ -36,23 +35,17 @@
     </div>
 
     <div class="login-help">
-        <p>Forgot your password? <a href="/restore">Click here to reset it</a>.</p>
+        <strike><p>Forgot your password? <a href="/restore">Click here to reset it</a>.</p></strike>
     </div>
 </section>
 
 <section class="about">
-    <p class="about-links">
-        <a href="http://www.cssflow.com/snippets/login-form" target="_parent">View Article</a>
-        <a href="http://www.cssflow.com/snippets/login-form.zip" target="_parent">Download</a>
-    </p>
+    <h1>${msg}</h1>
 
-    <p class="about-author">
-        &copy; 2012&ndash;2013 <a href="http://thibaut.me" target="_blank">Thibaut Courouble</a> -
-        <a href="http://www.cssflow.com/mit-license" target="_blank">MIT License</a><br>
-        Original PSD by <a href="http://www.premiumpixels.com/freebies/clean-simple-login-form-psd/" target="_blank">Orman
-        Clark</a>
+    <h1>${exception.exceptionMsg}</h1>
+
+    <h3>Creation time (ms): ${creationTime}</h3>
 </section>
 
-<h3>Creation time (ms): ${creationTime}</h3>
 </body>
 </html>

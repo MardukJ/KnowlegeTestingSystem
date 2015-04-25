@@ -12,18 +12,10 @@ public class Benchmark {
     public void start() {
         timeStart = System.currentTimeMillis();
     }
-
-    ;
-
     public void stop() {
         timeFinish = System.currentTimeMillis();
     }
-
-    ;
-
     public long getDifferce() {
         return timeFinish - timeStart;
     }
-
-    ;
 }

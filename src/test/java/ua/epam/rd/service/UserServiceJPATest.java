@@ -14,6 +14,9 @@ import static org.mockito.Mockito.*;
  */
 public class UserServiceJPATest {
 
+    //= UserServiceJPA PAGE_SIZE
+    private static final long PAGE_SIZE = 10;
+
     @Test(expected = IllegalArgumentException.class)
     public void testRegisterNewNullArgument() throws Exception {
         UserRepository mockRepository = mock(UserRepository.class);
@@ -168,11 +171,11 @@ public class UserServiceJPATest {
     }
 
     @Test
-    public void testGetAllTotalPages9() throws Exception {
+    public void testGetAllTotalPagesLess() throws Exception {
         UserRepository mockRepository = mock(UserRepository.class);
         UserService userService = new UserServiceJPA(mockRepository);
 
-        when(mockRepository.getTotalEntry()).thenReturn(9L);
+        when(mockRepository.getTotalEntry()).thenReturn(PAGE_SIZE - 1);
 
         int correctValue = 1;
         int totaPages = userService.getAllTotalPages();
@@ -181,11 +184,11 @@ public class UserServiceJPATest {
     }
 
     @Test
-    public void testGetAllTotalPages10() throws Exception {
+    public void testGetAllTotalPagesEq() throws Exception {
         UserRepository mockRepository = mock(UserRepository.class);
         UserService userService = new UserServiceJPA(mockRepository);
 
-        when(mockRepository.getTotalEntry()).thenReturn(10L);
+        when(mockRepository.getTotalEntry()).thenReturn(PAGE_SIZE);
 
         int correctValue = 1;
         int totaPages = userService.getAllTotalPages();
@@ -194,11 +197,11 @@ public class UserServiceJPATest {
     }
 
     @Test
-    public void testGetAllTotalPages11() throws Exception {
+    public void testGetAllTotalPagesMore() throws Exception {
         UserRepository mockRepository = mock(UserRepository.class);
         UserService userService = new UserServiceJPA(mockRepository);
 
-        when(mockRepository.getTotalEntry()).thenReturn(11L);
+        when(mockRepository.getTotalEntry()).thenReturn(PAGE_SIZE + 1);
 
         int correctValue = 2;
         int totaPages = userService.getAllTotalPages();
@@ -214,7 +217,7 @@ public class UserServiceJPATest {
 
         userService.getAllFromPage(7);
 
-        verify(mockRepository, times(1)).getEntryInRange(60, 10);
+        verify(mockRepository, times(1)).getEntryInRange((int) (PAGE_SIZE * 6L), (int) PAGE_SIZE);
     }
 
     @Test
@@ -224,7 +227,7 @@ public class UserServiceJPATest {
 
         userService.getAllFromPage(1);
 
-        verify(mockRepository, times(1)).getEntryInRange(0, 10);
+        verify(mockRepository, times(1)).getEntryInRange(0, (int) PAGE_SIZE);
     }
 
     @Test
