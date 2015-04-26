@@ -1,11 +1,16 @@
 package ua.epam.rd.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import ua.epam.rd.domain.Token;
+import ua.epam.rd.domain.TokenType;
 import ua.epam.rd.domain.User;
 import ua.epam.rd.repository.UserRepository;
+import ua.epam.rd.service.mail.MailComposer;
+import ua.epam.rd.service.mail.MailService;
 
 import java.util.List;
 
@@ -20,6 +25,10 @@ public class UserServiceJPA implements UserService {
 
     UserRepository userRepository;
 
+    @Autowired
+    @Qualifier("mailService")
+    MailService mailService;
+    
     //required for mock-tests
     @Autowired
     public UserServiceJPA(UserRepository userRepository) {
@@ -80,5 +89,36 @@ public class UserServiceJPA implements UserService {
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public List<User> getAllNow() {
         return userRepository.getAll();
+    }
+
+    @Override
+    //2DO: TEST
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void sendRestorePasswordToken(String mail) {
+        User user = userRepository.getByMail(mail);
+        if (user == null) throw new IllegalArgumentException("user not found");
+        if (user.getToken() == null) user.setToken(new Token());
+        String token = user.getToken().generateToken(TokenType.RESTORE_PASSWORD);
+        userRepository.merge(user);
+        mailService.sendMailNoConfirmation(user.getEmail(), new MailComposer().RestorePasswordTokenSubject(), new MailComposer().RestorePasswordTokenLetter(token));
+    }
+
+    @Override
+    //2DO: TEST
+    @Transactional(propagation = Propagation.REQUIRED)
+    public User validateRestorePasswordToken(String token) {
+        User user = userRepository.findUserByToken(token);
+        if (user != null) {
+            if (!token.equals(user.getToken().getToken())) {
+                user = null;
+            } else {
+                String newPassowrd = user.newRandomPassword();
+                user.setToken(null);
+                userRepository.merge(user);
+                mailService.sendMailNoConfirmation(user.getEmail(), new MailComposer().NewPasswordSubject(), new MailComposer().NewPasswordLetter(newPassowrd));
+            }
+
+        }
+        return user;
     }
 }

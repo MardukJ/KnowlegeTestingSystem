@@ -43,6 +43,7 @@ public class DevController {
             user.setEmail("admin");
             user.setPassword("12345");
             user.setBlocked(Boolean.FALSE);
+            userRepository.add(user);
             user = new User();
             user.setEmail("tester");
             user.setPassword("12345");
@@ -51,7 +52,7 @@ public class DevController {
         }
 
         //blank users
-        for (int i = 0; i < 100000; i++) {
+        for (int i = 0; i < 1000; i++) {
             user = new User();
             user.setEmail("u" + i + "@mail.com");
             user.setPassword("12345");

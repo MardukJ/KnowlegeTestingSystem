@@ -13,5 +13,5 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 @ContextConfiguration(locations = {"classpath:/SpringConfig.xml"})
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 public class ITRepositoryTestsTemplate extends RepositoryTestsTemplate {
-    
+
 }

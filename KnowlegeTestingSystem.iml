@@ -20,9 +20,17 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="" />
         <datasource-mapping>
-          <factory-entry name="myPersistentUnit" />
+          <factory-entry name="myPersistentUnit" value="dataSource" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
+      </configuration>
+    </facet>
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="fileset" name="Spring Application Context" removed="false">
+          <file>file://$MODULE_DIR$/src/main/resources/SpringConfig.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/webContext.xml</file>
+        </fileset>
       </configuration>
     </facet>
   </component>

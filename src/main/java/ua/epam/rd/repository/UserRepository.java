@@ -27,4 +27,6 @@ public interface UserRepository {
     long getTotalEntry();
 
     List<User> getEntryInRange(int first, int size);
+
+    User findUserByToken(String token);
 }

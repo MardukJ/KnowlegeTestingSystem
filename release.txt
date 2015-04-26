@@ -16,16 +16,20 @@ VERSION 0.2:
 9)+ Page 404 + auto-redirect in 5 seconds
 
 VERSION 0.3:
-in progress:
-1) Mailing system muck
-2) Mailing-confirmation system
-    - new table with tokens, embedded
-    - service functions - create token, verify token + unit test
-    - tokens controller
-3) Restore page + Controller
-4) Registration page + Controller
-5) Blocked users login forbidden
+26.04.2015
+1)+ Mailing system muck
+2)+ Mailing-confirmation system
+    + new table with tokens
+    + service functions - create token, verify token
+    - unit test
+    + controller
+3)+ Restore page + Controller
+4)+ Blocked users login forbidden
 
 VERSION 0.4
+1) Good-looking pages (CSS/HTML)
+2) Locale support
+
+VERSION 0.5
 1) Good-looking pages (CSS/HTML)
 2) Locale support

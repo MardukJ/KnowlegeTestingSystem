@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
   <artifact type="war" name="KnowlegeTestingSystem:war">
     <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="PizzaDelivery.war">
+    <root id="archive" name="KTS.war">
       <element id="artifact" artifact-name="KnowlegeTestingSystem:war exploded" />
     </root>
   </artifact>

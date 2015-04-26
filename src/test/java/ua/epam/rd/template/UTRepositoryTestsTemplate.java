@@ -13,5 +13,5 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 @ContextConfiguration(locations = {"classpath:/springConfigXMLTestHSQL.xml"})
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = false)
 public class UTRepositoryTestsTemplate extends RepositoryTestsTemplate {
-    
+
 }

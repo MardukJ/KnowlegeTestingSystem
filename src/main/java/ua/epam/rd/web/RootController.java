@@ -19,16 +19,21 @@ public class RootController {
     @RequestMapping(value = "/", method = RequestMethod.GET) // always set method
     public String rootPage(HttpSession session, Model model) {
         if (AssessHelper.notLoggedIn(session)) {
-            return "authorization/login";
+            return "redirect:/login";
         }
         if (AssessHelper.isAdmin(session)) {
-            return "admin/admin_home";
+            return "redirect:admin/home";
         } else {
-            return "home";
+            return "redirect:home";
         }
     }
 
     @RequestMapping("*")
+    public String defaultPage() {
+        return "redirect:/not_found";
+    }
+
+    @RequestMapping("/not_found")
     public String notFound() {
         return "not_found";
     }

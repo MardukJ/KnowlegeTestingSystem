@@ -31,6 +31,10 @@ public class User {
     @Column(name = "blocked")
     Boolean blocked;
 
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "id_token")
+    Token token;
+
     public Long getId() {
         return id;
     }
@@ -57,6 +61,14 @@ public class User {
 
     public void setBlocked(Boolean blocked) {
         this.blocked = blocked;
+    }
+
+    public Token getToken() {
+        return token;
+    }
+
+    public void setToken(Token token) {
+        this.token = token;
     }
 
     public String encrypt(String data) {

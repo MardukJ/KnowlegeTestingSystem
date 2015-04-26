@@ -19,4 +19,8 @@ public interface UserService {
     List<User> getAllFromPage(int page);
 
     List<User> getAllNow();
+
+    void sendRestorePasswordToken(String mail);
+
+    User validateRestorePasswordToken(String token);
 }

@@ -13,16 +13,18 @@
     <link rel="stylesheet" href="/resources/css/style_paginator.css">
 </head>
 <body>
-<h1> ADMIN HOME PAGE </h1>>
+<h1> ADMIN HOME PAGE </h1>
+<a href="/all_users">Full users list</a>
+<a href="/all_users_page">Users list w pagination</a>
+<a href="/logout">logout</a>
+
+
 <h1>msg =${msg}</h1>
 
 <h1>login =${login}</h1>
 
 <h1>admin =${admin}</h1>
 
-<a href="/login">login</a>
-<a href="/logout">logout</a>
-<a href="/restore">restore</a>
 
 <h3>Creation time (ms): ${creationTime}</h3>
 </body>

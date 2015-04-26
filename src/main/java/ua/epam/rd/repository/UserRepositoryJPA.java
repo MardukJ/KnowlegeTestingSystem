@@ -84,4 +84,17 @@ public class UserRepositoryJPA implements UserRepository {
         query.setMaxResults(size);
         return query.getResultList();
     }
+
+    @Override
+    //2DO: Unit test
+    public User findUserByToken(String token) {
+        TypedQuery<User> query = em.createQuery
+                ("SELECT u from User u WHERE u.token.token = :token", User.class);
+        query.setParameter("token", token);
+        try {
+            return query.getSingleResult();
+        } catch (javax.persistence.NoResultException e) {
+            return null;
+        }
+    }
 }
