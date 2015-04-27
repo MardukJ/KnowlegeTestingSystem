@@ -27,9 +27,17 @@ VERSION 0.3:
 4)+ Blocked users login forbidden
 
 VERSION 0.4
-1) Good-looking pages (CSS/HTML)
-2) Locale support
+27.04.2015
+1) +Admin-home page
+2) +User-list w pagination (admin-option)
+3) +User-edit page (admin-option)
+    + block/unblock
+4) +Find user (admin-option)
+5) +Not-very-awful-looking pages (CSS/HTML)
+6) +User home page
 
 VERSION 0.5
-1) Good-looking pages (CSS/HTML)
-2) Locale support
+in progress:
+1) Internationalization & Localization support
+
+VERSION 0.6

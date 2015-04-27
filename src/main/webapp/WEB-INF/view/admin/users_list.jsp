@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Пользователь
@@ -15,47 +16,62 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Dark Pagination</title>
-    <link rel="stylesheet" href="/resources/css/style_paginator.css">
+    <title>User list</title>
+    <link rel="stylesheet" href="/resources/css/main.css">
     <!--[if lt IE 9]>
     <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>
-<body>
+<body align="center">
 <h1>${msg}</h1>
-<section class="container">
-    <nav class="pagination">
-        <a href="index.html" class="prev">&lt;</a>
-        <a href="index.html">1</a>
-        <a href="index.html">2</a>
-        <a href="index.html">3</a>
-        <span>4</span>
-        <a href="index.html">5</a>
-        <a href="index.html" class="next">&gt;</a>
-    </nav>
-    <nav class="pagination pagination-blue">
-        <a href="index.html" class="prev">&lt;</a>
-        <a href="index.html">1</a>
-        <a href="index.html">2</a>
-        <a href="index.html">3</a>
-        <span>4</span>
-        <a href="index.html">5</a>
-        <a href="index.html" class="next">&gt;</a>
-    </nav>
-</section>
+
+<%-- Using JSTL forEach and out to loop a list and display items in table --%>
+<table align="center">
+    <tbody>
+    <tr>
+        <th>ID</th>
+        <th>Login</th>
+        <th>Blocked?</th>
+    </tr>
+    <c:forEach items="${requestScope.userList}" var="user">
+        <tr>
+
+            <td><c:out value="${user.id}"></c:out></td>
+            <td>
+                <a href="/admin/user_details?login=${user.email}">
+                    <c:out value="${user.email}"></c:out>
+                </a>
+            </td>
+            <td><c:out value="${user.blocked}"></c:out></td>
+        </tr>
+    </c:forEach>
+    </tbody>
+</table>
+
+First ${firstPage}
+Current ${currentPage}
+Total ${totalPages}
+
+<form action="/admin/all_users" method="get">
+    <label>Go to<input type="number" name="page" value="${currentPage}"/></label>
+    <input type="submit" value="Go"/>
+</form>
+
+<%--pagination here--%>
+<%--<section class="container">--%>
+<%--<nav class="pagination">--%>
+<%--<a href="/admin/all_users" class="prev">&lt;</a>--%>
+<%--<a href="/admin/all_users">1</a>--%>
+<%--<a href="/admin/all_users">2</a>--%>
+<%--<a href="/admin/all_users">3</a>--%>
+<%--<span>4</span>--%>
+<%--<a href="/admin/all_users">5</a>--%>
+<%--<a href="/admin/all_users" class="next">&gt;</a>--%>
+<%--</nav>--%>
+<%--</section>--%>
 
 <section class="about">
-    <p class="about-links">
-        <a href="http://www.cssflow.com/snippets/dark-pagination" target="_parent">View Article</a>
-        <a href="http://www.cssflow.com/snippets/dark-pagination.zip" target="_parent">Download</a>
-    </p>
-
-    <p class="about-author">
-        &copy; 2012&ndash;2013 <a href="http://thibaut.me" target="_blank">Thibaut Courouble</a> -
-        <a href="http://www.cssflow.com/mit-license" target="_blank">MIT License</a><br>
-        Original PSD by <a href="http://dribbble.com/shots/769291-Pagination" target="_blank">Bart Ebbekink</a>
-    </p>
+    <h3>Creation time (ms): ${creationTime}</h3>
 </section>
 
-<h3>Creation time (ms): ${creationTime}</h3>
 </body>
 </html>

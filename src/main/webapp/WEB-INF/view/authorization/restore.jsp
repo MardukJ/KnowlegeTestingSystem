@@ -18,6 +18,9 @@
     <div class="login">
         <h1>Password restore</h1>
 
+        <h3>${msg}</h3>
+
+        <h3>${exception.exceptionMsg}</h3>
         <form method="post" action="/restore">
             <p><input type="text" name="login" value="" placeholder="Username or Email"></p>
 
@@ -31,10 +34,6 @@
 </section>
 
 <section class="about">
-    <h1>${msg}</h1>
-
-    <h1>${exception.exceptionMsg}</h1>
-
     <h3>Creation time (ms): ${creationTime}</h3>
 </section>
 

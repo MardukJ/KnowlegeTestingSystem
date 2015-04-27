@@ -16,7 +16,5 @@
 <h1 align="center">${msg}</h1>
 
 <h1 align="center">Вас пошлют куда надо через мнгновение...</h1>
-
-<h3 align="center">Creation time (ms): ${creationTime}</h3>
 </body>
 </html>

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
  * email: mail@marduk.ru
  * skype: marduk.ru
  */
-public class AssessHelper {
+public class SecurityManager {
 
     public static boolean notLoggedIn(HttpSession session) {
         if (session.getAttribute("login") == null) {
@@ -40,5 +40,13 @@ public class AssessHelper {
         if (isAdmin(session)) {
             model.addAttribute("admin", "true");
         }
+    }
+
+    public static void logout(HttpSession session) {
+        session.invalidate();
+    }
+
+    public static String getLogin(HttpSession session) {
+        return (String) session.getAttribute("login");
     }
 }

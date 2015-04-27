@@ -23,4 +23,10 @@ public interface UserService {
     void sendRestorePasswordToken(String mail);
 
     User validateRestorePasswordToken(String token);
+
+    User getUserInfo(String mail);
+
+    void blockUser(Long id);
+
+    void unblockUser(Long id);
 }

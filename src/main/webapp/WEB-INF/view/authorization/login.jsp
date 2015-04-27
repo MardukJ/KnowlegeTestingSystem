@@ -18,6 +18,9 @@
     <div class="login">
         <h1>Login to Web App</h1>
 
+        <h2>${msg}</h2>
+
+        <h2>${exception.exceptionMsg}</h2>
         <form method="post" action="/login">
             <p><input type="text" name="login" value="" placeholder="Username or Email"></p>
 
@@ -40,10 +43,6 @@
 </section>
 
 <section class="about">
-    <h1>${msg}</h1>
-
-    <h1>${exception.exceptionMsg}</h1>
-
     <h3>Creation time (ms): ${creationTime}</h3>
 </section>
 

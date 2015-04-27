@@ -97,6 +97,8 @@ public class UserServiceJPA implements UserService {
     public void sendRestorePasswordToken(String mail) {
         User user = userRepository.getByMail(mail);
         if (user == null) throw new IllegalArgumentException("user not found");
+        if (user.getBlocked())
+            throw new IllegalArgumentException(user.getEmail() + " is blocked. Please contact your system administrator");
         if (user.getToken() == null) user.setToken(new Token());
         String token = user.getToken().generateToken(TokenType.RESTORE_PASSWORD);
         userRepository.merge(user);
@@ -120,5 +122,38 @@ public class UserServiceJPA implements UserService {
 
         }
         return user;
+    }
+
+    @Override
+    //2DO: Test
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+    public User getUserInfo(String mail) {
+        if (mail == null)
+            throw new IllegalArgumentException("Please enter valid email");
+        User user = userRepository.getByMail(mail);
+        if (user == null) throw new IllegalArgumentException("User not found");
+        return user;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void blockUser(Long id) {
+        if (id == null)
+            throw new IllegalArgumentException("Please enter valid id");
+        User user = userRepository.getById(id);
+        if (user == null) throw new IllegalArgumentException("User not found");
+        user.setBlocked(Boolean.TRUE);
+        userRepository.merge(user);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void unblockUser(Long id) {
+        if (id == null)
+            throw new IllegalArgumentException("Please enter valid id");
+        User user = userRepository.getById(id);
+        if (user == null) throw new IllegalArgumentException("User not found");
+        user.setBlocked(Boolean.FALSE);
+        userRepository.merge(user);
     }
 }

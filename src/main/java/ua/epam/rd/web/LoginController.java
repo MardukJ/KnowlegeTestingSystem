@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.epam.rd.domain.User;
 import ua.epam.rd.service.UserService;
-import ua.epam.rd.web.tools.AssessHelper;
 import ua.epam.rd.web.tools.Benchmark;
+import ua.epam.rd.web.tools.SecurityManager;
 
 import javax.servlet.http.HttpSession;
 
@@ -32,7 +32,7 @@ public class LoginController {
         Benchmark bm = new Benchmark();
         bm.start();
 
-        if (AssessHelper.notLoggedIn(session)) {
+        if (SecurityManager.notLoggedIn(session)) {
             model.addAttribute("msg", "Please log in!");
         } else {
             return "redirect:/";
@@ -52,7 +52,7 @@ public class LoginController {
         Benchmark bm = new Benchmark();
         bm.start();
 
-        if (!AssessHelper.notLoggedIn(session)) {
+        if (!SecurityManager.notLoggedIn(session)) {
             return "redirect:/";
         }
 
@@ -62,7 +62,7 @@ public class LoginController {
                 throw new IllegalStateException(user.getEmail() + " is blocked. Please contact your system administrator");
             //login successful
             model.addAttribute("msg", "Welcome " + user.getEmail() + "!");
-            AssessHelper.setUserAttributesToSession(session, user);
+            SecurityManager.setUserAttributesToSession(session, user);
             return "forward";
         } catch (Exception e) {
             model.addAttribute("msg", e.getMessage());
@@ -76,7 +76,7 @@ public class LoginController {
     @RequestMapping(value = "/logout")
     public String logout(HttpSession session, Model model) {
 
-        session.invalidate();
+        SecurityManager.logout(session);
 
         return "redirect:/";
     }
@@ -86,7 +86,7 @@ public class LoginController {
         Benchmark bm = new Benchmark();
         bm.start();
 
-        if (!AssessHelper.notLoggedIn(session)) {
+        if (!SecurityManager.notLoggedIn(session)) {
             return "redirect:/";
         }
 
@@ -105,7 +105,7 @@ public class LoginController {
             model.addAttribute("msg", "invalid token!");
         } else {
             model.addAttribute("msg", "new password has been sent by e-mail");
-            AssessHelper.setUserAttributesToSession(session, user);
+            SecurityManager.setUserAttributesToSession(session, user);
         }
         bm.stop();
         model.addAttribute("creationTime", bm.getDifferce());
@@ -120,7 +120,7 @@ public class LoginController {
         Benchmark bm = new Benchmark();
         bm.start();
 
-        if (!AssessHelper.notLoggedIn(session)) {
+        if (!SecurityManager.notLoggedIn(session)) {
             return "redirect:/";
         }
 

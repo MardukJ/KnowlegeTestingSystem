@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: Пользователь
-  Date: 25.04.2015
-  Time: 3:08
+  Date: 27.04.2015
+  Time: 1:20
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
@@ -10,21 +10,21 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <link rel="stylesheet" href="/resources/css/main.css">
+    <link rel="stylesheet" href="/resources/css/style_paginator.css">
+    <title>Find user</title>
 </head>
 <body align="center">
-<h1 align="center"> ADMIN HOME PAGE </h1>
+<h1 align="center"> Find user </h1>
 
-<a href="/admin/all_users" align="center">Users list</a>
-<a href="/admin/find" align="center">Find user</a>
-<strike><a href="/all_users_page" align="center">Group list</a></strike>
-<a href="/logout" align="center">Logout</a>
+<h2 align="center">${msg}</h2>
 
-<h1 align="center">${msg}</h1>
+<h2 align="center">${exception.exceptionMsg}</h2>
 
-<h1 align="center">login =${login}</h1>
+<form action="/admin/user_details" method="get">
+    <label> <input type="text" name="login" value="%username%"/></label>
+    <input type="submit" value="Go"/>
+</form>
 
-<h1 align="center">admin =${admin}</h1>
 
 <h3 align="center">Creation time (ms): ${creationTime}</h3>
 </body>

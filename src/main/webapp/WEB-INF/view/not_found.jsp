@@ -13,6 +13,6 @@
     <link rel="stylesheet" href="/resources/css/style_paginator.css">
 </head>
 <body>
-<p align="center">Page not found :(</p>
+<p align="center">Sorry, the page you were looking for doesn’t exist.</p>
 </body>
 </html>

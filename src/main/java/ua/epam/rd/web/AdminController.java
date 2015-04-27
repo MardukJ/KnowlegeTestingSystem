@@ -3,12 +3,14 @@ package ua.epam.rd.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.epam.rd.domain.User;
 import ua.epam.rd.service.UserService;
-import ua.epam.rd.web.tools.AssessHelper;
 import ua.epam.rd.web.tools.Benchmark;
+import ua.epam.rd.web.tools.SecurityManager;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -26,7 +28,7 @@ public class AdminController {
 
     @RequestMapping(value = "/admin/home") // always set method
     public String adminHome(HttpSession session, Model model) {
-        if (!AssessHelper.isAdmin(session)) return "redirect:*";
+        if (!SecurityManager.isAdmin(session)) return "redirect:/*";
 
         Benchmark bm = new Benchmark();
         bm.start();
@@ -36,28 +38,9 @@ public class AdminController {
         return "admin/admin_home";
     }
 
-    @RequestMapping(value = "/all_users") // always set method
-    public String getall(HttpSession session, Model model) {
-        if (!AssessHelper.isAdmin(session)) return "redirect:*";
-
-        Benchmark bm = new Benchmark();
-        bm.start();
-
-        String msg = new String();
-        List<User> users = userService.getAllNow();
-        for (User u : users) {
-            msg += "ID = " + u.getId() + " mail = " + u.getEmail() + " hash " + u.getPassword() + " isBlocked?: " + u.getBlocked() + "<br>\n";
-        }
-        model.addAttribute("msg", msg);
-
-        bm.stop();
-        model.addAttribute("creationTime", bm.getDifferce());
-        return "admin/users_list";
-    }
-
-    @RequestMapping(value = "/all_users_page") // always set method
+    @RequestMapping(value = "/admin/all_users") // always set method
     public String getpage(@RequestParam(defaultValue = "1") String page, HttpSession session, Model model) {
-        if (!AssessHelper.isAdmin(session)) return "redirect:*";
+        if (!SecurityManager.isAdmin(session)) return "redirect:/*";
 
         Benchmark bm = new Benchmark();
         bm.start();
@@ -73,14 +56,61 @@ public class AdminController {
         int totalPages = userService.getAllTotalPages();
         if (pageNum > totalPages) pageNum = totalPages;
 
-        for (User u : userService.getAllFromPage(pageNum)) {
-            msg += "ID = " + u.getId() + " mail = " + u.getEmail() + " hash " + u.getPassword() + " isBlocked?: " + u.getBlocked() + "<br>\n";
-        }
-        msg += "page " + pageNum + " of " + totalPages + "<br>\n";
-        model.addAttribute("msg", msg);
+        List<User> users = userService.getAllFromPage(pageNum);
+        model.addAttribute("userList", users);
+
+        model.addAttribute("currentPage", pageNum);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("firstPage", 1);
 
         bm.stop();
         model.addAttribute("creationTime", bm.getDifferce());
         return "admin/users_list";
+    }
+
+    @RequestMapping(value = "/admin/user_details")
+    @ExceptionHandler({IllegalArgumentException.class})
+    public String userInfo(@RequestParam(defaultValue = "") String login, HttpSession session, Model model) {
+        if (!SecurityManager.isAdmin(session)) return "redirect:/*";
+        try {
+            User user = userService.getUserInfo(login);
+            model.addAttribute("login", user.getEmail());
+            model.addAttribute("status", user.getBlocked() == Boolean.TRUE ? "Blocked" : "Active");
+            return "/admin/edit_user";
+        } catch (Exception e) {
+            model.addAttribute("msg", e.getMessage());
+            return "/admin/find_user";
+        }
+    }
+
+    @RequestMapping(value = "/admin/user_details", method = RequestMethod.POST, params = "block_action")
+    @ExceptionHandler({IllegalArgumentException.class})
+    public String userInfo(@RequestParam(defaultValue = "") String login, @RequestParam String block_action, HttpSession session, Model model) {
+        if (!SecurityManager.isAdmin(session)) return "redirect:/*";
+        try {
+            //change blocked status
+            if ("block".equals(block_action) || "unblock".equals(block_action)) {
+                User user = userService.getUserInfo(login);
+                if ("block".equals(block_action)) {
+                    userService.blockUser(user.getId());
+                } else if ("unblock".equals(block_action)) {
+                    userService.unblockUser(user.getId());
+                }
+            }
+            User user = userService.getUserInfo(login);
+            model.addAttribute("login", user.getEmail());
+            model.addAttribute("status", user.getBlocked() == Boolean.TRUE ? "Blocked" : "Active");
+            return "/admin/edit_user";
+        } catch (Exception e) {
+            model.addAttribute("msg", e.getMessage());
+            return "/admin/find_user";
+        }
+    }
+
+    @RequestMapping(value = "/admin/find")
+    public String findUserNoParam
+            (HttpSession session, Model model) {
+        if (!SecurityManager.isAdmin(session)) return "redirect:/*";
+        return "/admin/find_user";
     }
 }
