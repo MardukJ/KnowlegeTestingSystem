@@ -33,6 +33,11 @@ public class RootController {
         return "redirect:/not_found";
     }
 
+    @RequestMapping("/admin/*")
+    public String defaultAdminPage() {
+        return "redirect:/not_found";
+    }
+
     @RequestMapping("/not_found")
     public String notFound() {
         return "not_found";

@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>${msg}</title>
-    <meta http-equiv="refresh" content="5;URL=/"/>
+    <meta http-equiv="refresh" content="2;URL=/"/>
     <link rel="stylesheet" href="/resources/css/style_paginator.css">
 </head>
 <body>

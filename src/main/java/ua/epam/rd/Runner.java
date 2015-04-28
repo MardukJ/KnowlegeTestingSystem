@@ -26,12 +26,7 @@ public class Runner {
         GroupRepository groupRepository = appContext.getBean(GroupRepository.class, "groupRepository");
         GroupService groupService = appContext.getBean(GroupService.class, "groupService");
 
-        /*
-        groupService.addUser("tester", "IT.java");
-
-        User user = userRepository.getByMail("tester");*/
-
-        System.out.println(userRepository.getTotalEntryWithFilter(null, null, "u%"));
+        System.out.println("LIST = " + userRepository.getEntryInRangeWithFilter(0, 10, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, "u10%"));
 
         appContext.close();
     }

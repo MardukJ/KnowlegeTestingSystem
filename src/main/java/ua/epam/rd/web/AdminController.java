@@ -12,6 +12,7 @@ import ua.epam.rd.domain.User;
 import ua.epam.rd.service.GroupService;
 import ua.epam.rd.service.UserService;
 import ua.epam.rd.web.tools.Benchmark;
+import ua.epam.rd.web.tools.ExpressionFilter;
 import ua.epam.rd.web.tools.SecurityManager;
 
 import javax.servlet.http.HttpSession;
@@ -44,11 +45,54 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/admin/all_users") // always set method
-    public String getpage(@RequestParam(defaultValue = "1") String page, HttpSession session, Model model) {
+    public String getpage(@RequestParam(defaultValue = "1") String page,
+                          @RequestParam(defaultValue = "both") String blocked,
+                          @RequestParam(defaultValue = "both") String role,
+                          @RequestParam(defaultValue = "no") String sort,
+                          @RequestParam(defaultValue = "") String expression,
+                          HttpSession session, Model model) {
         if (!SecurityManager.isAdmin(session)) return "redirect:/*";
 
         Benchmark bm = new Benchmark();
         bm.start();
+
+        //Param convention for service layer & model
+        Boolean blockedParam = null;
+        if ("blocked".equals(blocked)) {
+            blockedParam = Boolean.TRUE;
+            model.addAttribute("blockedBlocked", "checked");
+        } else if ("active".equals(blocked)) {
+            blockedParam = Boolean.FALSE;
+            model.addAttribute("blockedActive", "checked");
+        } else {
+            model.addAttribute("blockedBoth", "checked");
+        }
+
+        Boolean roleParam = null;
+        if ("teacher".equals(role)) {
+            roleParam = Boolean.TRUE;
+            model.addAttribute("roleTeacher", "checked");
+        } else if ("student".equals(role)) {
+            roleParam = Boolean.FALSE;
+            model.addAttribute("roleStudent", "checked");
+        } else {
+            model.addAttribute("roleBoth", "checked");
+        }
+
+        Boolean sortParam = null;
+        if ("increase".equals(sort)) {
+            sortParam = Boolean.TRUE;
+            model.addAttribute("sortIncrease", "checked");
+        } else if ("decrease".equals(sort)) {
+            sortParam = Boolean.FALSE;
+            model.addAttribute("sortDecrease", "checked");
+        } else {
+            model.addAttribute("sortNo", "checked");
+        }
+
+        //Security reasons expression filter
+        String expressionParam = ExpressionFilter.loginFilter(expression);
+        model.addAttribute("loginRegexp", expressionParam);
 
         String msg = new String();
         int pageNum;
@@ -58,10 +102,10 @@ public class AdminController {
         } catch (Exception e) {
             pageNum = 1;
         }
-        int totalPages = userService.getAllTotalPages();
+        int totalPages = userService.getAllTotalPagesWFiler(blockedParam, roleParam, expressionParam);
         if (pageNum > totalPages) pageNum = totalPages;
 
-        List<User> users = userService.getAllFromPage(pageNum);
+        List<User> users = userService.getAllFromPageWFilter(pageNum, blockedParam, roleParam, sortParam, expressionParam);
         model.addAttribute("userList", users);
 
         model.addAttribute("currentPage", pageNum);
@@ -81,6 +125,8 @@ public class AdminController {
             User user = userService.getUserInfo(login);
             model.addAttribute("login", user.getEmail());
             model.addAttribute("status", user.getBlocked() == Boolean.TRUE ? "Blocked" : "Active");
+            model.addAttribute("groupsCounter", user.getMembership().size());
+
             return "/admin/edit_user";
         } catch (Exception e) {
             model.addAttribute("msg", e.getMessage());

@@ -20,7 +20,7 @@ public interface UserService {
 
     List<User> getAllNow();
 
-    int getAllTotalPagesWFiler(Boolean blocked, Boolean role, Boolean sort, String regexp);
+    int getAllTotalPagesWFiler(Boolean blocked, Boolean roleTeacher, String regexp);
 
     List<User> getAllFromPageWFilter(int page, Boolean blocked, Boolean role, Boolean sort, String regexp);
 

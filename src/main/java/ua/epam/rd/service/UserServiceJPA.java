@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Service
 public class UserServiceJPA implements UserService {
-    private static int PAGE_SIZE = 10;
+    public static int PAGE_SIZE = 20;
 
     @Autowired
     UserRepository userRepository;
@@ -97,13 +97,16 @@ public class UserServiceJPA implements UserService {
     }
 
     @Override
-    public int getAllTotalPagesWFiler(Boolean blocked, Boolean role, Boolean sort, String regexp) {
-        throw new UnsupportedOperationException();
+    public int getAllTotalPagesWFiler(Boolean blocked, Boolean roleTeacher, String regexp) {
+        long totalEntry = userRepository.getTotalEntryWithFilter(blocked, roleTeacher, regexp);
+        int pages = (int) (totalEntry / PAGE_SIZE + (totalEntry % PAGE_SIZE == 0 ? 0 : 1));
+        if (pages == 0) pages = 1;
+        return pages;
     }
 
     @Override
     public List<User> getAllFromPageWFilter(int page, Boolean blocked, Boolean role, Boolean sort, String regexp) {
-        throw new UnsupportedOperationException();
+        return userRepository.getEntryInRangeWithFilter((page - 1) * PAGE_SIZE, PAGE_SIZE, blocked, role, sort, regexp);
     }
 
     @Override
@@ -147,6 +150,7 @@ public class UserServiceJPA implements UserService {
             throw new IllegalArgumentException("Please enter valid email");
         User user = userRepository.getByMail(mail);
         if (user == null) throw new IllegalArgumentException("User not found");
+        user.getMembership().size();
         return user;
     }
 

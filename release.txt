@@ -38,8 +38,10 @@ VERSION 0.4
 
 VERSION 0.5
 in progress:
-1) Filtered user list (blocked/unblocked/any by mail, users/teachers/any, sort by mail a-z/z-a/no-sort)
-2) Internationalization & Localization support
+1) +Filtered user list (blocked/unblocked/any by mail, users/teachers/any, sort by mail a-z/z-a/no-sort)
+2) +Filter refactoring
+3) +Internationalization & Localization support
+4) -Exception localization support
 
 VERSION 0.6
 Admin options:

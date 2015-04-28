@@ -28,9 +28,9 @@ public interface UserRepository {
 
     List<User> getEntryInRange(int first, int size);
 
-    long getTotalEntryWithFilter(Boolean blocked, Boolean role, String regexp);
+    long getTotalEntryWithFilter(Boolean blocked, Boolean roleTeacher, String regexp);
 
-    List<User> getEntryInRangeWithFilter(int first, int size, Boolean blocked, Boolean role, Boolean sort, String regexp);
+    List<User> getEntryInRangeWithFilter(int first, int size, Boolean blocked, Boolean roleTeacher, Boolean sort, String regexp);
 
     User findUserByToken(String token);
 }

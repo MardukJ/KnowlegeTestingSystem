@@ -41,7 +41,17 @@
                     <c:out value="${user.email}"></c:out>
                 </a>
             </td>
-            <td><c:out value="${user.blocked}"></c:out></td>
+            <td>
+                <c:choose>
+                    <c:when test="${user.blocked}">
+                        Blocked
+                    </c:when>
+                    <c:otherwise>
+                        Active
+                    </c:otherwise>
+                </c:choose>
+            </td>
+                <%--<td><c:out value="${user.blocked}"></c:out></td>--%>
         </tr>
     </c:forEach>
     </tbody>
@@ -52,25 +62,19 @@ Current ${currentPage}
 Total ${totalPages}
 
 <form action="/admin/all_users" method="get">
-    <label><input type="search" name="expression" value="*">Login regexp</label>
+    <label>Login regexp <BR> <input type="search" name="expression" value="${loginRegexp}"></label> <BR>
 
-    <label><input type="radio" name="blocked" value="active"/>active</label>
-    <label><input type="radio" name="blocked" value="blocked"/>blocked</label>
-    <label><input type="radio" name="blocked" value="both" checked/>both</label> <BR>
+    <label><input type="radio" name="blocked" value="active" ${blockedActive}/>active</label>
+    <label><input type="radio" name="blocked" value="blocked" ${blockedBlocked}/>blocked</label>
+    <label><input type="radio" name="blocked" value="both" ${blockedBoth}/>both</label> <BR>
 
-    <strike>
-        <label><input type="radio" name="role" value="student"/>student</label>
-        <label><input type="radio" name="role" value="teacher"/>teacher</label>
-        <label><input type="radio" name="role" value="both" checked/>both</label> <BR>
-    </strike>
+    <label><input type="radio" name="role" value="student" ${roleStudent}/>student</label>
+    <label><input type="radio" name="role" value="teacher" ${roleTeacher}/>teacher</label>
+    <label><input type="radio" name="role" value="both" ${roleBoth}/>both</label> <BR>
 
-    <strike>
-        <label><input type="radio" name="sort" value="increase"/>A->Z</label>
-        <label><input type="radio" name="sort" value="decrease"/>Z->A</label>
-        <label><input type="radio" name="sort" value="no" checked/>no</label> <BR>
-    </strike>
-
-    <label>Name filter<input type="number" name="page" value="*"/></label>
+    <label><input type="radio" name="sort" value="increase" ${sortIncrease}/>A->Z</label>
+    <label><input type="radio" name="sort" value="decrease" ${sortDecrease}/>Z->A</label>
+    <label><input type="radio" name="sort" value="no" ${sortNo}/>no</label> <BR>
 
     <label>Go to<input type="number" name="page" value="${currentPage}"/></label>
     <input type="submit" value="Go"/>

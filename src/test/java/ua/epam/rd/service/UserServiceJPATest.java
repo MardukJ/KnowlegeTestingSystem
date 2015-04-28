@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
 public class UserServiceJPATest {
 
     //= UserServiceJPA PAGE_SIZE
-    private static final long PAGE_SIZE = 10;
+    private static final long PAGE_SIZE = UserServiceJPA.PAGE_SIZE;
 
     @Test(expected = IllegalArgumentException.class)
     public void testRegisterNewNullArgument() throws Exception {

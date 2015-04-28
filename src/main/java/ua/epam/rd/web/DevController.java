@@ -5,8 +5,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import ua.epam.rd.domain.Group;
 import ua.epam.rd.domain.User;
+import ua.epam.rd.repository.GroupRepository;
 import ua.epam.rd.repository.UserRepository;
+import ua.epam.rd.service.GroupService;
 import ua.epam.rd.service.mail.MailService;
 import ua.epam.rd.web.tools.Benchmark;
 
@@ -25,12 +28,20 @@ public class DevController {
     @Autowired
     private MailService mailService;
 
+    @Autowired
+    private GroupRepository groupRepository;
+
+    @Autowired
+    private GroupService groupService;
+
     //dev menu
     @RequestMapping(value = "/dev")
     @ResponseBody
     public String body(Model model) {
         String menu = "<a href=/dev/user_gen> add 100_000 users </a> <BR>";
         menu += "<a href=/dev/mail> Mail history </a> <BR>";
+        menu += "<a href=/dev/welcome> Locale test </a> <BR>";
+        menu += "<a href=/dev/group_gen> add 1_000 groups </a> <BR>";
         return menu;
     }
 
@@ -70,6 +81,26 @@ public class DevController {
         return String.valueOf(bm.getDifferce());
     }
 
+    @RequestMapping(value = "/dev/group_gen")
+    @ResponseBody
+    public String zasriGroup(Model model) {
+        Benchmark bm = new Benchmark();
+        bm.start();
+
+        Group group;
+
+        //blank users
+        for (int i = 0; i < 1000; i++) {
+            group = new Group();
+            group.setGroupName("BRED." + i);
+            groupRepository.add(group);
+            groupService.addUser("tester", "BRED." + i);
+        }
+
+        bm.stop();
+        model.addAttribute("creationTime", bm.getDifferce());
+        return String.valueOf(bm.getDifferce());
+    }
 
     @RequestMapping(value = "/dev/mail")
     @ResponseBody
@@ -79,5 +110,10 @@ public class DevController {
             result += s + "<BR>";
         }
         return result;
+    }
+
+    @RequestMapping(value = "/dev/welcome")
+    protected String Welcome() {
+        return "dev/welcome";
     }
 }

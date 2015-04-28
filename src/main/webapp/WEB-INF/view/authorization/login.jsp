@@ -1,3 +1,4 @@
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
@@ -16,7 +17,7 @@
 <body>
 <section class="container">
     <div class="login">
-        <h1>Login to Web App</h1>
+        <h1><spring:message code="login_page.header" text="?!?!?"/></h1>
 
         <h2>${msg}</h2>
 
@@ -29,18 +30,24 @@
             <p class="remember_me">
                 <label>
                     <input type="checkbox" name="remember_me" id="remember_me">
-                    <strike> Remember me on this computer </strike>
+                    <strike><spring:message code="login_page.remember_me" text="?!?!?"/></strike>
                 </label>
             </p>
 
-            <p class="submit"><input type="submit" name="commit" value="Login"></p>
+            <p class="submit"><input type="submit" name="commit"
+                                     value="<spring:message code="login_page.login_button" text="?!?!?"/>"></p>
         </form>
+    </div>
+    <div class="login-help">
+        <p><a href="/restore"><spring:message code="login_page.forgot_link" text="?!?!?"/></a></p>
     </div>
 
     <div class="login-help">
-        <p>Forgot your password? <a href="/restore">Click here to reset it</a>.</p>
+        Language : <a href="?language=en">English</a>|<a href="?language=zh_CN">Chinese|<a
+            href="?language=ru">Русский</a>
     </div>
 </section>
+
 
 <section class="about">
     <h3>Creation time (ms): ${creationTime}</h3>

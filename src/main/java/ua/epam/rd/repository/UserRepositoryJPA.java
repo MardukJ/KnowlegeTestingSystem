@@ -100,29 +100,57 @@ public class UserRepositoryJPA implements UserRepository {
 
     @Override
     public long getTotalEntryWithFilter(Boolean blocked, Boolean roleTeacher, String regexp) {
-        String queryBase = "SELECT COUNT (u) from User u ";
-        String queryFilterBlocked = "WHERE u.blocked = :blocked";
-        String queryFilterRoleUser = " WHERE u.membership.size = 0";
-        String queryFilterRoleTeacher = " WHERE u.membership.size > 0";
-        String queryFilterRegexp = " WHERE u.email LIKE :exp";
+        String queryBaseCount = "SELECT count(u) from User u ";
+        String queryWhere = "WHERE ";
+        String queryAnd = "AND ";
+        String queryFilterBlocked = "u.blocked = :blocked ";
+        String queryFilterRoleUser = "u.membership.size = 0 ";
+        String queryFilterRoleTeacher = "u.membership.size > 0 ";
+        String queryFilterRegexp = "u.email LIKE :exp ";
+        String querySortIncrease = "ORDER BY u.email ASC ";
+        String querySortDecrease = "ORDER BY u.email DESC ";
 
+        String queryString = queryBaseCount;
 
-        String queryString = queryBase;
-
+        boolean needAnd = false;
+        boolean first = true;
         //creating query string
         if (blocked != null) {
+            if (first == true) {
+                first = false;
+                queryString += queryWhere;
+            }
             queryString += queryFilterBlocked;
+            needAnd = true;
         }
         if (roleTeacher != null) {
+            if (needAnd == true) queryString += queryAnd;
             if (roleTeacher.equals(Boolean.FALSE)) {
+                if (first == true) {
+                    first = false;
+                    queryString += queryWhere;
+                }
                 queryString += queryFilterRoleUser;
             } else {
+                if (first == true) {
+                    first = false;
+                    queryString += queryWhere;
+                }
                 queryString += queryFilterRoleTeacher;
             }
+            needAnd = true;
         }
         if ((regexp != null) && (regexp.length() > 0)) {
+            if (first == true) {
+                first = false;
+                queryString += queryWhere;
+            }
+            if (needAnd == true) queryString += queryAnd;
             queryString += queryFilterRegexp;
+            needAnd = true;
         }
+
+        System.err.println(queryString);
         //create query
         Query queryTotal = em.createQuery(queryString);
 
@@ -139,7 +167,81 @@ public class UserRepositoryJPA implements UserRepository {
     }
 
     @Override
-    public List<User> getEntryInRangeWithFilter(int first, int size, Boolean blocked, Boolean role, Boolean sort, String regexp) {
-        throw new UnsupportedOperationException();
+    //Нифига не красиво
+    public List<User> getEntryInRangeWithFilter(int first, int size, Boolean blocked, Boolean roleTeacher, Boolean sort, String regexp) {
+        String queryBase = "SELECT u from User u ";
+        String queryWhere = "WHERE ";
+        String queryAnd = "AND ";
+        String queryFilterBlocked = "u.blocked = :blocked ";
+        String queryFilterRoleUser = "u.membership.size = 0 ";
+        String queryFilterRoleTeacher = "u.membership.size > 0 ";
+        String queryFilterRegexp = "u.email LIKE :exp ";
+        String querySortIncrease = "ORDER BY u.email ASC ";
+        String querySortDecrease = "ORDER BY u.email DESC ";
+
+        String queryString = queryBase;
+
+        boolean needAnd = false;
+        boolean firstW = true;
+
+        //creating query string
+        if (blocked != null) {
+            if (firstW == true) {
+                firstW = false;
+                queryString += queryWhere;
+            }
+            queryString += queryFilterBlocked;
+            needAnd = true;
+        }
+        if (roleTeacher != null) {
+            if (needAnd == true) queryString += queryAnd;
+            if (roleTeacher.equals(Boolean.FALSE)) {
+                if (firstW == true) {
+                    firstW = false;
+                    queryString += queryWhere;
+                }
+                queryString += queryFilterRoleUser;
+            } else {
+                if (firstW == true) {
+                    firstW = false;
+                    queryString += queryWhere;
+                }
+                queryString += queryFilterRoleTeacher;
+            }
+            needAnd = true;
+        }
+        if ((regexp != null) && (regexp.length() > 0)) {
+            if (firstW == true) {
+                firstW = false;
+                queryString += queryWhere;
+            }
+            if (needAnd == true) queryString += queryAnd;
+            queryString += queryFilterRegexp;
+        }
+        if ((sort != null)) {
+            if (sort.equals(Boolean.TRUE)) {
+                queryString += querySortIncrease;
+            } else if (sort.equals(Boolean.FALSE)) {
+                queryString += querySortDecrease;
+            }
+        }
+
+        System.err.println(queryString);
+        //create query
+        Query query = em.createQuery(queryString);
+
+        //parameters
+        if (blocked != null) {
+            query.setParameter("blocked", blocked);
+        }
+        ;
+        if ((regexp != null) && (regexp.length() > 0)) {
+            query.setParameter("exp", regexp);
+        }
+
+        query.setFirstResult(first);
+        query.setMaxResults(size);
+
+        return query.getResultList();
     }
 }

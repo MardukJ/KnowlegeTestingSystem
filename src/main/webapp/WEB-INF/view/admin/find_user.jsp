@@ -25,7 +25,6 @@
     <input type="submit" value="Go"/>
 </form>
 
-
 <h3 align="center">Creation time (ms): ${creationTime}</h3>
 </body>
 </html>
