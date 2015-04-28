@@ -20,6 +20,10 @@ public interface UserService {
 
     List<User> getAllNow();
 
+    int getAllTotalPagesWFiler(Boolean blocked, Boolean role, Boolean sort, String regexp);
+
+    List<User> getAllFromPageWFilter(int page, Boolean blocked, Boolean role, Boolean sort, String regexp);
+
     void sendRestorePasswordToken(String mail);
 
     User validateRestorePasswordToken(String token);

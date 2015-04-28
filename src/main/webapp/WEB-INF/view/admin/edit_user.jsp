@@ -25,7 +25,7 @@
         <div id="userStats" class="clearfix">
             <div class="pic">
                 <a href="#"><img
-                        src="http://www.avatarworld.ru/avatarki/kontakt/avatarki-man-devil-and-demon/avatars/03_satan_clown.jpg"
+                        src="/resources/img/03_satan_clown.jpg"
                         width="200" height="300"/></a>
             </div>
             <h3>${msg}</h3>

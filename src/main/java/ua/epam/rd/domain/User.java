@@ -13,6 +13,8 @@ import org.springframework.web.client.ResourceAccessException;
 
 import javax.persistence.*;
 import java.security.MessageDigest;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -35,6 +37,9 @@ public class User {
     @JoinColumn(name = "id_token")
     Token token;
 
+    @ManyToMany(mappedBy = "members", fetch = FetchType.LAZY)
+    List<Group> membership = new LinkedList<Group>();
+
     public Long getId() {
         return id;
     }
@@ -47,9 +52,9 @@ public class User {
         this.email = email;
     }
 
-//    public String getPassword() {
-//        return password;
-//    }
+    public String getPassword() {
+        throw new UnsupportedOperationException();
+    }
 
     public void setPassword(String password) {
         this.password = encrypt(password);
@@ -69,6 +74,14 @@ public class User {
 
     public void setToken(Token token) {
         this.token = token;
+    }
+
+    public List<Group> getMembership() {
+        return membership;
+    }
+
+    public void setMembership(List<Group> membership) {
+        throw new UnsupportedOperationException();
     }
 
     public String encrypt(String data) {

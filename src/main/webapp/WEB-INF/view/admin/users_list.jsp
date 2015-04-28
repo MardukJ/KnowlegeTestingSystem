@@ -52,6 +52,26 @@ Current ${currentPage}
 Total ${totalPages}
 
 <form action="/admin/all_users" method="get">
+    <label><input type="search" name="expression" value="*">Login regexp</label>
+
+    <label><input type="radio" name="blocked" value="active"/>active</label>
+    <label><input type="radio" name="blocked" value="blocked"/>blocked</label>
+    <label><input type="radio" name="blocked" value="both" checked/>both</label> <BR>
+
+    <strike>
+        <label><input type="radio" name="role" value="student"/>student</label>
+        <label><input type="radio" name="role" value="teacher"/>teacher</label>
+        <label><input type="radio" name="role" value="both" checked/>both</label> <BR>
+    </strike>
+
+    <strike>
+        <label><input type="radio" name="sort" value="increase"/>A->Z</label>
+        <label><input type="radio" name="sort" value="decrease"/>Z->A</label>
+        <label><input type="radio" name="sort" value="no" checked/>no</label> <BR>
+    </strike>
+
+    <label>Name filter<input type="number" name="page" value="*"/></label>
+
     <label>Go to<input type="number" name="page" value="${currentPage}"/></label>
     <input type="submit" value="Go"/>
 </form>

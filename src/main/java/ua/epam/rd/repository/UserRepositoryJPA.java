@@ -97,4 +97,49 @@ public class UserRepositoryJPA implements UserRepository {
             return null;
         }
     }
+
+    @Override
+    public long getTotalEntryWithFilter(Boolean blocked, Boolean roleTeacher, String regexp) {
+        String queryBase = "SELECT COUNT (u) from User u ";
+        String queryFilterBlocked = "WHERE u.blocked = :blocked";
+        String queryFilterRoleUser = " WHERE u.membership.size = 0";
+        String queryFilterRoleTeacher = " WHERE u.membership.size > 0";
+        String queryFilterRegexp = " WHERE u.email LIKE :exp";
+
+
+        String queryString = queryBase;
+
+        //creating query string
+        if (blocked != null) {
+            queryString += queryFilterBlocked;
+        }
+        if (roleTeacher != null) {
+            if (roleTeacher.equals(Boolean.FALSE)) {
+                queryString += queryFilterRoleUser;
+            } else {
+                queryString += queryFilterRoleTeacher;
+            }
+        }
+        if ((regexp != null) && (regexp.length() > 0)) {
+            queryString += queryFilterRegexp;
+        }
+        //create query
+        Query queryTotal = em.createQuery(queryString);
+
+        //parameters
+        if (blocked != null) {
+            queryTotal.setParameter("blocked", blocked);
+        }
+        ;
+        if ((regexp != null) && (regexp.length() > 0)) {
+            queryTotal.setParameter("exp", regexp);
+        }
+        long countResult = (long) queryTotal.getSingleResult();
+        return countResult;
+    }
+
+    @Override
+    public List<User> getEntryInRangeWithFilter(int first, int size, Boolean blocked, Boolean role, Boolean sort, String regexp) {
+        throw new UnsupportedOperationException();
+    }
 }

@@ -38,6 +38,53 @@ VERSION 0.4
 
 VERSION 0.5
 in progress:
-1) Internationalization & Localization support
+1) Filtered user list (blocked/unblocked/any by mail, users/teachers/any, sort by mail a-z/z-a/no-sort)
+2) Internationalization & Localization support
 
 VERSION 0.6
+Admin options:
+1) +Group DAO
+2) +Group Repository
+3) Group service
+4) Group controller
+4.1) Group list
+4.2) Create group
+4.3) View group info
+4.4) Block/unblock
+4.5) Add/remove users from group
+
+VERSION 0.7
+1) Question DAO
+2) Question Repository
+3) Question service
+4) Question controller
+4.1) Question list
+4.1.1) - by group
+4.1.2) - all visible to user
+4.1.3) - all (admin)
+4.2) Create question
+4.3) Delete question
+4.4) Modify question
+
+VERSION 0.8
+1) Test DAO
+2) Test Repository
+3) Test service
+4) Test controller
+???
+
+VERSION 0.9
+1) Invite DAO
+2) Invite Repository
+3) Invite service
+4) Invite controller
+???
+
+VERSION 0.10
+pass test
+???
+
+VERSION 0.11
+test results
+wathdog
+???

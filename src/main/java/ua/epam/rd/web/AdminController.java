@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import ua.epam.rd.domain.Group;
 import ua.epam.rd.domain.User;
+import ua.epam.rd.service.GroupService;
 import ua.epam.rd.service.UserService;
 import ua.epam.rd.web.tools.Benchmark;
 import ua.epam.rd.web.tools.SecurityManager;
@@ -25,6 +27,9 @@ public class AdminController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private GroupService groupService;
 
     @RequestMapping(value = "/admin/home") // always set method
     public String adminHome(HttpSession session, Model model) {
@@ -107,10 +112,45 @@ public class AdminController {
         }
     }
 
-    @RequestMapping(value = "/admin/find")
+    //find user
+    @RequestMapping(value = "/admin/find_user")
     public String findUserNoParam
             (HttpSession session, Model model) {
         if (!SecurityManager.isAdmin(session)) return "redirect:/*";
         return "/admin/find_user";
     }
+
+    @RequestMapping(value = "/admin/group_list")
+    @Deprecated
+    public String fullGroupList(HttpSession session, Model model) {
+        if (!SecurityManager.isAdmin(session)) return "redirect:/*";
+
+        Benchmark bm = new Benchmark();
+        bm.start();
+
+        String msg = new String();
+//        int pageNum;
+//        try {
+//            pageNum = Integer.parseInt(page);
+//            if (pageNum < 1) pageNum = 1;
+//        } catch (Exception e) {
+//            pageNum = 1;
+//        }
+
+        //int totalPages = groupService.getAllTotalPages();
+        //if (pageNum > totalPages) pageNum = totalPages;
+
+        List<Group> groups = groupService.getAllNow();
+        model.addAttribute("groupList", groups);
+//
+//        model.addAttribute("currentPage", pageNum);
+//        model.addAttribute("totalPages", totalPages);
+//        model.addAttribute("firstPage", 1);
+
+        bm.stop();
+
+        model.addAttribute("creationTime", bm.getDifferce());
+        return "/admin/group_list";
+    }
+
 }

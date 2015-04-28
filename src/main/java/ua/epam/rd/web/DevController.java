@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ua.epam.rd.domain.User;
 import ua.epam.rd.repository.UserRepository;
+import ua.epam.rd.service.mail.MailService;
 import ua.epam.rd.web.tools.Benchmark;
 
 /**
@@ -21,11 +22,15 @@ public class DevController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private MailService mailService;
+
     //dev menu
     @RequestMapping(value = "/dev")
     @ResponseBody
     public String body(Model model) {
-        String menu = "<a href=/dev/user_gen> add 100_000 users </a>";
+        String menu = "<a href=/dev/user_gen> add 100_000 users </a> <BR>";
+        menu += "<a href=/dev/mail> Mail history </a> <BR>";
         return menu;
     }
 
@@ -52,7 +57,7 @@ public class DevController {
         }
 
         //blank users
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 100000; i++) {
             user = new User();
             user.setEmail("u" + i + "@mail.com");
             user.setPassword("12345");
@@ -63,5 +68,16 @@ public class DevController {
         bm.stop();
         model.addAttribute("creationTime", bm.getDifferce());
         return String.valueOf(bm.getDifferce());
+    }
+
+
+    @RequestMapping(value = "/dev/mail")
+    @ResponseBody
+    public String mail(Model model) {
+        String result = "";
+        for (String s : mailService.getHistory()) {
+            result += s + "<BR>";
+        }
+        return result;
     }
 }

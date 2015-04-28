@@ -16,8 +16,9 @@
 <h1 align="center"> ADMIN HOME PAGE </h1>
 
 <a href="/admin/all_users" align="center">Users list</a>
-<a href="/admin/find" align="center">Find user</a>
-<strike><a href="/all_users_page" align="center">Group list</a></strike>
+<a href="/admin/find_user" align="center">Find user</a>
+<a href="/admin/group_list" align="center">Group list</a>
+<a href="/admin/find_group" align="center">Find group</a>
 <a href="/logout" align="center">Logout</a>
 
 <h1 align="center">${msg}</h1>

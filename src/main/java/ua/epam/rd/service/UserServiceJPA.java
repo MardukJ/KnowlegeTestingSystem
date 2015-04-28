@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.epam.rd.domain.Token;
 import ua.epam.rd.domain.TokenType;
 import ua.epam.rd.domain.User;
+import ua.epam.rd.repository.GroupRepository;
 import ua.epam.rd.repository.UserRepository;
 import ua.epam.rd.service.mail.MailComposer;
 import ua.epam.rd.service.mail.MailService;
@@ -23,7 +24,11 @@ import java.util.List;
 public class UserServiceJPA implements UserService {
     private static int PAGE_SIZE = 10;
 
+    @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    GroupRepository groupRepository;
 
     @Autowired
     @Qualifier("mailService")
@@ -89,6 +94,16 @@ public class UserServiceJPA implements UserService {
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public List<User> getAllNow() {
         return userRepository.getAll();
+    }
+
+    @Override
+    public int getAllTotalPagesWFiler(Boolean blocked, Boolean role, Boolean sort, String regexp) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<User> getAllFromPageWFilter(int page, Boolean blocked, Boolean role, Boolean sort, String regexp) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
