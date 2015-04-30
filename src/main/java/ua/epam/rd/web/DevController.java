@@ -54,7 +54,7 @@ public class DevController {
         User user;
 
         //admin+tester
-        if (userRepository.getTotalEntry() == 0) {
+        if (userRepository.getTotalEntryWithFilter(null,null,null) == 0) {
             user = new User();
             user.setEmail("admin");
             user.setPassword("12345");

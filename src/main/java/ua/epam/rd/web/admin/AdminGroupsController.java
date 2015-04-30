@@ -1,4 +1,4 @@
-package ua.epam.rd.web;
+package ua.epam.rd.web.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,50 +8,40 @@ import ua.epam.rd.domain.Group;
 import ua.epam.rd.domain.User;
 import ua.epam.rd.service.GroupService;
 import ua.epam.rd.service.UserService;
-import ua.epam.rd.web.tools.Benchmark;
-import ua.epam.rd.web.tools.ExpressionFilter;
+import ua.epam.rd.web.tools.*;
 import ua.epam.rd.web.tools.SecurityManager;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
- * Created by Mykhaylo Gnylorybov on 25.04.2015.
+ * Created by Mykhaylo Gnylorybov on 30.04.2015.
  * email: mail@marduk.ru
  * skype: marduk.ru
  */
 @Controller
-public class AdminController {
-
-    @Autowired
-    private UserService userService;
-
+public class AdminGroupsController {
     @Autowired
     private GroupService groupService;
 
-    @RequestMapping(value = "/admin/home") // always set method
-    public String adminHome(HttpSession session, Model model) {
+    @RequestMapping(value = "/admin/group_list")
+    public String fullGroupList(@RequestParam(defaultValue = "1") String page,
+                                @RequestParam(defaultValue = "both") String blocked,
+                                @RequestParam(defaultValue = "no") String sort,
+                                @RequestParam(defaultValue = "") String expression,
+                                HttpSession session, Model model) {
         if (!SecurityManager.isAdmin(session)) return "redirect:/*";
 
         Benchmark bm = new Benchmark();
         bm.start();
 
-        bm.stop();
-        model.addAttribute("creationTime", bm.getDifferce());
-        return "admin/admin_home";
-    }
-
-    @RequestMapping(value = "/admin/all_users") // always set method
-    public String getpage(@RequestParam(defaultValue = "1") String page,
-                          @RequestParam(defaultValue = "both") String blocked,
-                          @RequestParam(defaultValue = "both") String role,
-                          @RequestParam(defaultValue = "no") String sort,
-                          @RequestParam(defaultValue = "") String expression,
-                          HttpSession session, Model model) {
-        if (!SecurityManager.isAdmin(session)) return "redirect:/*";
-
-        Benchmark bm = new Benchmark();
-        bm.start();
+        int pageNum;
+        try {
+            pageNum = Integer.parseInt(page);
+            if (pageNum < 1) pageNum = 1;
+        } catch (Exception e) {
+            pageNum = 1;
+        }
 
         //Param convention for service layer & model
         Boolean blockedParam = null;
@@ -63,17 +53,6 @@ public class AdminController {
             model.addAttribute("blockedActive", "checked");
         } else {
             model.addAttribute("blockedBoth", "checked");
-        }
-
-        Boolean roleParam = null;
-        if ("teacher".equals(role)) {
-            roleParam = Boolean.TRUE;
-            model.addAttribute("roleTeacher", "checked");
-        } else if ("student".equals(role)) {
-            roleParam = Boolean.FALSE;
-            model.addAttribute("roleStudent", "checked");
-        } else {
-            model.addAttribute("roleBoth", "checked");
         }
 
         Boolean sortParam = null;
@@ -89,106 +68,17 @@ public class AdminController {
 
         //Security reasons expression filter
         String expressionParam = ExpressionFilter.loginFilter(expression);
-        model.addAttribute("loginRegexp", expressionParam);
+        model.addAttribute("groupRegexp", expressionParam);
 
-        String msg = new String();
-        int pageNum;
-        try {
-            pageNum = Integer.parseInt(page);
-            if (pageNum < 1) pageNum = 1;
-        } catch (Exception e) {
-            pageNum = 1;
-        }
-        int totalPages = userService.getAllTotalPagesWFiler(blockedParam, roleParam, expressionParam);
+        int totalPages = groupService.getAllTotalPagesWFiler(blockedParam,expressionParam);
         if (pageNum > totalPages) pageNum = totalPages;
 
-        List<User> users = userService.getAllFromPageWFilter(pageNum, blockedParam, roleParam, sortParam, expressionParam);
-        model.addAttribute("userList", users);
+        List<Group> groups = groupService.getAllFromPageWFilter(pageNum,blockedParam,sortParam,expressionParam);
+        model.addAttribute("groupList", groups);
 
         model.addAttribute("currentPage", pageNum);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("firstPage", 1);
-
-        bm.stop();
-        model.addAttribute("creationTime", bm.getDifferce());
-        return "admin/usersOp/users_list";
-    }
-
-    @RequestMapping(value = "/admin/user_details")
-    @ExceptionHandler({IllegalArgumentException.class})
-    public String userInfo(@RequestParam(defaultValue = "") String login, HttpSession session, Model model) {
-        if (!SecurityManager.isAdmin(session)) return "redirect:/*";
-        try {
-            User user = userService.getUserInfo(login);
-            model.addAttribute("login", user.getEmail());
-            model.addAttribute("status", user.getBlocked() == Boolean.TRUE ? "Blocked" : "Active");
-            model.addAttribute("groupsCounter", user.getMembership().size());
-
-            return "/admin/usersOp/edit_user";
-        } catch (Exception e) {
-            model.addAttribute("msg", e.getMessage());
-            return "/admin/usersOp/find_user";
-        }
-    }
-
-    @RequestMapping(value = "/admin/user_details", method = RequestMethod.POST, params = "block_action")
-    @ExceptionHandler({IllegalArgumentException.class})
-    public String userInfo(@RequestParam(defaultValue = "") String login, @RequestParam String block_action, HttpSession session, Model model) {
-        if (!SecurityManager.isAdmin(session)) return "redirect:/*";
-        try {
-            //change blocked status
-            if ("block".equals(block_action) || "unblock".equals(block_action)) {
-                User user = userService.getUserInfo(login);
-                if ("block".equals(block_action)) {
-                    userService.blockUser(user.getId());
-                } else if ("unblock".equals(block_action)) {
-                    userService.unblockUser(user.getId());
-                }
-            }
-            User user = userService.getUserInfo(login);
-            model.addAttribute("login", user.getEmail());
-            model.addAttribute("status", user.getBlocked() == Boolean.TRUE ? "Blocked" : "Active");
-            return "/admin/usersOp/edit_user";
-        } catch (Exception e) {
-            model.addAttribute("msg", e.getMessage());
-            return "/admin/usersOp/find_user";
-        }
-    }
-
-    //find user
-    @RequestMapping(value = "/admin/find_user")
-    public String findUserNoParam
-            (HttpSession session, Model model) {
-        if (!SecurityManager.isAdmin(session)) return "redirect:/*";
-        return "/admin/usersOp/find_user";
-    }
-
-    @RequestMapping(value = "/admin/group_list")
-    @Deprecated
-    public String fullGroupList(HttpSession session, Model model) {
-        if (!SecurityManager.isAdmin(session)) return "redirect:/*";
-
-        Benchmark bm = new Benchmark();
-        bm.start();
-
-        String msg = new String();
-//        int pageNum;
-//        try {
-//            pageNum = Integer.parseInt(page);
-//            if (pageNum < 1) pageNum = 1;
-//        } catch (Exception e) {
-//            pageNum = 1;
-//        }
-
-        //int totalPages = groupService.getAllTotalPages();
-        //if (pageNum > totalPages) pageNum = totalPages;
-
-        List<Group> groups = groupService.getAllNow();
-        model.addAttribute("groupList", groups);
-//
-//        model.addAttribute("currentPage", pageNum);
-//        model.addAttribute("totalPages", totalPages);
-//        model.addAttribute("firstPage", 1);
 
         bm.stop();
 
@@ -281,5 +171,38 @@ public class AdminController {
             return "/admin/groupOp/find_group";
         }
         return "redirect:/admin/group_details?name=" + name;
+    }
+
+    @RequestMapping(value = "/admin/users_of_group")
+    @ExceptionHandler({IllegalArgumentException.class})
+    public String userOfGroup(@RequestParam(defaultValue = "") String name,
+                              @RequestParam(defaultValue = "1") String page,
+                              HttpSession session, Model model) {
+        try {
+            Group group = groupService.getGroupInfo(name);
+            List <User> userList = group.getMembers();
+            model.addAttribute("userList", userList);
+            model.addAttribute("name", group.getGroupName());
+        } catch (Exception e){
+            model.addAttribute("msg",e.getMessage());
+            return "/admin/groupOp/group_list";
+        }
+        return "/admin/groupOp/users_of_group";
+    }
+
+    @RequestMapping(value = "/admin/add_to_group", method = RequestMethod.GET)
+    @ExceptionHandler({IllegalArgumentException.class})
+    public String addToGroup(@RequestParam(defaultValue = "") String name,
+                              HttpSession session, Model model) {
+//        try {
+//            Group group = groupService.getGroupInfo(name);
+//            List <User> userList = group.getMembers();
+//            model.addAttribute("userList", userList);
+//            model.addAttribute("name", group.getGroupName());
+//        } catch (Exception e){
+//            model.addAttribute("msg",e.getMessage());
+//            return "/admin/groupOp/group_list";
+//        }
+        return "/admin/groupOp/invite_to_group";
     }
 }

@@ -45,7 +45,7 @@
                         </c:otherwise>
                     </c:choose>
                 </form>
-                <h5>Members: ${membersCount}</h5>
+                <h5><a href="/admin/users_of_group?name=${name}">Members: ${membersCount}</a></h5>
             </div>
         </div>
 

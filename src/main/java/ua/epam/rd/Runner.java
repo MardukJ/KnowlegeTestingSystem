@@ -19,10 +19,6 @@ public class Runner {
         UserRepository userRepository = appContext.getBean(UserRepository.class, "userRepository");
         UserService userService = appContext.getBean(UserService.class, "userService");
 
-        System.out.println("size = " + userRepository.getTotalEntry());
-        System.out.println("pages = " + userService.getAllTotalPages());
-
-
         GroupRepository groupRepository = appContext.getBean(GroupRepository.class, "groupRepository");
         GroupService groupService = appContext.getBean(GroupService.class, "groupService");
 

@@ -55,9 +55,7 @@
                 <strike><h4><a href="http://spyrestudios.com/">http://example.com/</a></h4></strike>
                 <strike><h5><a href="tel:+38-050-111-22-33">+38-050-111-22-33</a></h5></strike>
 
-                <h5>Member of ${groupsCounter} groups</h5>
-
-
+                <h5><a href="/admin/groups_of_user?login=${login}">Member of ${groupsCounter} groups</a></h5>
             </div>
         </div>
 
