@@ -51,11 +51,11 @@
                     </c:otherwise>
                 </c:choose>
             </td>
-                <%--<td><c:out value="${user.blocked}"></c:out></td>--%>
         </tr>
     </c:forEach>
     </tbody>
 </table>
+<%--End fo table--%>
 
 First ${firstPage}
 Current ${currentPage}

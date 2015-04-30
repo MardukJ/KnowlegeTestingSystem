@@ -3,6 +3,8 @@ package ua.epam.rd.domain;
 import javax.persistence.*;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Mykhaylo Gnylorybov on 28.04.2015.
@@ -13,6 +15,8 @@ import java.util.List;
 @Entity
 @Table(name = "groups")
 public class Group {
+
+    private final static String GROUP_NAME_PATTERN = "[a-z0-9.]+";
 
     @Id
     @GeneratedValue
@@ -57,5 +61,12 @@ public class Group {
 
     public void setBlocked(Boolean blocked) {
         this.blocked = blocked;
+    }
+
+    public boolean verifyMe() {
+        groupName = groupName.toLowerCase().trim();
+        Pattern p = Pattern.compile(GROUP_NAME_PATTERN);
+        Matcher m = p.matcher(groupName);
+        return m.matches();
     }
 }

@@ -94,7 +94,7 @@ public class DevController {
             group = new Group();
             group.setGroupName("BRED." + i);
             groupRepository.add(group);
-            groupService.addUser("tester", "BRED." + i);
+            groupService.addUserToGroup("tester", "BRED." + i);
         }
 
         bm.stop();

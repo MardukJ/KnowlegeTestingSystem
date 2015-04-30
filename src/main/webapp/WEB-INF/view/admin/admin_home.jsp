@@ -19,6 +19,7 @@
 <a href="/admin/find_user" align="center">Find user</a>
 <a href="/admin/group_list" align="center">Group list</a>
 <a href="/admin/find_group" align="center">Find group</a>
+<a href="/admin/create_group" align="center">Create group</a>
 <a href="/logout" align="center">Logout</a>
 
 <h1 align="center">${msg}</h1>

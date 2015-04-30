@@ -3,10 +3,7 @@ package ua.epam.rd.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ua.epam.rd.domain.Group;
 import ua.epam.rd.domain.User;
 import ua.epam.rd.service.GroupService;
@@ -114,7 +111,7 @@ public class AdminController {
 
         bm.stop();
         model.addAttribute("creationTime", bm.getDifferce());
-        return "admin/users_list";
+        return "admin/usersOp/users_list";
     }
 
     @RequestMapping(value = "/admin/user_details")
@@ -127,10 +124,10 @@ public class AdminController {
             model.addAttribute("status", user.getBlocked() == Boolean.TRUE ? "Blocked" : "Active");
             model.addAttribute("groupsCounter", user.getMembership().size());
 
-            return "/admin/edit_user";
+            return "/admin/usersOp/edit_user";
         } catch (Exception e) {
             model.addAttribute("msg", e.getMessage());
-            return "/admin/find_user";
+            return "/admin/usersOp/find_user";
         }
     }
 
@@ -151,10 +148,10 @@ public class AdminController {
             User user = userService.getUserInfo(login);
             model.addAttribute("login", user.getEmail());
             model.addAttribute("status", user.getBlocked() == Boolean.TRUE ? "Blocked" : "Active");
-            return "/admin/edit_user";
+            return "/admin/usersOp/edit_user";
         } catch (Exception e) {
             model.addAttribute("msg", e.getMessage());
-            return "/admin/find_user";
+            return "/admin/usersOp/find_user";
         }
     }
 
@@ -163,7 +160,7 @@ public class AdminController {
     public String findUserNoParam
             (HttpSession session, Model model) {
         if (!SecurityManager.isAdmin(session)) return "redirect:/*";
-        return "/admin/find_user";
+        return "/admin/usersOp/find_user";
     }
 
     @RequestMapping(value = "/admin/group_list")
@@ -196,7 +193,93 @@ public class AdminController {
         bm.stop();
 
         model.addAttribute("creationTime", bm.getDifferce());
-        return "/admin/group_list";
+        return "/admin/groupOp/group_list";
     }
 
+    @RequestMapping(value = "/admin/group_details", params = "!block_action")
+    @ExceptionHandler({IllegalArgumentException.class})
+    public String groupInfo(@RequestParam(defaultValue = "") String name, HttpSession session, Model model) {
+        if (!SecurityManager.isAdmin(session)) return "redirect:/*";
+        try {
+            Group group = groupService.getGroupInfo(name);
+            model.addAttribute("name", group.getGroupName());
+            model.addAttribute("status", group.getBlocked() == Boolean.TRUE ? "Blocked" : "Active");
+            model.addAttribute("membersCount", group.getMembers().size());
+        } catch (Exception e) {
+            model.addAttribute("msg", e.getMessage());
+            return "/admin/groupOp/find_group";
+        }
+        return "/admin/groupOp/edit_group";
+    }
+
+    @RequestMapping(value = "/admin/group_details", method = RequestMethod.POST, params = "block_action")
+    @ExceptionHandler({IllegalArgumentException.class})
+    public String groupBlockAction(@RequestParam(defaultValue = "") String name, @RequestParam String block_action, HttpSession session, Model model) {
+        if (!SecurityManager.isAdmin(session)) return "redirect:/*";
+        try {
+            //change blocked status
+            if ("block".equals(block_action) || "unblock".equals(block_action)) {
+                Group group = groupService.getGroupInfo(name);
+                if ("block".equals(block_action)) {
+                    groupService.blockGroup(group.getId());
+                } else if ("unblock".equals(block_action)) {
+                    groupService.unblockGroup(group.getId());
+                }
+            }
+
+            Group group = groupService.getGroupInfo(name);
+            model.addAttribute("name", group.getGroupName());
+            model.addAttribute("status", group.getBlocked() == Boolean.TRUE ? "Blocked" : "Active");
+            model.addAttribute("membersCount", group.getMembers().size());
+        } catch (Exception e) {
+            model.addAttribute("msg", e.getMessage());
+            return "/admin/groupOp/find_group";
+        }
+        return "/admin/groupOp/edit_group";
+    }
+
+    @RequestMapping(value = "/admin/create_group", params = "!name")
+    @ExceptionHandler({IllegalArgumentException.class})
+    public String createGroupView(HttpSession session, Model model) {
+        if (!SecurityManager.isAdmin(session)) return "redirect:/*";
+        return "/admin/groupOp/create_group";
+    }
+
+    @RequestMapping(value = "/admin/create_group", params = "groupName", method = RequestMethod.POST)
+    @ExceptionHandler({IllegalArgumentException.class})
+    public String createGroupAction(@ModelAttribute Group group, HttpSession session, Model model) {
+        if (!SecurityManager.isAdmin(session)) return "redirect:/*";
+        try {
+            groupService.registerNew(group);
+            model.addAttribute("msg", "Group registered successfully");
+        } catch (Exception e) {
+            model.addAttribute("msg", e.getMessage());
+            if ((group != null) && (group.getGroupName() != null)) {
+                model.addAttribute("name", group.getGroupName());
+            }
+            return "/admin/groupOp/create_group";
+        }
+        return "redirect:/admin/group_details?name=" + group.getGroupName();
+    }
+
+    @RequestMapping(value = "/admin/find_group", params = "!name")
+    @ExceptionHandler({IllegalArgumentException.class})
+    public String findGroupView(HttpSession session, Model model) {
+        if (!SecurityManager.isAdmin(session)) return "redirect:/*";
+        return "/admin/groupOp/find_group";
+    }
+
+    @RequestMapping(value = "/admin/find_group", params = "name")
+    @ExceptionHandler({IllegalArgumentException.class})
+    public String findGroupAction(@RequestParam String name, HttpSession session, Model model) {
+        if (!SecurityManager.isAdmin(session)) return "redirect:/*";
+        try {
+            Group group = groupService.getGroupInfo(name);
+        } catch (Exception e) {
+            model.addAttribute("msg", e.getMessage());
+            model.addAttribute("name", name);
+            return "/admin/groupOp/find_group";
+        }
+        return "redirect:/admin/group_details?name=" + name;
+    }
 }

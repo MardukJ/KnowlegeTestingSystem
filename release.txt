@@ -37,25 +37,35 @@ VERSION 0.4
 6) +User home page
 
 VERSION 0.5
-in progress:
+28.04.2015
 1) +Filtered user list (blocked/unblocked/any by mail, users/teachers/any, sort by mail a-z/z-a/no-sort)
 2) +Filter refactoring
 3) +Internationalization & Localization support
-4) -Exception localization support
 
 VERSION 0.6
+30.04.2015
 Admin options:
 1) +Group DAO
 2) +Group Repository
-3) Group service
-4) Group controller
-4.1) Group list
-4.2) Create group
-4.3) View group info
-4.4) Block/unblock
-4.5) Add/remove users from group
+3) +Group service
+4) +Group controller
+4.1) +Group list
+4.2) +View group info
+4.3) +Block/unblock
+4.4) +Create new group
+4.5) +Find group
+4.6) +Create group
+
 
 VERSION 0.7
+in progress:
+Admin options:
+1) Group list - pagination & filter
+2) View group users w pagination
+3) View user groups w pagination
+4) Add/remove users from group
+
+VERSION 0.
 1) Question DAO
 2) Question Repository
 3) Question service
@@ -68,25 +78,29 @@ VERSION 0.7
 4.3) Delete question
 4.4) Modify question
 
-VERSION 0.8
+VERSION 0.
 1) Test DAO
 2) Test Repository
 3) Test service
 4) Test controller
 ???
 
-VERSION 0.9
+VERSION 0.
 1) Invite DAO
 2) Invite Repository
 3) Invite service
 4) Invite controller
 ???
 
-VERSION 0.10
+VERSION 0.
 pass test
 ???
 
-VERSION 0.11
+VERSION 0.
 test results
 wathdog
 ???
+
+VERSION 0.
+exception localization support
+full website localization
