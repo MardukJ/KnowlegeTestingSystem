@@ -81,7 +81,6 @@ public class AdminGroupsController {
         model.addAttribute("firstPage", 1);
 
         bm.stop();
-
         model.addAttribute("creationTime", bm.getDifferce());
         return "/admin/groupOp/group_list";
     }
@@ -90,6 +89,8 @@ public class AdminGroupsController {
     @ExceptionHandler({IllegalArgumentException.class})
     public String groupInfo(@RequestParam(defaultValue = "") String name, HttpSession session, Model model) {
         if (!SecurityManager.isAdmin(session)) return "redirect:/*";
+        Benchmark bm = new Benchmark();
+        bm.start();
         try {
             Group group = groupService.getGroupInfo(name);
             model.addAttribute("name", group.getGroupName());
@@ -99,6 +100,8 @@ public class AdminGroupsController {
             model.addAttribute("msg", e.getMessage());
             return "/admin/groupOp/find_group";
         }
+        bm.stop();
+        model.addAttribute("creationTime", bm.getDifferce());
         return "/admin/groupOp/edit_group";
     }
 
@@ -106,6 +109,8 @@ public class AdminGroupsController {
     @ExceptionHandler({IllegalArgumentException.class})
     public String groupBlockAction(@RequestParam(defaultValue = "") String name, @RequestParam String block_action, HttpSession session, Model model) {
         if (!SecurityManager.isAdmin(session)) return "redirect:/*";
+        Benchmark bm = new Benchmark();
+        bm.start();
         try {
             //change blocked status
             if ("block".equals(block_action) || "unblock".equals(block_action)) {
@@ -125,6 +130,8 @@ public class AdminGroupsController {
             model.addAttribute("msg", e.getMessage());
             return "/admin/groupOp/find_group";
         }
+        bm.stop();
+        model.addAttribute("creationTime", bm.getDifferce());
         return "/admin/groupOp/edit_group";
     }
 
@@ -178,6 +185,9 @@ public class AdminGroupsController {
     public String userOfGroup(@RequestParam(defaultValue = "") String name,
                               @RequestParam(defaultValue = "1") String page,
                               HttpSession session, Model model) {
+        if (!SecurityManager.isAdmin(session)) return "redirect:/*";
+        Benchmark bm = new Benchmark();
+        bm.start();
         try {
             Group group = groupService.getGroupInfo(name);
             List <User> userList = group.getMembers();
@@ -187,22 +197,84 @@ public class AdminGroupsController {
             model.addAttribute("msg",e.getMessage());
             return "/admin/groupOp/group_list";
         }
+        bm.stop();
+        model.addAttribute("creationTime", bm.getDifferce());
         return "/admin/groupOp/users_of_group";
     }
 
     @RequestMapping(value = "/admin/add_to_group", method = RequestMethod.GET)
-    @ExceptionHandler({IllegalArgumentException.class})
-    public String addToGroup(@RequestParam(defaultValue = "") String name,
-                              HttpSession session, Model model) {
-//        try {
-//            Group group = groupService.getGroupInfo(name);
-//            List <User> userList = group.getMembers();
-//            model.addAttribute("userList", userList);
-//            model.addAttribute("name", group.getGroupName());
-//        } catch (Exception e){
-//            model.addAttribute("msg",e.getMessage());
-//            return "/admin/groupOp/group_list";
-//        }
+         @ExceptionHandler({IllegalArgumentException.class})
+         public String addToGroupView(@RequestParam(defaultValue = "") String name,
+                                  HttpSession session, Model model) {
+        if (!SecurityManager.isAdmin(session)) return "redirect:/*";
+
+        Benchmark bm = new Benchmark();
+        bm.start();
+        try {
+            Group group = groupService.getGroupInfo(name);
+            model.addAttribute("name", group.getGroupName());
+        } catch (Exception e){
+            model.addAttribute("msg",e.getMessage());
+            return "/admin/groupOp/find_group";
+        }
+        bm.stop();
+        model.addAttribute("creationTime", bm.getDifferce());
         return "/admin/groupOp/invite_to_group";
+    }
+
+    @RequestMapping(value = "/admin/add_to_group", method = RequestMethod.POST)
+    @ExceptionHandler({IllegalArgumentException.class})
+    public String addToGroupAction(@RequestParam(defaultValue = "") String name,
+                                   @RequestParam(defaultValue = "") String login,
+                             HttpSession session, Model model) {
+        if (!SecurityManager.isAdmin(session)) return "redirect:/*";
+
+        Benchmark bm = new Benchmark();
+        bm.start();
+
+        try {
+            model.addAttribute("name", name);
+            model.addAttribute("login", login);
+            groupService.addUserToGroup(login,name);
+            model.addAttribute("msg", "success");
+        } catch (Exception e){
+            model.addAttribute("msg",e.getMessage());
+            //2DO own exceptions
+            if ("Invalid group".equals(e.getMessage())) {
+                return "/admin/groupOp/find_group";
+            }
+        }
+
+        bm.stop();
+        model.addAttribute("creationTime", bm.getDifferce());
+        return "/admin/groupOp/invite_to_group";
+    }
+
+    @RequestMapping(value = "/admin/remove_from_group", method = RequestMethod.GET)
+    @ExceptionHandler({IllegalArgumentException.class})
+    public String removeAction(@RequestParam(defaultValue = "") String name,
+                                   @RequestParam(defaultValue = "") String login,
+                                   HttpSession session, Model model) {
+        if (!SecurityManager.isAdmin(session)) return "redirect:/*";
+
+//        Benchmark bm = new Benchmark();
+//        bm.start();
+
+        try {
+            model.addAttribute("name", name);
+            groupService.removeUserFromGroup(login, name);
+        } catch (Exception e){
+            model.addAttribute("msg",e.getMessage());
+            //2DO own exceptions
+            if ("Invalid group".equals(e.getMessage())) {
+                return "/admin/groupOp/find_group";
+            } else if ("Invalid user".equals(e.getMessage())) {
+                return "/admin/usersOp/find_user";
+            }
+        }
+
+//        bm.stop();
+//        model.addAttribute("creationTime", bm.getDifferce());
+        return "redirect:/admin/users_of_group";
     }
 }

@@ -23,14 +23,15 @@
 </head>
 <body align="center">
 <h1>${msg}</h1>
-<h1>Users of group ${name}</h1>
+<h1>Users of group  <a href="/admin/group_details?name=${name}">${name}</a></h1>
 <%-- Using JSTL forEach and out to loop a list and display items in table --%>
 <table align="center">
   <tbody>
   <tr>
     <th>ID</th>
     <th>Login</th>
-    <th>Blocked?</th>
+    <th>Status</th>
+    <th>Delete?</th>
   </tr>
   <c:forEach items="${requestScope.userList}" var="user">
     <tr>
@@ -51,6 +52,9 @@
           </c:otherwise>
         </c:choose>
       </td>
+      <td>
+        <a href = "/admin/remove_from_group?name=${name}&login=${user.email}">delete</a>
+      </td>
     </tr>
   </c:forEach>
   </tbody>
@@ -68,7 +72,7 @@ Total ${totalPages}
 </form>
 
 <h5><a href="/admin/group_details?name=${name}">Group ${name} info</a></h5>
-<h5><a href="/admin/invite_to_group?name=${name}">Invite new member</a></h5>
+<h5><a href="/admin/add_to_group?name=${name}">Invite new member</a></h5>
 
 <section class="about">
   <h3>Creation time (ms): ${creationTime}</h3>

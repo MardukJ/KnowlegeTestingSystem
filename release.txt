@@ -61,9 +61,10 @@ VERSION 0.7
 in progress:
 Admin options:
 1) +Group list - pagination & filter
-2) +-View users of group w pagination
-3) +-View groups of user w pagination
-4) -Add/remove users from group
+2) +View users of group
+3) +View groups of user
+4) +Add/remove users from group BUG: no info
+
 
 VERSION 0.
 1) Question DAO

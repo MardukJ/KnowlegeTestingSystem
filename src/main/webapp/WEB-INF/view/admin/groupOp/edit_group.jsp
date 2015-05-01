@@ -50,6 +50,10 @@
         </div>
 
         <h1>Members:</h1>
+        <h5><a href="/admin/add_to_group?name=${name}">Invite new member</a></h5>
 </div>
+<section class="about">
+    <h3>Creation time (ms): ${creationTime}</h3>
+</section>
 </body>
 </html>

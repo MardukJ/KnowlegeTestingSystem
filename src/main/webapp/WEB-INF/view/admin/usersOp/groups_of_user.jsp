@@ -23,7 +23,7 @@
 </head>
 <body align="center">
 <h1>${msg}</h1>
-<h1>Users of group ${name}</h1>
+<h1>Groups of user  <a href="/admin/user_details?login=${login}">${login}</a></h1>
 <%-- Using JSTL forEach and out to loop a list and display items in table --%>
 <table align="center">
   <tbody>

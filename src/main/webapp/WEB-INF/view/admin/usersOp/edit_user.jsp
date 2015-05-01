@@ -67,5 +67,8 @@
             mollit anim id est laborum.</p></strike>
     </section>
 </div>
+<section class="about">
+    <h3>Creation time (ms): ${creationTime}</h3>
+</section>
 </body>
 </html>

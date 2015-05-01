@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -20,8 +21,18 @@
   </ul>
 </nav>
 
-<h1>Add user to group ${name}</h1>
+<h1>Add user to group <a href="/admin/group_details?name=${name}">${name}</a></h1>
 
+<h2 align="center">${msg}</h2>
+<h2 align="center">${exception.exceptionMsg}</h2>
 
+<form action="/admin/add_to_group" method="post">
+    <input type="hidden" name="name" value="${name}">
+    <input type="search" name="login" value="${login}">
+    <input type="submit" value="Go">
+</form>
+<section class="about">
+    <h3>Creation time (ms): ${creationTime}</h3>
+</section>
 </body>
 </html>

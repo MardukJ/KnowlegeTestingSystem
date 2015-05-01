@@ -105,23 +105,28 @@ public class AdminUsersController {
     @ExceptionHandler({IllegalArgumentException.class})
     public String userInfo(@RequestParam(defaultValue = "") String login, HttpSession session, Model model) {
         if (!ua.epam.rd.web.tools.SecurityManager.isAdmin(session)) return "redirect:/*";
+        Benchmark bm = new Benchmark();
+        bm.start();
         try {
             User user = userService.getUserInfo(login);
             model.addAttribute("login", user.getEmail());
             model.addAttribute("status", user.getBlocked() == Boolean.TRUE ? "Blocked" : "Active");
             model.addAttribute("groupsCounter", user.getMembership().size());
-
-            return "/admin/usersOp/edit_user";
         } catch (Exception e) {
             model.addAttribute("msg", e.getMessage());
             return "/admin/usersOp/find_user";
         }
+        bm.stop();
+        model.addAttribute("creationTime", bm.getDifferce());
+        return "/admin/usersOp/edit_user";
     }
 
     @RequestMapping(value = "/admin/user_details", method = RequestMethod.POST, params = "block_action")
     @ExceptionHandler({IllegalArgumentException.class})
     public String userInfo(@RequestParam(defaultValue = "") String login, @RequestParam String block_action, HttpSession session, Model model) {
         if (!SecurityManager.isAdmin(session)) return "redirect:/*";
+        Benchmark bm = new Benchmark();
+        bm.start();
         try {
             //change blocked status
             if ("block".equals(block_action) || "unblock".equals(block_action)) {
@@ -135,11 +140,13 @@ public class AdminUsersController {
             User user = userService.getUserInfo(login);
             model.addAttribute("login", user.getEmail());
             model.addAttribute("status", user.getBlocked() == Boolean.TRUE ? "Blocked" : "Active");
-            return "/admin/usersOp/edit_user";
         } catch (Exception e) {
             model.addAttribute("msg", e.getMessage());
             return "/admin/usersOp/find_user";
         }
+        bm.stop();
+        model.addAttribute("creationTime", bm.getDifferce());
+        return "/admin/usersOp/edit_user";
     }
 
     //find user
