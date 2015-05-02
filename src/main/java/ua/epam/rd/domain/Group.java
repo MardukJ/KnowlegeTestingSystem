@@ -35,6 +35,9 @@ public class Group {
     @Column
     Boolean blocked = Boolean.FALSE;
 
+    @OneToMany (mappedBy = "groupOfQuestion", fetch = FetchType.LAZY, orphanRemoval = true)
+    List <Question> questions = new LinkedList<Question>();
+
     public Long getId() {
         return id_group;
     }

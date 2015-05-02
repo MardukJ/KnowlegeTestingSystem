@@ -126,6 +126,24 @@
         <!--<artifactId>log4j</artifactId>-->
         <!--<version>${log4j.version}</version>-->
         <!--</dependency>-->
+
+        <!--code analyzer-->
+        <!--<dependency>-->
+            <!--<groupId>org.codehaus.sonar</groupId>-->
+            <!--<artifactId>sonar-gwt-api</artifactId>-->
+            <!--<version>3.3.2</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.codehaus.sonar.plugins</groupId>-->
+            <!--<artifactId>sonar-surefire-plugin</artifactId>-->
+            <!--<version>3.3.2</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.codehaus.sonar</groupId>-->
+            <!--<artifactId>sonar-testing-harness</artifactId>-->
+            <!--<version>5.1</version>-->
+        <!--</dependency>-->
+
     </dependencies>
 
     <build>
@@ -168,6 +186,11 @@
                     </targetTests>
                 </configuration>
             </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.codehaus.mojo</groupId>-->
+                <!--<artifactId>sonar-maven-plugin</artifactId>-->
+                <!--<version>1.0</version>-->
+            <!--</plugin>-->
         </plugins>
     </build>
 

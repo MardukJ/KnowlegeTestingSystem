@@ -53,7 +53,11 @@
         </c:choose>
       </td>
       <td>
-        <a href = "/admin/remove_from_group?name=${name}&login=${user.email}">delete</a>
+          <form action="/admin/remove_from_group" method="post">
+              <input type="hidden" name="name" value="${name}">
+              <input type="hidden" name="login" value="${user.email}">
+              <button type="submit">Delete</button>
+          </form>
       </td>
     </tr>
   </c:forEach>

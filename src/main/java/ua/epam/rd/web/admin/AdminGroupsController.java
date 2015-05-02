@@ -250,7 +250,7 @@ public class AdminGroupsController {
         return "/admin/groupOp/invite_to_group";
     }
 
-    @RequestMapping(value = "/admin/remove_from_group", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/remove_from_group", method = RequestMethod.POST)
     @ExceptionHandler({IllegalArgumentException.class})
     public String removeAction(@RequestParam(defaultValue = "") String name,
                                    @RequestParam(defaultValue = "") String login,

@@ -58,7 +58,7 @@ Admin options:
 
 
 VERSION 0.7
-in progress:
+01.05.2015
 Admin options:
 1) +Group list - pagination & filter
 2) +View users of group
@@ -66,18 +66,18 @@ Admin options:
 4) +Add/remove users from group BUG: no info
 
 
-VERSION 0.
-1) Question DAO
-2) Question Repository
-3) Question service
-4) Question controller
-4.1) Question list
-4.1.1) - by group
-4.1.2) - all visible to user
-4.1.3) - all (admin)
-4.2) Create question
-4.3) Delete question
-4.4) Modify question
+VERSION 0.8
+02.05.2015
+1) +Question DAO
+2) +Question Repository
+3) +Question service
+
+VERSION 0.9
+1) privilege levels - user/teacher pages
+2) teacher menu:
+2.1) Create question
+2.2) Delete question
+2.3) Modify question
 
 VERSION 0.
 1) Test DAO
@@ -105,3 +105,18 @@ wathdog
 VERSION 0.
 exception localization support
 full website localization
+
+
+MB additional features:
+admin panel -> user of groups -> pagination
+admin panel -> groups of user -> pagination
+removeUserFromGroup - JS confirmation
+
+database review, @Length, @NotNull, etc. annotations
+
+test for repository level
+test for service level (100%)
+
+repostiroy refactoring-> requests strings
+
+hibernate cache
