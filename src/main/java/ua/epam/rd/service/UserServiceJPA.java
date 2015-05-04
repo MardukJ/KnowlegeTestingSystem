@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import ua.epam.rd.domain.Group;
 import ua.epam.rd.domain.Token;
 import ua.epam.rd.domain.TokenType;
 import ua.epam.rd.domain.User;
@@ -13,6 +14,7 @@ import ua.epam.rd.repository.UserRepository;
 import ua.epam.rd.service.mail.MailComposer;
 import ua.epam.rd.service.mail.MailService;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -174,5 +176,26 @@ public class UserServiceJPA implements UserService {
         if (user == null) throw new IllegalArgumentException("User not found");
         user.setBlocked(Boolean.FALSE);
         userRepository.merge(user);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public boolean isTeacher(Long id) {
+        User user = userRepository.getById(id);
+        if (user == null) throw new IllegalArgumentException("User not found");
+
+        long activeGroups = userRepository.getActiveGroupMembershipCount(id);
+        if (activeGroups>0) return true;
+
+        return false;
+    }
+
+    @Override
+    public List<Group> getActiveGroupMembership(Long id) {
+        User user = userRepository.getById(id);
+        if (user == null) throw new IllegalArgumentException("User not found");
+        long stop = System.currentTimeMillis();
+
+        return userRepository.getActiveGroupMembership(id);
     }
 }

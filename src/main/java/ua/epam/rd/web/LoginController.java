@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.epam.rd.domain.User;
 import ua.epam.rd.service.UserService;
-import ua.epam.rd.web.tools.Benchmark;
+import ua.epam.rd.web.tools.*;
 import ua.epam.rd.web.tools.SecurityManager;
 
 import javax.servlet.http.HttpSession;
@@ -32,7 +32,7 @@ public class LoginController {
         Benchmark bm = new Benchmark();
         bm.start();
 
-        if (SecurityManager.notLoggedIn(session)) {
+        if (ua.epam.rd.web.tools.SecurityManager.notLoggedIn(session)) {
             model.addAttribute("msg", "Please log in!");
         } else {
             return "redirect:/";

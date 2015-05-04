@@ -73,11 +73,13 @@ VERSION 0.8
 3) +Question service
 
 VERSION 0.9
-1) privilege levels - user/teacher pages
-2) teacher menu:
-2.1) Create question
-2.2) Delete question
-2.3) Modify question
+1) +privilege levels - user/teacher pages
+2) teacher/question menu:
+2.1) +My groups list
+2.2) +Question list by group
+2.3) +Create question
+2.4) +Delete question
+2.5) +Modify question
 
 VERSION 0.
 1) Test DAO
@@ -85,6 +87,15 @@ VERSION 0.
 3) Test service
 4) Test controller
 ???
+
+VERSION 0.
+teachers options:
+1) create test
+2) modify test
+3) submit test
+4)
+???
+
 
 VERSION 0.
 1) Invite DAO
@@ -120,3 +131,12 @@ test for service level (100%)
 repostiroy refactoring-> requests strings
 
 hibernate cache
+
+why service layer functions r so slow?
+
+service & repository refactoring -> criteria to JPQL
+
+refactor new_question/edit_question backend with MAP <String, String>
+    @RequestMapping(value = "/teacher/edit_question", params = "action")
+    public String editQuestion(@ModelAttribute Question question
+

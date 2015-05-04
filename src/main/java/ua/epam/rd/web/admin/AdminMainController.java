@@ -4,16 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ua.epam.rd.domain.Group;
-import ua.epam.rd.domain.User;
 import ua.epam.rd.service.GroupService;
 import ua.epam.rd.service.UserService;
 import ua.epam.rd.web.tools.Benchmark;
-import ua.epam.rd.web.tools.ExpressionFilter;
 import ua.epam.rd.web.tools.SecurityManager;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 /**
  * Created by Mykhaylo Gnylorybov on 25.04.2015.

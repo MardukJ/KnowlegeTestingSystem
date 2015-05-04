@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.epam.rd.domain.Group;
 import ua.epam.rd.domain.User;
-import ua.epam.rd.service.GroupService;
 import ua.epam.rd.service.UserService;
 import ua.epam.rd.web.tools.*;
 import ua.epam.rd.web.tools.SecurityManager;
@@ -35,7 +34,7 @@ public class AdminUsersController {
                           @RequestParam(defaultValue = "no") String sort,
                           @RequestParam(defaultValue = "") String expression,
                           HttpSession session, Model model) {
-        if (!ua.epam.rd.web.tools.SecurityManager.isAdmin(session)) return "redirect:/*";
+        if (!SecurityManager.isAdmin(session)) return "redirect:/*";
 
         Benchmark bm = new Benchmark();
         bm.start();
@@ -104,7 +103,7 @@ public class AdminUsersController {
     @RequestMapping(value = "/admin/user_details")
     @ExceptionHandler({IllegalArgumentException.class})
     public String userInfo(@RequestParam(defaultValue = "") String login, HttpSession session, Model model) {
-        if (!ua.epam.rd.web.tools.SecurityManager.isAdmin(session)) return "redirect:/*";
+        if (!SecurityManager.isAdmin(session)) return "redirect:/*";
         Benchmark bm = new Benchmark();
         bm.start();
         try {

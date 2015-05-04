@@ -3,12 +3,16 @@ package ua.epam.rd.repository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import ua.epam.rd.domain.Group;
 import ua.epam.rd.domain.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -243,5 +247,49 @@ public class UserRepositoryJPA implements UserRepository {
         query.setMaxResults(size);
 
         return query.getResultList();
+    }
+
+    @Override
+    //2DO: JPQL
+    @Transactional (propagation = Propagation.REQUIRED, readOnly = true)
+    public long getActiveGroupMembershipCount(Long idUser) {
+//        System.out.println("-----------------------------------------------------");
+//        Query queryTotal = em.createQuery
+//                ("SELECT COUNT (g) from Group g WHERE g MEMBER OF User u.membership AND u.id = :idUser AND g.blocked = :blockedParam");
+//        queryTotal.setParameter("blockedParam", Boolean.FALSE);
+//        queryTotal.setParameter("idUser", idUser);
+//
+//        long countResult = (long) queryTotal.getSingleResult();
+//        System.out.println("getActiveGroupMembershipCount FOR ID=" + idUser + " : " + countResult);
+        long countResult = 0;
+        List <Group> membership =  getById(idUser).getMembership();
+        Iterator <Group> it = membership.iterator();
+        while (it.hasNext()) {
+            Group g = it.next();
+            if (g.getBlocked().equals(Boolean.FALSE)) {
+                countResult++;
+            }
+        }
+        return countResult;
+    }
+
+    @Override
+    //2DO: JPQL
+    @Transactional (propagation = Propagation.REQUIRED, readOnly = true)
+    public List<Group> getActiveGroupMembership(Long idUser) {
+//        Query query = em.createQuery
+//                ("SELECT u.membership from User u where u.membership.blocked = :blockedParam");
+//        query.setParameter("blockedParam", Boolean.FALSE);
+//        return query.getResultList();
+        List <Group> membership =  getById(idUser).getMembership();
+        List <Group> activeMembership = new ArrayList<Group>(membership.size());
+        Iterator <Group> it = membership.iterator();
+        while (it.hasNext()) {
+            Group g = it.next();
+            if (g.getBlocked().equals(Boolean.FALSE)) {
+                activeMembership.add(g);
+            }
+        }
+        return activeMembership;
     }
 }

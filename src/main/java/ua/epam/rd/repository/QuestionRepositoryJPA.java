@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ua.epam.rd.domain.Question;
+import ua.epam.rd.domain.QuestionAnswerOption;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,7 +24,17 @@ public class QuestionRepositoryJPA implements QuestionRepository {
     @Override
     @Transactional (propagation = Propagation.REQUIRED)
     public Long add(Question question) {
+        question.removeVoidOptions();
         em.persist(question);
+        //BUG: не работает каскад, приходится руками
+        boolean needMerge = false;
+        for (QuestionAnswerOption qao: question.getOptions()) {
+            if (qao.getQuestionForOption()==null) {
+                qao.setQuestionForOption(question);
+                needMerge = true;
+            }
+        }
+        if (needMerge) em.merge(question);
         return question.getId();
     }
 
@@ -41,12 +52,27 @@ public class QuestionRepositoryJPA implements QuestionRepository {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void merge(Question question) {
+        question.removeVoidOptions();
+        for (QuestionAnswerOption qao: question.getOptions()) {
+            if (qao.getQuestionForOption()==null) {
+                qao.setQuestionForOption(question);
+            }
+        }
         em.merge(question);
     }
 
     @Override
     public void delete(Long id) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<Question> getAllValidByGroup(Long idGroup) {
+        TypedQuery <Question> typedQuery = em.createQuery("SELECT q FROM Question q WHERE q.groupOfQuestion.id_group = :idGroup AND q.outdated = false", Question.class);
+        System.out.println(idGroup);
+       typedQuery.setParameter("idGroup",idGroup);
+        return typedQuery.getResultList();
     }
 }

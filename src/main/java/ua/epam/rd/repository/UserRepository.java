@@ -1,5 +1,6 @@
 package ua.epam.rd.repository;
 
+import ua.epam.rd.domain.Group;
 import ua.epam.rd.domain.User;
 
 import java.util.List;
@@ -33,4 +34,9 @@ public interface UserRepository {
     List<User> getEntryInRangeWithFilter(int first, int size, Boolean blocked, Boolean roleTeacher, Boolean sort, String regexp);
 
     User findUserByToken(String token);
+
+    long getActiveGroupMembershipCount(Long idUser);
+
+    List <Group> getActiveGroupMembership(Long idUser);
+
 }

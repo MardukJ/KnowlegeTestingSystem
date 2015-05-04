@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import ua.epam.rd.domain.Group;
 import ua.epam.rd.domain.User;
 import ua.epam.rd.service.GroupService;
-import ua.epam.rd.service.UserService;
 import ua.epam.rd.web.tools.*;
 import ua.epam.rd.web.tools.SecurityManager;
 

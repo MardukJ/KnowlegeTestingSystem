@@ -24,4 +24,51 @@ public class QuestionAnswerOption {
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn (name = "id_question")
     Question questionForOption;
+
+    public QuestionAnswerOption() {
+    }
+
+    public QuestionAnswerOption(String optionText, Boolean correctAnswer) {
+        this.optionText = optionText;
+        this.correctAnswer = correctAnswer;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        throw new UnsupportedOperationException();
+    }
+
+    public String getOptionText() {
+        return optionText;
+    }
+
+    public void setOptionText(String optionText) {
+        this.optionText = optionText;
+    }
+
+    public Boolean getCorrectAnswer() {
+        return correctAnswer;
+    }
+
+    public void setCorrectAnswer(Boolean correctAnswer) {
+        this.correctAnswer = correctAnswer;
+    }
+
+    public Question getQuestionForOption() {
+        return questionForOption;
+    }
+
+    public void setQuestionForOption(Question questionForOption) {
+        this.questionForOption = questionForOption;
+    }
+
+    public boolean verifyMe() {
+        if (optionText==null) return false;
+        if (correctAnswer==null) return false;
+        if (optionText.length()==0) return false;
+        return true;
+    }
 }

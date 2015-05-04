@@ -1,7 +1,7 @@
 package ua.epam.rd.domain;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Mykhaylo Gnylorybov on 02.05.2015.
@@ -31,9 +31,12 @@ public class Question {
     @Column (name = "ver")
     Long version=new Long(0);
 
+    @Column (name = "outdated")
+    Boolean outdated = Boolean.FALSE;
+
     //answers
-    @OneToMany (mappedBy = "questionForOption", fetch = FetchType.EAGER, orphanRemoval = true)
-    List <QuestionAnswerOption> options;
+    @OneToMany (mappedBy = "questionForOption", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
+    List<QuestionAnswerOption> options = new LinkedList<QuestionAnswerOption>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_group")
@@ -45,7 +48,7 @@ public class Question {
     }
 
     public void setId(Long id) {
-        throw new UnsupportedOperationException();
+        this.id = id;
     }
 
     public String getBody() {
@@ -77,11 +80,7 @@ public class Question {
     }
 
     public void setVersion(Long version) {
-        throw new UnsupportedOperationException("use newVersion() instead");
-    }
-
-    public void newVersion() {
-        version = new Long(version.longValue() + 1L);
+        this.version = version;
     }
 
     public Group getGroupOfQuestion() {
@@ -98,5 +97,36 @@ public class Question {
 
     public void setOptions(List<QuestionAnswerOption> options) {
         throw new UnsupportedOperationException();
+    }
+
+    public void invalidate() {
+        outdated=Boolean.TRUE;
+    }
+
+    public String verifyMe() {
+        if ((body==null) || (body.length()==0)) {
+            return "No question";
+        }
+        System.out.println("OK1");
+        if (options==null) {
+            return "No answers";
+        }
+        int optionsCount = 0;
+        for (QuestionAnswerOption o : options) {
+            if (o.getOptionText().length()>0) optionsCount++;
+        }
+        if (optionsCount == 0) return  "No answers";
+        System.out.println("OK2");
+        return null;//"question verification result";
+    }
+
+    public void removeVoidOptions() {
+        Iterator <QuestionAnswerOption> it = options.iterator();
+        while (it.hasNext()){
+            QuestionAnswerOption qao = it.next();
+            if (!qao.verifyMe()) {
+                it.remove();
+            }
+        }
     }
 }

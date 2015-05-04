@@ -18,7 +18,7 @@ public class RootController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET) // always set method
     public String rootPage(HttpSession session, Model model) {
-        if (SecurityManager.notLoggedIn(session)) {
+        if (ua.epam.rd.web.tools.SecurityManager.notLoggedIn(session)) {
             return "redirect:/login";
         }
         if (SecurityManager.isAdmin(session)) {

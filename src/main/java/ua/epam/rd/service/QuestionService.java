@@ -14,5 +14,18 @@ import java.util.List;
  */
 @Service
 public interface QuestionService {
+    Question getById(long id);
+
     List<Question> getAll();
+
+    List<Question> getAllValidByGroup(String nameOfGroup);
+
+    void delete(long id);
+
+    String getGroupNameForQuestion(long id);
+
+    Question updateVersion(Question question);
+
+    public Question saveNewQuestion(Question question, String groupName);
+
 }

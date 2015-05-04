@@ -19,4 +19,6 @@ public interface QuestionRepository {
     void merge(Question question);
 
     void delete(Long id);
+
+    List<Question> getAllValidByGroup(Long idGroup);
 }
