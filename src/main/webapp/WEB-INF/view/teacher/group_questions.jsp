@@ -67,6 +67,15 @@
       <tr>
           <th>${question.version}</th>
       </tr>
+
+                <c:if test="${question.correctOptionsCountAdvise}">
+                    <tr>
+                        <th>
+                            Correct answers number advise
+                            <input type="checkbox" checked></input>
+                        </th>
+                    </tr>
+                </c:if>
           <c:forEach items="${question.options}" var="option">
               <tr>
                   <td>

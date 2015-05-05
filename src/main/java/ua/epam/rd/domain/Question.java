@@ -34,6 +34,9 @@ public class Question {
     @Column (name = "outdated")
     Boolean outdated = Boolean.FALSE;
 
+    @Column (name = "options_advise")
+    Boolean correctOptionsCountAdvise = Boolean.FALSE;
+
     //answers
     @OneToMany (mappedBy = "questionForOption", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
     List<QuestionAnswerOption> options = new LinkedList<QuestionAnswerOption>();
@@ -97,6 +100,14 @@ public class Question {
 
     public void setOptions(List<QuestionAnswerOption> options) {
         throw new UnsupportedOperationException();
+    }
+
+    public Boolean getCorrectOptionsCountAdvise() {
+        return correctOptionsCountAdvise;
+    }
+
+    public void setCorrectOptionsCountAdvise(Boolean correctOptionsCountAdvise) {
+        this.correctOptionsCountAdvise = correctOptionsCountAdvise;
     }
 
     public void invalidate() {

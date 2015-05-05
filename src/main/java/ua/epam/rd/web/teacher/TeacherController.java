@@ -1,4 +1,4 @@
-package ua.epam.rd.web;
+package ua.epam.rd.web.teacher;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

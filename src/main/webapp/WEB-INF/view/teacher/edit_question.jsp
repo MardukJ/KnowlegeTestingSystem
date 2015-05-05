@@ -68,6 +68,11 @@
       <c:if test="${not empty groupName}">
           <input type="hidden" name="groupName" value="${groupName}">
       </c:if>
+      <label><input type="checkbox" name="correctOptionsCountAdvise"
+          <c:if test="${question.correctOptionsCountAdvise}">
+              checked
+          </c:if>
+          >Correct answers number advise</label>
       <button type="submit" name="action" value="preview">Preview</button>
       <button type="submit" name="action" value="submit">Submit</button>
   </form>
