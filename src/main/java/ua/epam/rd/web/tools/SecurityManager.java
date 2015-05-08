@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import ua.epam.rd.domain.Exam;
 import ua.epam.rd.domain.Group;
 import ua.epam.rd.domain.User;
 import ua.epam.rd.service.GroupService;
@@ -100,5 +101,15 @@ public class SecurityManager {
         if (idQuestion==null) return false;
         //get groupName
         return isUserHasAccessToGroup(questionService.getGroupNameForQuestion(idQuestion),session);
+    }
+
+    //Buffer for creation new Exam
+    public Exam getExamBuffer(HttpSession session) {
+        return (Exam)session.getAttribute("SecurityManager.ExamBuffer");
+    }
+
+    //Buffer for creation new Exam
+    public void setExamBuffer(Exam examBuffer,HttpSession session) {
+        session.setAttribute("SecurityManager.ExamBuffer", examBuffer);
     }
 }

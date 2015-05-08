@@ -21,4 +21,10 @@ public interface QuestionRepository {
     void delete(Long id);
 
     List<Question> getAllValidByGroup(Long idGroup);
+
+    public long getAllActiveByUserTotal(Long idUser);
+
+    public List<Question> getAllActiveByUser(Long idUser, int first, int size);
+
+    public List<Object> tq(Long idUser);
 }

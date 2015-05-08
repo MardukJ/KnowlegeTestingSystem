@@ -1,5 +1,8 @@
 package ua.epam.rd.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Mykhaylo Gnylorybov on 05.05.2015.
  * email: mail@marduk.ru

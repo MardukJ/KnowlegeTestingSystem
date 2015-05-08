@@ -3,6 +3,7 @@ package ua.epam.rd.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.epam.rd.domain.Question;
+import ua.epam.rd.domain.User;
 import ua.epam.rd.repository.QuestionRepository;
 
 import java.util.List;
@@ -28,4 +29,7 @@ public interface QuestionService {
 
     public Question saveNewQuestion(Question question, String groupName);
 
+    int getAllActiveByUserTotalPages(Long idUser);
+
+    List<Question> getAllActiveByUserFromPage(int page, long idUser);
 }

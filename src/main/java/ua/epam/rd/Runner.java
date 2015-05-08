@@ -2,7 +2,10 @@ package ua.epam.rd;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ua.epam.rd.domain.Exam;
+import ua.epam.rd.domain.Question;
 import ua.epam.rd.repository.ExamRepository;
 import ua.epam.rd.repository.GroupRepository;
 import ua.epam.rd.repository.QuestionRepository;
@@ -11,6 +14,40 @@ import ua.epam.rd.service.GroupService;
 import ua.epam.rd.service.QuestionService;
 import ua.epam.rd.service.UserService;
 
+import javax.persistence.OneToMany;
+import javax.persistence.TypedQuery;
+import java.util.List;
+import java.util.Objects;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import ua.epam.rd.domain.Group;
+import ua.epam.rd.domain.User;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import ua.epam.rd.domain.Group;
+import ua.epam.rd.domain.User;
+import ua.epam.rd.web.tools.Benchmark;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 /**
  * Created by Mykhaylo Gnylorybov on 23.04.2015.
  * email: mail@marduk.ru
@@ -31,19 +68,16 @@ public class Runner {
 
         ExamRepository examRepository = appContext.getBean(ExamRepository.class, "examRepository");
 
+        Long userId = 378169L;//tester
+//        Long userId = 378171L;//u1
+//        Long userId = 378170L;//u0
 
-//        System.out.println("LIST = " + userRepository.getEntryInRangeWithFilter(0, 10, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, "u10%"));
-//        System.out.println(questionService.getAll());
-
-        Exam exam = new Exam();
-
-        System.out.println("Before");
-        System.out.println(exam);
-
-        exam = examRepository.getById(new Long(480170));
-
-        System.out.println("After");
-        System.out.println(exam);
+        Benchmark bm = new Benchmark();
+        bm.start();
+        List result = questionRepository.tq(userId);
+        bm.stop();
+        System.out.println("time=" + bm.getDifferce());
+        System.out.println(result.size());
 
         appContext.close();
     }

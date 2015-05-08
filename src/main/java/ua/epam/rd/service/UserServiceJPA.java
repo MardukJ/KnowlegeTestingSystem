@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import ua.epam.rd.domain.Group;
 import ua.epam.rd.domain.Token;
 import ua.epam.rd.domain.TokenType;
@@ -43,7 +44,9 @@ public class UserServiceJPA implements UserService {
     }
 
     @Override
+    //2DO: Mail notification
     @Transactional(propagation = Propagation.REQUIRED)
+    @ExceptionHandler({IllegalArgumentException.class})
     public Long registerNew(User newUser) {
         if (newUser == null) throw new IllegalArgumentException("nothing to register");
 
@@ -78,7 +81,7 @@ public class UserServiceJPA implements UserService {
         /*
             http://www.baeldung.com/jpa-pagination
         */
-        //int pages = (int) ((userRepository.getTotalEntry() / PAGE_SIZE) + 1);
+        //int pages = (int) ((userRepository.getTotalEntry() / PAGE_SIZE_BY_USER) + 1);
         long totalEntry = userRepository.getTotalEntry();
         int pages = (int) (totalEntry / PAGE_SIZE + (totalEntry % PAGE_SIZE == 0 ? 0 : 1));
         if (pages == 0) pages = 1;

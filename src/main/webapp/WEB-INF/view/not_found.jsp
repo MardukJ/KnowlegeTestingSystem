@@ -14,5 +14,8 @@
 </head>
 <body>
 <p align="center">Sorry, the page you were looking for doesn’t exist.</p>
+<center>
+<img align="center" src="/resources/img/symbol.png">
+</center>
 </body>
 </html>

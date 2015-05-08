@@ -15,6 +15,8 @@ import javax.persistence.*;
 import java.security.MessageDigest;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Entity
 @Table(name = "users")
@@ -116,7 +118,14 @@ public class User {
 
     public String verifyMe() {
         //null if all field r correct
-        throw new UnsupportedOperationException();
+        final String EMAIL_PATTERN = "[a-z0-9.@]";
+        Pattern p = Pattern.compile(EMAIL_PATTERN);
+        Matcher m = p.matcher(email);
+        if (!m.matches()) {
+            return "Incorrect email";
+        } else {
+            return null;
+        }
     }
 
     @Override

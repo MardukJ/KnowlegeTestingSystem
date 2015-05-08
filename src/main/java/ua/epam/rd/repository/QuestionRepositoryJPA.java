@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import javax.persistence.Query;
 
 /**
  * Created by Mykhaylo Gnylorybov on 02.05.2015.
@@ -73,6 +74,62 @@ public class QuestionRepositoryJPA implements QuestionRepository {
         TypedQuery <Question> typedQuery = em.createQuery("SELECT q FROM Question q WHERE q.groupOfQuestion.id_group = :idGroup AND q.outdated = false", Question.class);
         System.out.println(idGroup);
        typedQuery.setParameter("idGroup",idGroup);
+        return typedQuery.getResultList();
+    }
+
+    @Override
+    @Transactional (propagation = Propagation.SUPPORTS, readOnly = true)
+    @Deprecated
+    public long getAllActiveByUserTotal(Long idUser) {
+        Query query = em.createQuery(
+                "SELECT count (q) FROM Question q " +
+                        "JOIN q.groupOfQuestion g " +
+                        "JOIN g.members u " +
+                        "WHERE :uid in u.id " +
+                        "AND q.outdated = false " +
+                        "AND g.blocked = false");
+        query.setParameter("uid", idUser);
+        long countResult = (long) query.getSingleResult();
+        return countResult;
+    }
+
+    @Override
+    @Transactional (propagation = Propagation.SUPPORTS, readOnly = true)
+    @Deprecated
+    public List<Question> getAllActiveByUser(Long idUser, int first, int size) {
+        TypedQuery <Question> typedQuery = em.createQuery(
+                "SELECT q FROM Question q " +
+                        "JOIN q.groupOfQuestion g " +
+                        "JOIN g.members u " +
+                        "WHERE :uid in u.id " +
+                        "AND q.outdated = false " +
+                        "AND g.blocked = false", Question.class);
+        typedQuery.setParameter("uid", idUser);
+        typedQuery.setFirstResult(first);
+        typedQuery.setMaxResults(size);
+        return typedQuery.getResultList();
+    }
+
+    @Override
+    @Transactional (propagation = Propagation.SUPPORTS, readOnly = true)
+    @Deprecated
+    public List<Object> tq(Long idUser) {
+        //MUCK
+//        TypedQuery <Object> typedQuery = em.createQuery(
+//                "SELECT q FROM Question q " +
+//                "WHERE q.outdated = false " +
+//                "AND q.groupOfQuestion.blocked = false", Object.class);
+        TypedQuery <Object> typedQuery = em.createQuery(
+                "SELECT q FROM Question q " +
+                "JOIN q.groupOfQuestion g " +
+                "JOIN g.members u " +
+                "WHERE :uid in u.id " +
+                "AND q.outdated = false " +
+                "AND g.blocked = false", Object.class);
+        typedQuery.setParameter("uid", idUser);
+
+        // AND q.groupOfQuestion.id_group = :idGroup
+
         return typedQuery.getResultList();
     }
 }

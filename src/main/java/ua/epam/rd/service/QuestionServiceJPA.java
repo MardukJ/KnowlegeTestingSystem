@@ -18,6 +18,9 @@ import java.util.List;
  */
 @Service
 public class QuestionServiceJPA implements QuestionService {
+
+    final static int PAGE_SIZE_BY_USER = 5;
+
     @Autowired
     QuestionRepository questionRepostitory;
     @Autowired
@@ -26,7 +29,6 @@ public class QuestionServiceJPA implements QuestionService {
     @Override
     public Question getById(long id) {
         Question result =questionRepostitory.getById(id);
-//        result.getGroupOfQuestion().getId();
         return result;
     }
 
@@ -91,5 +93,18 @@ public class QuestionServiceJPA implements QuestionService {
         question.setGroupOfQuestion(group);
         questionRepostitory.add(question);
         return question;
+    }
+
+    @Override
+    public int getAllActiveByUserTotalPages(Long idUser) {
+        long totalEntry = questionRepostitory.getAllActiveByUserTotal(idUser);
+        int pages = (int) (totalEntry / PAGE_SIZE_BY_USER + (totalEntry % PAGE_SIZE_BY_USER == 0 ? 0 : 1));
+        if (pages == 0) pages = 1;
+        return pages;
+    }
+
+    @Override
+    public List<Question> getAllActiveByUserFromPage(int page, long idUser) {
+        return questionRepostitory.getAllActiveByUser(idUser,(page - 1) * PAGE_SIZE_BY_USER, PAGE_SIZE_BY_USER);
     }
 }

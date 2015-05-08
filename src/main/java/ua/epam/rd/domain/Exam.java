@@ -40,6 +40,9 @@ public class Exam {
     @Column (name = "test_time_min")
     private Integer testTimeInMinutes = new Integer(30);
 
+    @Column (name = "show_results")
+    private Boolean showResults = Boolean.TRUE;
+
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn (name = "id_user_creator")
     private User creator = null;
@@ -110,6 +113,14 @@ public class Exam {
 
     public void setTestTimeInMinutes(Integer testTimeInMinutes) {
         this.testTimeInMinutes = testTimeInMinutes;
+    }
+
+    public Boolean getShowResults() {
+        return showResults;
+    }
+
+    public void setShowResults(Boolean showResults) {
+        this.showResults = showResults;
     }
 
     public User getCreator() {
