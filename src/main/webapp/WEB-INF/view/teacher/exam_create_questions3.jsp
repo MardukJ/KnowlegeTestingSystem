@@ -58,7 +58,7 @@
         <option >False</option>
         <option <c:if test="${myExam.showResults}">selected</c:if>>True</option>
     </select><BR>
-    <button type="submit">Create</button>
+    <button type="submit" name="action" value="create">Create</button>
 </form>
 
 <form action="/teacher/create_exam_user" method="get">

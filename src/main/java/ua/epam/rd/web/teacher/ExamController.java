@@ -10,12 +10,14 @@ import ua.epam.rd.domain.Exam;
 import ua.epam.rd.domain.Question;
 import ua.epam.rd.domain.ScoringAlgorithm;
 import ua.epam.rd.domain.User;
+import ua.epam.rd.service.ExamService;
 import ua.epam.rd.service.QuestionService;
 import ua.epam.rd.service.UserService;
 import ua.epam.rd.web.tools.*;
 import ua.epam.rd.web.tools.SecurityManager;
 
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -37,6 +39,9 @@ public class ExamController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    ExamService examService;
 
     @RequestMapping(value = "/teacher/exams")
     public String teacherMenu(HttpSession session, Model model) {
@@ -67,7 +72,10 @@ public class ExamController {
         bm.start();
         //try to action
         Exam myExam = securityManager.getExamBuffer(session);
-        if (myExam == null) myExam = new Exam();
+        if (myExam == null) {
+            myExam = new Exam();
+            myExam.setCreator(userService.getUserInfo(SecurityManager.getLogin(session)));
+        }
         Long idQuestionParam;
         try {
             idQuestionParam = Long.valueOf(idQuestion);
@@ -332,6 +340,10 @@ public class ExamController {
                                   @RequestParam(required = false) String testTimeInMinutesParam,
                                   @RequestParam(required = false) String showResultsParam,
                                   HttpSession session, Model model) {
+
+        final int MAX_LATE_TIME_CAP = 1440;
+        final int TEST_TIME_IN_MINUTES_CAP = 1440;
+
         Benchmark bm = new Benchmark();
         bm.start();
 
@@ -353,15 +365,84 @@ public class ExamController {
             return view_back_to_step_2;
         }
 
+        //Form reading
+        //nameParam
+        if (nameParam!=null) myExam.setName(nameParam);
+
+        //scoringAlgorithmParam
+        try {
+            myExam.setScoringAlgorithm(ScoringAlgorithm.valueOf(scoringAlgorithmParam));
+        }
+        catch (Exception e) {
+            //ignore
+        }
+
+        //maxLateTimeInMinutesParam
+        try {
+            int maxLateTimeInMinutes = Integer.parseInt(maxLateTimeInMinutesParam);
+            if (maxLateTimeInMinutes<0) {
+                maxLateTimeInMinutes=0;
+            } else if (maxLateTimeInMinutes>MAX_LATE_TIME_CAP){
+                maxLateTimeInMinutes=MAX_LATE_TIME_CAP;
+            }
+            myExam.setMaxLateTimeInMinutes(maxLateTimeInMinutes);
+        }
+        catch (Exception e) {
+            //ignore
+        }
+
+        //testTimeInMinutesParam
+        try {
+            int testTimeInMinutes = Integer.parseInt(testTimeInMinutesParam);
+            if (testTimeInMinutes<1) {
+                testTimeInMinutes=1;
+            } else if (testTimeInMinutes>TEST_TIME_IN_MINUTES_CAP){
+                testTimeInMinutes=TEST_TIME_IN_MINUTES_CAP;
+            }
+            myExam.setTestTimeInMinutes(testTimeInMinutes);
+        }
+        catch (Exception e) {
+            //ignore
+        }
+
+        //showResultsParam
+        try {
+            Boolean showResults = Boolean.valueOf(showResultsParam);
+            myExam.setShowResults(showResults);
+        }
+        catch (Exception e) {
+            //ignore
+        }
+
+        //date&time
+        try {
+            //        SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+            SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+            Date dateParam = inFormat.parse(startWindowOpenParamD + "T" + startWindowOpenParamT);
+            myExam.setStartWindowOpen(dateParam);
+        }
+        catch (Exception e) {
+            //ignore
+        }
+
         //Save changes
         securityManager.setExamBuffer(myExam, session);
 
-        myExam.setName("dsfs");
-        myExam.setScoringAlgorithm(ScoringAlgorithm.FULL_MATCH);
-        myExam.setMaxLateTimeInMinutes(2);
-        myExam.setTestTimeInMinutes(44);
-        myExam.setStartWindowOpen(new Date(System.currentTimeMillis()));
+        //create exam action
+        if ("create".equals(action)) {
+            String verifyResults = myExam.verifyMe();
+            if (verifyResults!=null) {
+                model.addAttribute("msg", verifyResults);
+            } else {
+                //saving new exam
+                examService.saveNewExam(securityManager.getExamBuffer(session));
+                securityManager.setExamBuffer(null,session);
+                return "redirect:/";
+                //2do - redirect to new exam page
+            }
+        }
 
+        //Form filling
         model.addAttribute("myExam", myExam);
         model.addAttribute("DD", String.format("%02d", myExam.getStartWindowOpen().getDate()));
         model.addAttribute("MONTH",String.format("%02d", myExam.getStartWindowOpen().getMonth()+1));

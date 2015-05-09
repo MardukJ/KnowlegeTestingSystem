@@ -146,4 +146,14 @@ public class Exam {
     public void setQuestions(List<Question> questions) {
         throw new UnsupportedOperationException();
     }
+
+    public String verifyMe(){
+        if (name.length()<5) {
+            return "The name must be at least 5 characters long";
+        }
+        if (startWindowOpen.getTime()<=System.currentTimeMillis()) {
+            return "Incorrect time";
+        }
+        return null;
+    }
 }

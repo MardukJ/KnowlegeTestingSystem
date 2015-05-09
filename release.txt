@@ -89,17 +89,18 @@ VERSION 0.10
 4) +Exam controller
 
 VERSION 0.11
+09.05.2015
 teachers options:
 1) +Create Exam (temporary - in session)
-2) Add questions
+2) +Add questions
     + my available w pagination
     + added to test w pagination
 3) +Modify questions list
 4) +Add user (existing)
 5) +Add user (register new)
 6) +Modify user list
-7) Config test
-8) Save test/cancel test mock(send invites -> later)
+7) +Config test
+8) +Save test/cancel test mock(send invites -> later)
 
 VERSION 0.12
 1) Invite DAO
