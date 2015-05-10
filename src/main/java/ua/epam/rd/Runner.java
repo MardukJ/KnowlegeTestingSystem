@@ -4,8 +4,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import ua.epam.rd.domain.Exam;
-import ua.epam.rd.domain.Question;
+import ua.epam.rd.domain.*;
 import ua.epam.rd.repository.ExamRepository;
 import ua.epam.rd.repository.GroupRepository;
 import ua.epam.rd.repository.QuestionRepository;
@@ -21,8 +20,6 @@ import java.util.Objects;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import ua.epam.rd.domain.Group;
-import ua.epam.rd.domain.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

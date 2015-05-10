@@ -47,10 +47,14 @@ public class Exam {
     @JoinColumn (name = "id_user_creator")
     private User creator = null;
 
-    @ManyToMany (fetch = FetchType.LAZY)
-    @JoinTable(name = "join_exam_users",
-    joinColumns = {@JoinColumn(name = "id_exam_ref", referencedColumnName = "id_exam")},
-    inverseJoinColumns = {@JoinColumn(name = "id_user_ref", referencedColumnName = "id_user")})
+    @OneToMany (fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "inviteExam")
+    private List <Invite> invites = new LinkedList<Invite>();
+
+//    @ManyToMany (fetch = FetchType.LAZY)
+//    @JoinTable(name = "join_exam_users",
+//    joinColumns = {@JoinColumn(name = "id_exam_ref", referencedColumnName = "id_exam")},
+//    inverseJoinColumns = {@JoinColumn(name = "id_user_ref", referencedColumnName = "id_user")})
+    @Transient
     private List <User> recievers = new LinkedList<User>();
 
     @ManyToMany (fetch = FetchType.LAZY)

@@ -103,10 +103,10 @@ teachers options:
 8) +Save test/cancel test mock(send invites -> later)
 
 VERSION 0.12
-1) Invite DAO
-2) Invite Repository
-3) Invite service
-4) Invite controller
+1) +Invite DAO
+2) +Invite Repository
+3) +Invite service
+4) +Invite controller
 
 VERSION 0.13
 1) Send invites by test
@@ -161,4 +161,8 @@ refactor new_question/edit_question backend with MAP <String, String>
     @RequestMapping(value = "/teacher/edit_question", params = "action")
     public String editQuestion(@ModelAttribute Question question
 
-questions->block execution
+questions->block execution if script in body
+
+Exam & question creation page -> only by post method
+
+2do: should exam link to users? mb only

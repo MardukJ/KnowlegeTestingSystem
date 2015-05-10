@@ -14,36 +14,36 @@ public class Question {
     @Id
     @GeneratedValue
     @Column (name = "id_question")
-    Long id;
+    private Long id;
 
     @Column (name = "body")
     //question itself
-    String body;
+    private String body;
 
     @Column (name = "teachers_comment")
     //comment for teacher
-    String teacherComment;
+    private String teacherComment;
 
     @Column (name = "review_comment")
     //comment for review
-    String reviewComment;
+    private String reviewComment;
 
     @Column (name = "ver")
-    Long version=new Long(0);
+    private Long version=new Long(0);
 
     @Column (name = "outdated")
-    Boolean outdated = Boolean.FALSE;
+    private Boolean outdated = Boolean.FALSE;
 
     @Column (name = "options_advise")
-    Boolean correctOptionsCountAdvise = Boolean.FALSE;
+    private Boolean correctOptionsCountAdvise = Boolean.FALSE;
 
     //answers
     @OneToMany (mappedBy = "questionForOption", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
-    List<QuestionAnswerOption> options = new LinkedList<QuestionAnswerOption>();
+    private List<QuestionAnswerOption> options = new LinkedList<QuestionAnswerOption>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_group")
-    Group groupOfQuestion;
+    private Group groupOfQuestion;
 
 
     public Long getId() {

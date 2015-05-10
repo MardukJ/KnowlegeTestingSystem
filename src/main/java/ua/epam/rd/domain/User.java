@@ -42,6 +42,9 @@ public class User {
     @ManyToMany(mappedBy = "members", fetch = FetchType.LAZY)
     List<Group> membership = new LinkedList<Group>();
 
+    @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "inviteReceiver")
+    List <Invite> invites = new LinkedList<Invite>();
+
     public Long getId() {
         return id;
     }

@@ -9,7 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table (name = "questions_answers_options")
-public class QuestionAnswerOption {
+public class  QuestionAnswerOption {
     @Id
     @GeneratedValue
     @Column (name = "id_qao")
