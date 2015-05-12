@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ua.epam.rd.domain.Invite;
+import ua.epam.rd.domain.InviteStatus;
 import ua.epam.rd.repository.InviteRepostiory;
 
 /**
@@ -39,9 +40,10 @@ public class InviteServiceJPA implements InviteService {
     @Override
     @Transactional (propagation = Propagation.REQUIRED)
     public Invite forceFinish(Long idInvite) {
-        Invite invite= inviteRepostitory.getById(idInvite);
-        if (invite==null) throw new UnsupportedOperationException();
+        Invite invite = inviteRepostitory.getById(idInvite);
+        if (invite == null) throw new UnsupportedOperationException();
         invite.getScore();
+
         inviteRepostitory.merge(invite);
 
         //2do SEND MAIL HERE

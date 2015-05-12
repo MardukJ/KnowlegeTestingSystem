@@ -142,6 +142,12 @@ public class Invite {
     public int getScore() {
         result=0;
         maxResult=0;
+
+        if (checkTimeout() && inviteStatus.equals(InviteStatus.NEW)) {
+            inviteStatus=InviteStatus.NO_SHOW;
+            return result;
+        }
+
         if (inviteStatus.equals(InviteStatus.FINISHED) || inviteStatus.equals(InviteStatus.CANCELED))
             throw new IllegalStateException("Invalid invite status, getScore(),invite = " + getId());
         switch (inviteExam.getScoringAlgorithm()) {
@@ -195,7 +201,7 @@ public class Invite {
     }
 
     public boolean checkTimeout() {
-
+        System.out.println("invite.checkTimeout");
         return true;
     };
 }

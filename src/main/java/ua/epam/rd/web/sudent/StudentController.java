@@ -114,12 +114,14 @@ public class StudentController {
             //check test timeout HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             if (invite.checkTimeout()) {
                 //timeout
-                invite = inviteService.forceFinish(invite.getId());
+                inviteService.forceFinish(invite.getId());
+                invite =inviteService.getByIdWExamAndUser(inviteId);
                 model.addAttribute("invite", invite);
                 view = examResult;
             } else if ("finish".equals(action)) {
                 //finish
-                invite = inviteService.forceFinish(invite.getId());
+                inviteService.forceFinish(invite.getId());
+                invite =inviteService.getByIdWExamAndUser(inviteId);
                 model.addAttribute("invite", invite);
                 view = examResult;
             } else if ("do".equals(action) || status.equals(InviteStatus.IN_PROGRESS)) {
