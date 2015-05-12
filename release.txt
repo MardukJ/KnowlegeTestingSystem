@@ -114,17 +114,28 @@ VERSION 0.13
 3) +Sens email when registered
 
 VERSION 0.14
+12.05.2015
 Students options:
 1) +My test list (student)
 2) +Join test (student)
 3) +Test waiting page
 3) +Test question page (student)
-4) Pass test (student)
 
 VERSION 0.15
 1) +Test result %
+2) +Detail test result
+3) +Pass test (student)
+5) +Correct test status
+6) +Exclude canceled test from students view)
+7) +Correct page redirect (wait, start, pass, result)
+
+
+)InviteField -> real start time
+)Test timeout
+
+4) Mail w result
+
 2) -... no details till everybody finish
-3) +Detail test result
 4) Results to teacher
 5) Teacher result list
 
@@ -132,6 +143,7 @@ VERSION 0.16
 1) Watchdog & exceptional situations (no show, etc.)
 2) Post method only for some pages
 3) Default 500 page
+4) Email pattern
 
 VERSION 0.17
 1) final test

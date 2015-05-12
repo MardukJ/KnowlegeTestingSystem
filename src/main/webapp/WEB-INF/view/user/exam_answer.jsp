@@ -58,6 +58,13 @@
     <p><input type="submit" value="Next"></p>
 </form>
 
+
+<form action="/exam" method="get">
+    <input type="hidden" name="inviteIdParam" value="${requestScope.invite.id}">
+    <input type="hidden" name="action" value="finish">
+    <p><input type="submit" value="Get results"></p>
+</form>
+
 <h3 align="center">Creation time (ms): ${creationTime}</h3>
 </body>
 </html>

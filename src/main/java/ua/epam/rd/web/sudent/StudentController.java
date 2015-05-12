@@ -14,6 +14,9 @@ import ua.epam.rd.web.tools.*;
 import ua.epam.rd.web.tools.SecurityManager;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,8 +45,13 @@ public class StudentController {
 
         String view = "/user/exams";
 
-
-        model.addAttribute("invitesList", userService.getInvitesByUser(SecurityManager.getID(session)));
+        List<Invite> invites = userService.getInvitesByUser(SecurityManager.getID(session));
+        Iterator <Invite> it = invites.iterator();
+        while (it.hasNext()) {
+            if (it.next().getInviteStatus().equals(InviteStatus.CANCELED))
+                it.remove();
+        }
+        model.addAttribute("invitesList", invites);
 
         bm.stop();
         model.addAttribute("creationTime", bm.getDifferce());
@@ -74,67 +82,87 @@ public class StudentController {
             questionIdL = Long.valueOf(questionIdParam);
         }
 
-        //not logged in
+        //security: not logged in
         if (ua.epam.rd.web.tools.SecurityManager.notLoggedIn(session)) return "redirect:/*";
+
+        //security: no invite or no access
         Invite invite = inviteService.getByIdWExamAndUser(inviteId);
-        //no invite or no access
         if ((invite==null) || (!invite.getInviteReceiver().getId().equals(SecurityManager.getID(session)))) {
             return backToExamsList;
         }
 
+        // parse index
         Long indexL = null;
         try {
             indexL = Long.valueOf(index);
-            if (indexL<0) {
-                indexL=new Long(0);
-            } else if (indexL>=invite.getInviteExam().getQuestions().size()) {
-                indexL=new Long(0);
+            if ((indexL<0) || (indexL>=invite.getInviteExam().getQuestions().size())) {
+                indexL=0L;
             }
         } catch (Exception e) {
-            indexL = new Long(0);
+            indexL = 0L;
         }
 
-        //action
-        if ("do".equals(action)) {
-            //simple exam page
-            view = examAnswer;
-            model.addAttribute("invite",invite);
-            model.addAttribute("question",invite.getInviteExam().getQuestions().get(indexL.intValue()));
-            model.addAttribute("questionIndex",indexL);
-        } else if ("save".equals(action)) {
-            //saving answers
-            Map<String, String[]> params = webRequest.getParameterMap();
-            Question question = invite.getInviteExam().getQuestions().get(indexL.intValue());
-            for (QuestionAnswerOption o : question.getOptions()) {
-                String search = o.getId().toString();
-                boolean hasParam = false;
-                String value [] =params.get("option");
-                if (value!=null) {
-                    for (String param : value) {
-                        if ((param != null) && (param.equals(search))) {
-                            hasParam = true;
-                            break;
-                        }
-                    }
-                }
-                if (hasParam) {
-                    invite.setAnswerForQuestionOption(o.getId(),Boolean.TRUE);
-                } else {
-                    invite.setAnswerForQuestionOption(o.getId(), Boolean.FALSE);
-                }
-            }
-            inviteService.save(invite);
-
-            view = examAnswer;
-            model.addAttribute("invite",invite);
-            model.addAttribute("question",invite.getInviteExam().getQuestions().get(indexL.intValue()));
-            model.addAttribute("questionIndex",indexL);
-        } else {
-            //No action - just view result/wait for new/approve begin
-            if ((invite.getInviteStatus().equals(InviteStatus.FINISHED)) || (invite.getInviteStatus().equals(InviteStatus.NO_SHOW))) {
+        InviteStatus status = invite.getInviteStatus();
+        if (status.equals(InviteStatus.CANCELED)) {
+            //canceled exam - redirect
+            view = backToExamsList;
+        } else if ((status.equals(InviteStatus.FINISHED)) || (status.equals(InviteStatus.NO_SHOW))) {
+            //show results
+            model.addAttribute("invite", invite);
+            view = examResult;
+        } else if ((status.equals(InviteStatus.NEW)) || (status.equals(InviteStatus.IN_PROGRESS))) {
+            //check test timeout HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            if (invite.checkTimeout()) {
+                //timeout
+                invite = inviteService.forceFinish(invite.getId());
                 model.addAttribute("invite", invite);
                 view = examResult;
-            } else if (invite.getInviteStatus().equals(InviteStatus.NEW)) {
+            } else if ("finish".equals(action)) {
+                //finish
+                invite = inviteService.forceFinish(invite.getId());
+                model.addAttribute("invite", invite);
+                view = examResult;
+            } else if ("do".equals(action) || status.equals(InviteStatus.IN_PROGRESS)) {
+                //simple exam page
+                //change invite status, if required
+                if (invite.getInviteStatus().equals(InviteStatus.NEW)) {
+                    invite.setInviteStatus(InviteStatus.IN_PROGRESS);
+                    inviteService.save(invite);
+                }
+                view = examAnswer;
+                model.addAttribute("invite",invite);
+                model.addAttribute("question", invite.getInviteExam().getQuestions().get(indexL.intValue()));
+                model.addAttribute("questionIndex",indexL);
+            } else if ("save".equals(action)) {
+                //saving answers
+                Map<String, String[]> params = webRequest.getParameterMap();
+                Question question = invite.getInviteExam().getQuestions().get(indexL.intValue());
+                for (QuestionAnswerOption o : question.getOptions()) {
+                    String search = o.getId().toString();
+                    boolean hasParam = false;
+                    String value [] =params.get("option");
+                    if (value!=null) {
+                        for (String param : value) {
+                            if ((param != null) && (param.equals(search))) {
+                                hasParam = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (hasParam) {
+                        invite.setAnswerForQuestionOption(o.getId(),Boolean.TRUE);
+                    } else {
+                        invite.setAnswerForQuestionOption(o.getId(), Boolean.FALSE);
+                    }
+                }
+                inviteService.save(invite);
+
+                view = examAnswer;
+                model.addAttribute("invite",invite);
+                model.addAttribute("question",invite.getInviteExam().getQuestions().get(indexL.intValue()));
+                model.addAttribute("questionIndex",indexL);
+            } else {
+                //wait page
                 long waitTimer = invite.getInviteExam().getStartWindowOpen().getTime() - System.currentTimeMillis();
                 if (waitTimer > 0) {
                     //test not stated yet - show timer
@@ -150,7 +178,6 @@ public class StudentController {
                     model.addAttribute("invite", invite);
                     view = examStart;
                 }
-                //СЮДА ПРОВЕРКУ НА ОПОЗДАНИЕ
             }
         }
 
@@ -158,4 +185,5 @@ public class StudentController {
         model.addAttribute("creationTime", bm.getDifferce());
         return view;
     }
+
 }

@@ -35,4 +35,18 @@ public class InviteServiceJPA implements InviteService {
     public void save(Invite invite) {
         inviteRepostitory.merge(invite);
     }
+
+    @Override
+    @Transactional (propagation = Propagation.REQUIRED)
+    public Invite forceFinish(Long idInvite) {
+        Invite invite= inviteRepostitory.getById(idInvite);
+        if (invite==null) throw new UnsupportedOperationException();
+        invite.getScore();
+        inviteRepostitory.merge(invite);
+
+        //2do SEND MAIL HERE
+
+
+        return invite;
+    }
 }

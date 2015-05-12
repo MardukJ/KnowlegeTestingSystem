@@ -28,7 +28,7 @@ public class Exam {
 
     @Enumerated (EnumType.STRING)
     @Column (name = "scoring_algorithm")
-    private ScoringAlgorithm scoringAlgorithm = ScoringAlgorithm.DEFAULT;
+    private ScoringAlgorithm scoringAlgorithm = ScoringAlgorithm.A;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column (name = "start_time")

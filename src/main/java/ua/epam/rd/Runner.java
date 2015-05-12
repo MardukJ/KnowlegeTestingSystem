@@ -9,9 +9,7 @@ import ua.epam.rd.repository.ExamRepository;
 import ua.epam.rd.repository.GroupRepository;
 import ua.epam.rd.repository.QuestionRepository;
 import ua.epam.rd.repository.UserRepository;
-import ua.epam.rd.service.GroupService;
-import ua.epam.rd.service.QuestionService;
-import ua.epam.rd.service.UserService;
+import ua.epam.rd.service.*;
 
 import javax.persistence.OneToMany;
 import javax.persistence.TypedQuery;
@@ -64,17 +62,13 @@ public class Runner {
         QuestionService questionService = appContext.getBean(QuestionService.class, "questionService");
 
         ExamRepository examRepository = appContext.getBean(ExamRepository.class, "examRepository");
+        ExamService examService = appContext.getBean(ExamService.class, "examService");
 
-        Long userId = 378169L;//tester
-//        Long userId = 378171L;//u1
-//        Long userId = 378170L;//u0
+        InviteService inviteService = appContext.getBean(InviteService.class, "inviteService");
 
-        Benchmark bm = new Benchmark();
-        bm.start();
-        List result = questionRepository.tq(userId);
-        bm.stop();
-        System.out.println("time=" + bm.getDifferce());
-        System.out.println(result.size());
+        Long inviteID = new Long(480664);
+        Invite invite = inviteService.getByIdWExamAndUser(inviteID);
+        System.out.println(invite.getScore());
 
         appContext.close();
     }

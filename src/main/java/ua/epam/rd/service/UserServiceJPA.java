@@ -12,6 +12,7 @@ import ua.epam.rd.repository.UserRepository;
 import ua.epam.rd.service.mail.MailComposer;
 import ua.epam.rd.service.mail.MailService;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 

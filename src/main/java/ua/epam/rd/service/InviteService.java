@@ -17,4 +17,6 @@ public interface InviteService {
     Invite getByIdWExamAndUser (Long idInvite);
 
     void save(Invite invite);
+
+    Invite forceFinish(Long idInvite);
 }

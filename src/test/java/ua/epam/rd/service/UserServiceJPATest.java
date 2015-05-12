@@ -68,7 +68,7 @@ public class UserServiceJPATest {
         UserRepository mockRepository = mock(UserRepository.class);
         UserService userService = new UserServiceJPA(mockRepository);
 
-        String mail = "1234567890";
+        String mail = "Ы1234567890";
 
         User user = mock(User.class);
         when(user.getEmail()).thenReturn(mail);

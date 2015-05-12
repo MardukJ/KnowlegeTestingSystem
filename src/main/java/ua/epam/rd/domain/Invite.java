@@ -118,6 +118,16 @@ public class Invite {
         throw  new IllegalStateException();
     }
 
+    //for scoring algorithm
+    public Boolean getAnswerForQuestionOption(Long idQAO) {
+        for (InviteAnswer a: inviteAnswers) {
+            if (a.getQuestionAnswerOption().getId().equals(idQAO)) {
+                return a.getUserChoise();
+            }
+        }
+        throw  new IllegalStateException();
+    }
+
     //for result saving
     public void setAnswerForQuestionOption(Long idQAO, Boolean choice) {
         for (InviteAnswer a: inviteAnswers) {
@@ -128,4 +138,64 @@ public class Invite {
         }
         throw  new IllegalStateException();
     }
+
+    public int getScore() {
+        result=0;
+        maxResult=0;
+        if (inviteStatus.equals(InviteStatus.FINISHED) || inviteStatus.equals(InviteStatus.CANCELED))
+            throw new IllegalStateException("Invalid invite status, getScore(),invite = " + getId());
+        switch (inviteExam.getScoringAlgorithm()) {
+            case A:
+                maxResult=inviteExam.getQuestions().size();
+
+                for (Question q: inviteExam.getQuestions()) {
+                    boolean correct = true;
+                    for (QuestionAnswerOption o: q.getOptions()) {
+                        Boolean correctAnswer = o.correctAnswer;
+                        Boolean userAnswer = getAnswerForQuestionOption(o.getId());
+                        if (!correctAnswer.equals(userAnswer)) {
+                            correct = false;
+                            break;
+                        }
+                    }
+                    if (correct) result ++;
+                }
+
+                break;
+            case B:
+                for (Question q: inviteExam.getQuestions()) {
+                    for (QuestionAnswerOption qao: q.getOptions()) {
+                        if (qao.correctAnswer.equals(Boolean.TRUE)) {
+                            maxResult++;
+                        }
+                    }
+                }
+
+                for (Question q: inviteExam.getQuestions()) {
+                    int questionResult = 0;
+                    for (QuestionAnswerOption o: q.getOptions()) {
+                        Boolean correctAnswer = o.correctAnswer;
+                        Boolean userAnswer = getAnswerForQuestionOption(o.getId());
+                        if (userAnswer.equals(Boolean.TRUE)) {
+                            if (correctAnswer.equals(userAnswer)) {
+                                questionResult++;
+                            } else {
+                                questionResult--;
+                            }
+                        }
+                    }
+                    if (questionResult>0) result+=questionResult;
+                }
+                break;
+            default:
+                throw new IllegalStateException("Unknown scoring algorithm,Invite.getScore() , exam id=" + inviteExam.getId());
+        }
+        inviteStatus=InviteStatus.FINISHED;
+        return result;
+    }
+
+    public boolean checkTimeout() {
+
+        return true;
+    };
 }
