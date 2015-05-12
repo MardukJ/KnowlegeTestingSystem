@@ -9,4 +9,6 @@ import ua.epam.rd.domain.Exam;
  */
 public interface ExamService {
     public Long saveNewExam(Exam exam);
+
+    public Exam getById(Long idExam);
 }

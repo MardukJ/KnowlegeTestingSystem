@@ -18,11 +18,52 @@ public class InviteAnswer {
     @Column (name = "choise")
     private Boolean userChoise = Boolean.FALSE;
 
-    @ManyToOne (fetch = FetchType.LAZY)
+    //WTF? EAGER?
+    @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn (name = "id_qao")
     private QuestionAnswerOption questionAnswerOption;
 
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn (name = "id_invite")
     private Invite parentInvite;
+
+    public InviteAnswer() {
+    }
+
+    public InviteAnswer(QuestionAnswerOption questionAnswerOption, Invite parentInvite) {
+        this.questionAnswerOption = questionAnswerOption;
+        this.parentInvite = parentInvite;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Boolean getUserChoise() {
+        return userChoise;
+    }
+
+    public void setUserChoise(Boolean userChoise) {
+        this.userChoise = userChoise;
+    }
+
+    public QuestionAnswerOption getQuestionAnswerOption() {
+        return questionAnswerOption;
+    }
+
+    public void setQuestionAnswerOption(QuestionAnswerOption questionAnswerOption) {
+        this.questionAnswerOption = questionAnswerOption;
+    }
+
+    public Invite getParentInvite() {
+        return parentInvite;
+    }
+
+    public void setParentInvite(Invite parentInvite) {
+        this.parentInvite = parentInvite;
+    }
 }

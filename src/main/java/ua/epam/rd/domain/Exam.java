@@ -151,6 +151,14 @@ public class Exam {
         throw new UnsupportedOperationException();
     }
 
+    public List<Invite> getInvites() {
+        return invites;
+    }
+
+    public void setInvites(List<Invite> invites) {
+        throw new UnsupportedOperationException();
+    }
+
     public String verifyMe(){
         if (name.length()<5) {
             return "The name must be at least 5 characters long";

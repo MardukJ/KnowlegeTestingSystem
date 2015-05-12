@@ -6,10 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import ua.epam.rd.domain.Group;
-import ua.epam.rd.domain.Token;
-import ua.epam.rd.domain.TokenType;
-import ua.epam.rd.domain.User;
+import ua.epam.rd.domain.*;
 import ua.epam.rd.repository.GroupRepository;
 import ua.epam.rd.repository.UserRepository;
 import ua.epam.rd.service.mail.MailComposer;
@@ -59,6 +56,9 @@ public class UserServiceJPA implements UserService {
         if (errorMsg != null) {
             throw new IllegalArgumentException(errorMsg);
         }
+
+        //Email notification
+        mailService.sendMailNoConfirmation(newUser.getEmail(), new MailComposer().RegistrationSubject(), new MailComposer().RegistrationLetter(newUser.getEmail(), newUser.newRandomPassword()));
 
         //User is new & all fields correct
         return userRepository.add(newUser);
@@ -194,11 +194,23 @@ public class UserServiceJPA implements UserService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public List<Group> getActiveGroupMembership(Long id) {
         User user = userRepository.getById(id);
         if (user == null) throw new IllegalArgumentException("User not found");
         long stop = System.currentTimeMillis();
 
         return userRepository.getActiveGroupMembership(id);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public List<Invite> getInvitesByUser(Long userId) {
+        User user = userRepository.getById(userId);
+        user.getInvites().size();
+        for (Invite i: user.getInvites()) {
+            i.getInviteExam().getId();
+        }
+        return user.getInvites();
     }
 }

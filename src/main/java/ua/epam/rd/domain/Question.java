@@ -140,4 +140,13 @@ public class Question {
             }
         }
     }
+
+    public int getCountPositiveAnswers() {
+        int counter = 0;
+        for (QuestionAnswerOption qao: options) {
+            if (qao.correctAnswer.equals(Boolean.TRUE))
+                counter++;
+        }
+        return counter;
+    }
 }

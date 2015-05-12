@@ -109,25 +109,34 @@ VERSION 0.12
 4) +Invite controller
 
 VERSION 0.13
-1) Send invites by test
-Students options:
-2) My test list
-3) Join test
-4) Test question page
-5) Pass test
+1) +Send invites by test
+2) +Send email when create invite
+3) +Sens email when registered
 
 VERSION 0.14
-1) Test result
-2) ... no details till everybody finish
-3) Results to teacher
+Students options:
+1) +My test list (student)
+2) +Join test (student)
+3) +Test waiting page
+3) +Test question page (student)
+4) Pass test (student)
 
 VERSION 0.15
-1) Watchdog & exceptional situations (no show, etc.)
+1) +Test result %
+2) -... no details till everybody finish
+3) +Detail test result
+4) Results to teacher
+5) Teacher result list
 
 VERSION 0.16
+1) Watchdog & exceptional situations (no show, etc.)
+2) Post method only for some pages
+3) Default 500 page
+
+VERSION 0.17
 1) final test
 
-VERSION 0.16
+VERSION 0.18
 1) minor refactor
 
 VERSION 1.0
@@ -166,3 +175,5 @@ questions->block execution if script in body
 Exam & question creation page -> only by post method
 
 2do: should exam link to users? mb only
+
+если пользователь войдет по токену, не выполнив логаут, будут ли глюки? не забыть авто-логаут

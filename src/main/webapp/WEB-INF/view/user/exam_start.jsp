@@ -1,8 +1,10 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: Пользователь
-  Date: 25.04.2015
-  Time: 3:08
+  Date: 03.05.2015
+  Time: 2:50
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
@@ -14,20 +16,21 @@
     <link rel="stylesheet" href="/resources/css/main.css">
 </head>
 <body align="center">
-<h1 align="center"> TEACHER HOME PAGE </h1>
+<h1 align="center">Start test</h1>
 <a href="/home" align="center">Home</a>
 <a href="/teacher/questions" align="center">Question menu</a>
 <a href="/teacher/exams" align="center">Exam menu</a>
 <a href="/logout" align="center">Logout</a><br>
-<br>
-<a href="/exams" align="center">student tests</a>
 
-
-<h1 align="center">${msg}</h1>
-
-<h1 align="center">login =${login}</h1>
-
-<h1 align="center">admin =${admin}</h1>
+<BR>
+<p>Test name: ${invite.inviteExam.name}</p>
+<p>Test time: ${invite.inviteExam.testTimeInMinutes} minutes</p>
+<BR>
+<form action="/exam" method="post">
+    <input type="hidden" name="inviteIdParam" value="${requestScope.invite.id}">
+    <input type="hidden" name="action" value="do">
+    <button type="submit">start</button>
+</form>
 
 <h3 align="center">Creation time (ms): ${creationTime}</h3>
 </body>

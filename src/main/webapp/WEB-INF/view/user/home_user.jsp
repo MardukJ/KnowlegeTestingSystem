@@ -13,8 +13,9 @@
     <link rel="stylesheet" href="/resources/css/main.css">
 </head>
 <body align="center">
-<h1 align="center"> USER HOME PAGE </h1>
+<h1 align="center"> STUDENT HOME PAGE </h1>
 
+<a href="/exams" align="center">Exams</a>
 <a href="/logout" align="center">Logout</a>
 
 <h1 align="center">${msg}</h1>

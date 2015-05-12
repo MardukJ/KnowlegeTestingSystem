@@ -128,7 +128,7 @@ Total ${totalPagesE}
 <p>
 <table align="center" style="border:1px solid black;" width="90%">
     <tbody>
-    <c:forEach items="${requestScope.examQuestions}" var="questionE">
+    <c:forEach items="${requestScope.examQuestions}" var="question">
         <%--<tr>--%>
             <%--<th>--%>
                 <%--Question ID = ${questionE.id}--%>
@@ -146,13 +146,13 @@ Total ${totalPagesE}
             <th>Body:</th>
         </tr>
         <tr>
-            <th>${fn:replace(questionE.body, newLineChar, "<BR>")}</th>
+            <th>${fn:replace(question.body, newLineChar, "<BR>")}</th>
         </tr>
         <tr>
             <th>Teacher comment:</th>
         </tr>
         <tr>
-            <th>${fn:replace(questionE.teacherComment, newLineChar, "<BR>")}</th>
+            <th>${fn:replace(question.teacherComment, newLineChar, "<BR>")}</th>
         </tr>
         <%--<tr>--%>
             <%--<th>Review comment:</th>--%>
@@ -189,7 +189,7 @@ Total ${totalPagesE}
         <tr>
             <th>
                 <form action="/teacher/create_exam" method="get">
-                    <input type="hidden" name = "idQuestion" value="${questionE.id}">
+                    <input type="hidden" name = "idQuestion" value="${question.id}">
                     <input type="hidden" name="action" value="removeQ">
 
                     <input type="hidden" name="pageE" value="${currentPageE}">

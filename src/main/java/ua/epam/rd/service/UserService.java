@@ -1,6 +1,7 @@
 package ua.epam.rd.service;
 
 import ua.epam.rd.domain.Group;
+import ua.epam.rd.domain.Invite;
 import ua.epam.rd.domain.User;
 
 import java.util.List;
@@ -38,4 +39,6 @@ public interface UserService {
     public boolean isTeacher(Long id);
 
     public List <Group> getActiveGroupMembership(Long id);
+
+    List<Invite> getInvitesByUser(Long userId);
 }

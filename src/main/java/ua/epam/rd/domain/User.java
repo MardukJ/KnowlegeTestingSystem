@@ -89,6 +89,14 @@ public class User {
         throw new UnsupportedOperationException();
     }
 
+    public List<Invite> getInvites() {
+        return invites;
+    }
+
+    public void setInvites(List<Invite> invites) {
+        throw new UnsupportedOperationException();
+    }
+
     public String encrypt(String data) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
