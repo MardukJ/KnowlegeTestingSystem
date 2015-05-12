@@ -44,4 +44,12 @@ public class MailComposer {
     public String ExamInviteLetter(Date startDate, int lateTime) {
         return "The test is available for passage . Access to the test will be open " + startDate.toString() +", GMT +2";
     }
+
+    public String ExamFinishedSubject() {
+        return "Test finished";
+    }
+
+    public String ExamFinishedLetter() {
+        return "Thank you for participating in our online test";
+    }
 }

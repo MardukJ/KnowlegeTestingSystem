@@ -65,6 +65,8 @@
     <p><input type="submit" value="Get results"></p>
 </form>
 
+<h1>Time left: ${invite.timeLeft/1000}</h1>
+
 <h3 align="center">Creation time (ms): ${creationTime}</h3>
 </body>
 </html>

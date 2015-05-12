@@ -129,13 +129,14 @@ VERSION 0.15
 6) +Exclude canceled test from students view)
 7) +Correct page redirect (wait, start, pass, result)
 
+VERSION 0.16
+13.05.2015
+1) +InviteField -> real finish time
+2) +Test timeout
+3) +No-show page
+4) +Mail w result
 
-)InviteField -> real start time
-)Test timeout
-
-4) Mail w result
-
-2) -... no details till everybody finish
+VERSION 0.16
 4) Results to teacher
 5) Teacher result list
 
@@ -189,3 +190,5 @@ Exam & question creation page -> only by post method
 2do: should exam link to users? mb only
 
 если пользователь войдет по токену, не выполнив логаут, будут ли глюки? не забыть авто-логаут
+
+... no details till everybody finish

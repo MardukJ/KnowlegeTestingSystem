@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.epam.rd.domain.Invite;
 import ua.epam.rd.domain.InviteStatus;
 import ua.epam.rd.repository.InviteRepostiory;
+import ua.epam.rd.service.mail.MailComposer;
+import ua.epam.rd.service.mail.MailService;
 
 /**
  * Created by Mykhaylo Gnylorybov on 10.05.2015.
@@ -18,6 +20,9 @@ import ua.epam.rd.repository.InviteRepostiory;
 public class InviteServiceJPA implements InviteService {
     @Autowired
     private InviteRepostiory inviteRepostitory;
+
+    @Autowired
+    MailService mailService;
 
     @Override
     @Transactional (propagation = Propagation.SUPPORTS, readOnly = true)
@@ -46,8 +51,7 @@ public class InviteServiceJPA implements InviteService {
 
         inviteRepostitory.merge(invite);
 
-        //2do SEND MAIL HERE
-
+        mailService.sendMailNoConfirmation(invite.getInviteReceiver().getEmail(),new MailComposer().ExamFinishedSubject(), new MailComposer().ExamFinishedLetter());
 
         return invite;
     }

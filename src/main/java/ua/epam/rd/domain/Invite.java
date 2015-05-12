@@ -1,6 +1,7 @@
 package ua.epam.rd.domain;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,6 +37,10 @@ public class Invite {
 
     @Column(name = "max_result")
     Integer maxResult = new Integer(0);
+
+    @Column(name = "stop_time")
+    @Temporal(TemporalType.TIMESTAMP)
+    Date stopTime = null;
 
     public Invite() {
     }
@@ -89,6 +94,16 @@ public class Invite {
 
     public void setInviteStatus(InviteStatus inviteStatus) {
         this.inviteStatus = inviteStatus;
+        if (inviteStatus.equals(InviteStatus.IN_PROGRESS)) {
+            long latestStartTime = inviteExam.getStartWindowOpen().getTime() + inviteExam.getMaxLateTimeInMinutes()*60*1000;
+            if (System.currentTimeMillis()>latestStartTime) {
+                //too late...
+                stopTime = new Date(latestStartTime+inviteExam.getTestTimeInMinutes()*60*1000);
+            } else {
+                //in time
+                stopTime = new Date(System.currentTimeMillis()+inviteExam.getTestTimeInMinutes()*60*1000);
+            }
+        }
     }
 
     public Integer getResult() {
@@ -202,6 +217,37 @@ public class Invite {
 
     public boolean checkTimeout() {
         System.out.println("invite.checkTimeout");
-        return true;
-    };
+        if (stopTime!=null) {
+            //test in progress
+            if (System.currentTimeMillis()>stopTime.getTime()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            //test not started, but may be too late
+            long latestStartTime = inviteExam.getStartWindowOpen().getTime() + inviteExam.getMaxLateTimeInMinutes()*60*1000;
+            if (System.currentTimeMillis()>latestStartTime) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    public Long getTimeLeft() {
+        if (stopTime!=null) {
+            return (-System.currentTimeMillis()+stopTime.getTime());
+        } else {
+            return null;
+        }
+    }
+    //jstl
+    public Boolean getNoShow(){
+        if (inviteStatus.equals(InviteStatus.NO_SHOW)) {
+            return Boolean.TRUE;
+        } else {
+            return Boolean.FALSE;
+        }
+    }
 }

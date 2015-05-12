@@ -27,9 +27,8 @@
 
 <BR>
 <c:choose>
-    <c:when test="${invite.inviteExam.showResults}">
+    <c:when test="${invite.inviteExam.showResults && !invite.noShow}">
         <p>Test result: ${invite.result}/${invite.maxResult}</p>
-
         <c:forEach items="${requestScope.invite.inviteExam.questions}" var="question">
             <tr>
                 <th>Body:</th>
@@ -62,7 +61,6 @@
     </c:otherwise>
 </c:choose>
 <BR>
-
 <h3 align="center">Creation time (ms): ${creationTime}</h3>
 </body>
 </html>
