@@ -1,3 +1,4 @@
+<%@ page import="ua.epam.rd.domain.InviteStatus" %>
 <%--
   Created by IntelliJ IDEA.
   User: Пользователь
@@ -17,7 +18,7 @@
     <link rel="stylesheet" href="/resources/css/main.css">
 </head>
 <body align="center">
-<h1 align="center"> EXAMS MENU </h1>
+<h1 align="center"> EXAMS INFO </h1>
 <a href="/home" align="center">Home</a>
 <a href="/teacher/questions" align="center">Question menu</a>
 <a href="/teacher/exams" align="center">Exam menu</a>
@@ -31,23 +32,31 @@
 </form>
 <BR>
 
-<%-- Using JSTL forEach and out to loop a list and display items in table --%>
+<b>Exam name: </b>${requestScope.exam.name}<BR>
+<b>Status:    </b>${requestScope.exam.status}<BR>
+
 <table align="center">
     <tbody>
     <tr>
-        <th>Exam id</th>
-        <th>Exam name</th>
-        <th>Exam start time</th>
-        <th>Status</th>
+        <th><b>Student name</b></th>
+        <th><b>Result</b></th>
+        <th><b>Status</b></th><BR>
     </tr>
-<c:forEach items="${requestScope.examList}" var="exam">
-    <tr>
-        <th>${exam.id}</th>
-        <th><a href="/teacher/exam?idExam=${exam.id}">${exam.name}</a></th>
-        <th>${exam.startWindowOpen}</th>
-        <th>${exam.status}</th>
-    </tr>
-</c:forEach>
+    <c:forEach items="${requestScope.exam.invites}" var="invite">
+        <tr>
+            <th>${invite.inviteReceiver.email}</th>
+            <c:set var="FINISHED" value="<%=InviteStatus.FINISHED%>"/>
+            <c:choose>
+                <c:when test="${invite.inviteStatus == FINISHED}">
+                    <th>${invite.result} / ${invite.maxResult}</th>
+                </c:when>
+                <c:otherwise>
+                    <th> - </th>
+                </c:otherwise>
+            </c:choose>
+            <th>${invite.inviteStatus}</th>
+        </tr>
+    </c:forEach>
     </tbody>
 </table>
 

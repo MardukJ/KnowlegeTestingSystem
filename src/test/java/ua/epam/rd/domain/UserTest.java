@@ -2,6 +2,9 @@ package ua.epam.rd.domain;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -39,5 +42,34 @@ public class UserTest {
         boolean result = user.tryPassword("aa123");
         System.out.println(result);
         assertFalse(result);
+    }
+
+    @Test
+    public void testVerifyMailGood() throws Exception {
+        List <String> goodMails = new ArrayList<>();
+        goodMails.add("a@b.ru");
+        goodMails.add("bob.marley@dot.com");
+        goodMails.add("vasya321@a.hren.znaem.gde.ru");
+
+        for (String m: goodMails) {
+            User u = new User();
+            u.setEmail(m);
+            assertNull(u.verifyMail());
+        }
+    }
+
+    @Test
+    public void testVerifyMailBad() throws Exception {
+        List <String> badMails = new ArrayList<>();
+        badMails.add("a.b.ru");
+        badMails.add(".a@b.ru");
+        badMails.add(".a@ru");
+        badMails.add(".a@ru.");
+
+        for (String m: badMails) {
+            User u = new User();
+            u.setEmail(m);
+            assertNotNull(u.verifyMail());
+        }
     }
 }

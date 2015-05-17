@@ -12,8 +12,6 @@ import ua.epam.rd.repository.UserRepository;
 import ua.epam.rd.service.mail.MailComposer;
 import ua.epam.rd.service.mail.MailService;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -53,7 +51,7 @@ public class UserServiceJPA implements UserService {
         if (found != null) return found.getId();
 
         //New user date verification
-        String errorMsg = newUser.verifyMe();
+        String errorMsg = newUser.verifyMail();
         if (errorMsg != null) {
             throw new IllegalArgumentException(errorMsg);
         }

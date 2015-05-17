@@ -19,4 +19,6 @@ public interface ExamRepository {
     void merge(Exam exam);
 
     void delete(Long id);
+
+    public List<Exam> getExamsOfUser(Long idUser);
 }

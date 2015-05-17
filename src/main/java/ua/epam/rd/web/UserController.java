@@ -40,7 +40,6 @@ public class UserController {
         }
 
         bm.stop();
-        System.out.println("/home model creation time = " + bm.getDifferce());
         model.addAttribute("creationTime", bm.getDifferce());
         return view;
     }

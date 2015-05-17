@@ -33,7 +33,7 @@ public class User {
     String password;
 
     @Column(name = "blocked")
-    Boolean blocked;
+    Boolean blocked=Boolean.FALSE;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "id_token")
@@ -127,9 +127,9 @@ public class User {
         return passwordBuffer;
     }
 
-    public String verifyMe() {
+    public String verifyMail() {
         //null if all field r correct
-        final String EMAIL_PATTERN = "[a-z0-9.@]";
+        final String EMAIL_PATTERN = "[a-z0-9]+[a-z0-9.]*@.[a-z0-9]*[a-z0-9.]+[a-z0-9]*";
         Pattern p = Pattern.compile(EMAIL_PATTERN);
         Matcher m = p.matcher(email);
         if (!m.matches()) {

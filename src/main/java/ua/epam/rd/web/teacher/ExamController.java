@@ -6,10 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ua.epam.rd.domain.Exam;
-import ua.epam.rd.domain.Question;
-import ua.epam.rd.domain.ScoringAlgorithm;
-import ua.epam.rd.domain.User;
+import ua.epam.rd.domain.*;
 import ua.epam.rd.service.ExamService;
 import ua.epam.rd.service.QuestionService;
 import ua.epam.rd.service.UserService;
@@ -43,6 +40,7 @@ public class ExamController {
     @Autowired
     ExamService examService;
 
+    //exams list + create button
     @RequestMapping(value = "/teacher/exams")
     public String teacherMenu(HttpSession session, Model model) {
         if (ua.epam.rd.web.tools.SecurityManager.notLoggedIn(session)) return "redirect:/*";
@@ -51,6 +49,9 @@ public class ExamController {
 
         Benchmark bm = new Benchmark();
         bm.start();
+
+        List <Exam> exams = examService.getExamsOfUser(SecurityManager.getID(session));
+        model.addAttribute("examList", exams);
 
         bm.stop();
         model.addAttribute("creationTime", bm.getDifferce());
@@ -283,8 +284,7 @@ public class ExamController {
             }
         } else if (("newU".equals(action)) && (userMail != null)) {
             //register new user
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!registerU");
-            System.out.println(userMail);
+            userMail=userMail.toLowerCase();
             User user;
             try {
                 user = userService.getUserInfo(userMail);
@@ -310,7 +310,7 @@ public class ExamController {
                     model.addAttribute("msg", "user already added");
                 }
             } else {
-                if (user.verifyMe() != null) {
+                if (user.verifyMail() != null) {
                     model.addAttribute("msg", "incorrect email");
                 } else {
                     userService.registerNew(user);
@@ -445,12 +445,44 @@ public class ExamController {
         //Form filling
         model.addAttribute("myExam", myExam);
         model.addAttribute("DD", String.format("%02d", myExam.getStartWindowOpen().getDate()));
-        model.addAttribute("MONTH",String.format("%02d", myExam.getStartWindowOpen().getMonth()+1));
+        model.addAttribute("MONTH",String.format("%02d", myExam.getStartWindowOpen().getMonth() + 1));
         model.addAttribute("YYYY",String.format("%04d", myExam.getStartWindowOpen().getYear()+1900));
 
         model.addAttribute("HH", String.format("%02d", myExam.getStartWindowOpen().getHours()));
-        model.addAttribute("MM",String.format("%02d", myExam.getStartWindowOpen().getMinutes()));
+        model.addAttribute("MM", String.format("%02d", myExam.getStartWindowOpen().getMinutes()));
 
+
+        bm.stop();
+        model.addAttribute("creationTime", bm.getDifferce());
+        return view;
+    }
+
+    @RequestMapping(value = "/teacher/exam")
+    public String examDetails(@RequestParam(required = true) String idExam,
+                              HttpSession session, Model model) {
+        if (ua.epam.rd.web.tools.SecurityManager.notLoggedIn(session)) return "redirect:/*";
+        if (!securityManager.isTeacher(session)) return "redirect:/*";
+        String examMenu = "redirect:/teacher/exams";
+        String examInfo = "/teacher/exam_details";
+
+        String view;
+        Benchmark bm = new Benchmark();
+        bm.start();
+
+        Long idE = Long.valueOf(idExam);
+        Exam exam=examService.getById(idE);
+        System.out.println(exam.getInvites().size());
+        System.out.println(exam.getInvites().get(0).getInviteReceiver().getEmail());
+
+        //check access
+        if (exam.getCreator().getId().equals(SecurityManager.getID(session))) {
+            model.addAttribute("exam", exam);
+            model.addAttribute("invites", exam.getInvites());
+
+            view=examInfo;
+        } else {
+            return "redirect:/*";
+        }
 
         bm.stop();
         model.addAttribute("creationTime", bm.getDifferce());

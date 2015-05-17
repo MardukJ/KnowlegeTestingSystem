@@ -32,7 +32,7 @@ public class Exam {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column (name = "start_time")
-    private Date startWindowOpen  = new Date(0);
+    private Date startWindowOpen = new Date(0);
 
     @Column (name = "max_late_time_min")
     private Integer maxLateTimeInMinutes = new Integer(0);
@@ -84,7 +84,7 @@ public class Exam {
     }
 
     public void setStatus(ExamStatus status) {
-        throw new UnsupportedOperationException();
+        this.status = status;
     }
 
     public ScoringAlgorithm getScoringAlgorithm() {

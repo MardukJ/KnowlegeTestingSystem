@@ -27,12 +27,12 @@
 
             <p><input type="password" name="password" value="" placeholder="Password"></p>
 
-            <p class="remember_me">
-                <label>
-                    <input type="checkbox" name="remember_me" id="remember_me">
-                    <strike><spring:message code="login_page.remember_me" text="?!?!?"/></strike>
-                </label>
-            </p>
+            <%--<p class="remember_me">--%>
+                <%--<label>--%>
+                    <%--<input type="checkbox" name="remember_me" id="remember_me">--%>
+                    <%--<strike><spring:message code="login_page.remember_me" text="?!?!?"/></strike>--%>
+                <%--</label>--%>
+            <%--</p>--%>
 
             <p class="submit"><input type="submit" name="commit"
                                      value="<spring:message code="login_page.login_button" text="?!?!?"/>"></p>
@@ -43,8 +43,7 @@
     </div>
 
     <div class="login-help">
-        Language : <a href="?language=en">English</a>|<a href="?language=zh_CN">Chinese|<a
-            href="?language=ru">Русский</a>
+        Language : <a href="?language=en">English</a>|<a href="?language=zh_CN">Chinese|<a href="?language=ru">Русский</a>
     </div>
 </section>
 

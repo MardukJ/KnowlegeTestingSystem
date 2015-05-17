@@ -136,21 +136,33 @@ VERSION 0.16
 3) +No-show page
 4) +Mail w result
 
-VERSION 0.16
-4) Results to teacher
-5) Teacher result list
-
-VERSION 0.16
-1) Watchdog & exceptional situations (no show, etc.)
-2) Post method only for some pages
-3) Default 500 page
-4) Email pattern
-
 VERSION 0.17
-1) final test
+1) +Teacher exams list
+2) +Teacher exam result view page
+3) +Exam result calculation
+4) +Calculation when teacher review test
 
 VERSION 0.18
-1) minor refactor
+1) -Watchdog & exceptional situations (no show, etc.)
+3) +Default 500 page
+4) +Email pattern
+5) -Session time & remember me button
+
+VERSION 0.19
+1) evil generator
+50000 users
+500 teachers
+100 groups
+each group - 100 questions
+each teacher 10 exams-> 5000 exams w 30 random questions, 10 students
+2) happiness generator
+entities for project demo
+3) final test
+4) some frontend
+5) Post method only for some pages
+
+VERSION 0.18
+1) code review & minor refactor
 
 VERSION 1.0
 1) release

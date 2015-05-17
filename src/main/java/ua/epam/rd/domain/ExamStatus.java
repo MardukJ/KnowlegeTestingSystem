@@ -9,7 +9,7 @@ import java.util.List;
  * skype: marduk.ru
  */
 public enum  ExamStatus {
-    NEW(1), CONFIRMED(2), IN_PROGRESS(3), FINISHED(10), CANCELED(100);
+    NEW(1),IN_PROGRESS(2), FINISHED(10), CANCELED(100);
 
     int i;
     ExamStatus(int i) {

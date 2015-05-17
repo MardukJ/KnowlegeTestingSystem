@@ -57,7 +57,9 @@ public class LoginController {
         }
 
         try {
-            User user = userService.checkPasswordAndGetUser(login, password);
+            //MAIL address  = jj@ya.su subject = Registration in http://localhost:8080/ msg = Your login: jj@ya.su, password: pass452701
+
+            User user = userService.checkPasswordAndGetUser(login.toLowerCase(), password);
             if (user.getBlocked())
                 throw new IllegalStateException(user.getEmail() + " is blocked. Please contact your system administrator");
             //login successful

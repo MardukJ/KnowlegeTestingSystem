@@ -216,7 +216,6 @@ public class Invite {
     }
 
     public boolean checkTimeout() {
-        System.out.println("invite.checkTimeout");
         if (stopTime!=null) {
             //test in progress
             if (System.currentTimeMillis()>stopTime.getTime()) {

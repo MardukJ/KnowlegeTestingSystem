@@ -71,4 +71,9 @@
         <property name="defaultEncoding" value="UTF-8"/>
         <!--<property name="cacheSeconds" value="5"/>-->
     </bean>
+
+    <!--default error page-->
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="defaultErrorView" value="not_found"/>
+    </bean>
 </beans>

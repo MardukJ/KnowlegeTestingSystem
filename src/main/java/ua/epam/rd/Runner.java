@@ -2,47 +2,14 @@ package ua.epam.rd;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import ua.epam.rd.domain.*;
 import ua.epam.rd.repository.ExamRepository;
 import ua.epam.rd.repository.GroupRepository;
 import ua.epam.rd.repository.QuestionRepository;
 import ua.epam.rd.repository.UserRepository;
 import ua.epam.rd.service.*;
 
-import javax.persistence.OneToMany;
-import javax.persistence.TypedQuery;
-import java.util.List;
-import java.util.Objects;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import ua.epam.rd.domain.Group;
 import ua.epam.rd.domain.User;
-import ua.epam.rd.web.tools.Benchmark;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 /**
  * Created by Mykhaylo Gnylorybov on 23.04.2015.
  * email: mail@marduk.ru
@@ -66,9 +33,25 @@ public class Runner {
 
         InviteService inviteService = appContext.getBean(InviteService.class, "inviteService");
 
-        Long inviteID = new Long(480664);
-        Invite invite = inviteService.getByIdWExamAndUser(inviteID);
-        System.out.println(invite.getScore());
+        User user = new User();
+        user.setEmail("a@b.ru");
+        System.out.println(user.verifyMail());
+
+        user.setEmail("bob.marley@dot.com");
+        System.out.println(user.verifyMail());
+
+        user.setEmail("vasya@a.hren.znaem.gde.ru");
+        System.out.println(user.verifyMail());
+
+        user.setEmail("a.b.ru");
+        System.out.println(user.verifyMail());
+
+        user.setEmail(".a@b.ru");
+        System.out.println(user.verifyMail());
+
+        user.setEmail(".a@ru");
+        System.out.println(user.verifyMail());
+
 
         appContext.close();
     }

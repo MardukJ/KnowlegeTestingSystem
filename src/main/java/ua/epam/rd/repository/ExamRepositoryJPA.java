@@ -52,4 +52,12 @@ public class ExamRepositoryJPA implements ExamRepository {
     public void delete(Long id) {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    @Transactional (propagation = Propagation.REQUIRED)
+    public List<Exam> getExamsOfUser(Long idUser) {
+        TypedQuery<Exam> query = em.createQuery("SELECT e FROM Exam e WHERE e.creator.id = :idUser", Exam.class);
+        query.setParameter("idUser", idUser);
+        return query.getResultList();
+    }
 }
