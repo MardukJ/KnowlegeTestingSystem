@@ -10,6 +10,8 @@ import ua.epam.rd.service.*;
 
 import ua.epam.rd.domain.User;
 
+import java.util.Random;
+
 /**
  * Created by Mykhaylo Gnylorybov on 23.04.2015.
  * email: mail@marduk.ru
@@ -33,25 +35,10 @@ public class Runner {
 
         InviteService inviteService = appContext.getBean(InviteService.class, "inviteService");
 
-        User user = new User();
-        user.setEmail("a@b.ru");
-        System.out.println(user.verifyMail());
-
-        user.setEmail("bob.marley@dot.com");
-        System.out.println(user.verifyMail());
-
-        user.setEmail("vasya@a.hren.znaem.gde.ru");
-        System.out.println(user.verifyMail());
-
-        user.setEmail("a.b.ru");
-        System.out.println(user.verifyMail());
-
-        user.setEmail(".a@b.ru");
-        System.out.println(user.verifyMail());
-
-        user.setEmail(".a@ru");
-        System.out.println(user.verifyMail());
-
+        Random rnd = new Random();
+        for (int i=0;i<100;i++) {
+            System.out.println(rnd.nextInt(2));
+        }
 
         appContext.close();
     }

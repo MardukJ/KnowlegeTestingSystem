@@ -16,15 +16,15 @@ public class Question {
     @Column (name = "id_question")
     private Long id;
 
-    @Column (name = "body")
+    @Column (name = "body", length = 2000)
     //question itself
     private String body;
 
-    @Column (name = "teachers_comment")
+    @Column (name = "teachers_comment", length = 1000)
     //comment for teacher
     private String teacherComment;
 
-    @Column (name = "review_comment")
+    @Column (name = "review_comment", length = 1000)
     //comment for review
     private String reviewComment;
 

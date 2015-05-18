@@ -225,7 +225,7 @@ public class Invite {
             }
         } else {
             //test not started, but may be too late
-            long latestStartTime = inviteExam.getStartWindowOpen().getTime() + inviteExam.getMaxLateTimeInMinutes()*60*1000;
+            long latestStartTime = inviteExam.getStartWindowOpen().getTime() + inviteExam.getTestTimeInMinutes()*60*1000 + inviteExam.getMaxLateTimeInMinutes()*60*1000;
             if (System.currentTimeMillis()>latestStartTime) {
                 return true;
             } else {

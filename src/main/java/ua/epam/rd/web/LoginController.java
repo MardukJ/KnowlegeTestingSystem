@@ -33,7 +33,7 @@ public class LoginController {
         bm.start();
 
         if (ua.epam.rd.web.tools.SecurityManager.notLoggedIn(session)) {
-            model.addAttribute("msg", "Please log in!");
+//            model.addAttribute("msg", "Please log in!");
         } else {
             return "redirect:/";
         }
@@ -127,7 +127,7 @@ public class LoginController {
         }
 
         try {
-            userService.sendRestorePasswordToken(login);
+            userService.sendRestorePasswordToken(login.toLowerCase());
             //token created
             model.addAttribute("msg", "Password token was send by mail ");
             return "forward";
