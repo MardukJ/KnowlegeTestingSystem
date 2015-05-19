@@ -10,12 +10,10 @@
 <head>
     <title>${msg}</title>
     <meta http-equiv="refresh" content="3;URL=/"/>
-    <link rel="stylesheet" href="/resources/css/style_paginator.css">
+    <link rel="stylesheet" href="/resources/css/main.css">
 </head>
 <body>
-<p align="center">Sorry, the page you were looking for doesn’t exist.</p>
-<center>
-<img align="center" src="/resources/img/symbol.png">
-</center>
+<h1 align="center">Sorry, the page you were looking for doesn’t exist.</h1>
+<%--<img align="center" src="/resources/img/symbol.png" width="100%">--%>
 </body>
 </html>

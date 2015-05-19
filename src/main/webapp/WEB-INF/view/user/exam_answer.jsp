@@ -1,5 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<% pageContext.setAttribute("newLineChar", "\n"); %>
+
 <%--
   Created by IntelliJ IDEA.
   User: Пользователь
@@ -15,22 +19,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <link rel="stylesheet" href="/resources/css/main.css">
 </head>
-<body align="center">
+<body>
 <h1 align="center">TEST</h1>
 <a href="/home" align="center">Home</a>
-<a href="/teacher/questions" align="center">Question menu</a>
-<a href="/teacher/exams" align="center">Exam menu</a>
+<a href="/exams" align="center">Exams</a>
 <a href="/logout" align="center">Logout</a><br>
 
-<BR>
-<p>Test name: ${requestScope.invite.inviteExam.name}</p>
-
-<form action="/exam" method="get">
+<form action="/exam" method="post">
     <input type="hidden" name="inviteIdParam" value="${requestScope.invite.id}">
     <input type="hidden" name="action" value="save">
     <input type="hidden" name="questionIdParam" value="${requestScope.question.id}">
     <input type="hidden" name="index" value="${requestScope.questionIndex}">
-    <p><b>${requestScope.question.body}</b></p>
+    <%--<p><b>${requestScope.question.body}</b></p>--%>
+    <p>${fn:replace(requestScope.question.body, newLineChar, "<BR>")}</p>
     <i>
     <c:set var="inputType" value='checkbox'/>
     <c:if test="${requestScope.question.correctOptionsCountAdvise}">
@@ -51,7 +52,7 @@
     <p><input type="submit" value="Save"></p>
 </form>
 
-<form action="/exam" method="get">
+<form action="/exam" method="post">
     <input type="hidden" name="inviteIdParam" value="${requestScope.invite.id}">
     <input type="hidden" name="action" value="do">
     <input type="hidden" name="index" value="${(requestScope.questionIndex)+1}">
@@ -59,13 +60,13 @@
 </form>
 
 
-<form action="/exam" method="get">
+<form action="/exam" method="post">
     <input type="hidden" name="inviteIdParam" value="${requestScope.invite.id}">
     <input type="hidden" name="action" value="finish">
     <p><input type="submit" value="Get results"></p>
 </form>
 
-<h1>Time left: ${invite.timeLeft/1000}</h1>
+<h1>Time left: <fmt:formatNumber value="${invite.timeLeft/(60*1000)}" maxFractionDigits="0"/> minutes : <fmt:formatNumber value="${invite.timeLeft/1000%60}" maxFractionDigits="0"/> seconds </h1>
 
 <h3 align="center">Creation time (ms): ${creationTime}</h3>
 </body>

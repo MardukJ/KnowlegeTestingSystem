@@ -68,7 +68,7 @@ public class DevController {
     @ResponseBody
     public String zasriUserami(Model model) {
         System.out.println("EVIL GEN");
-        int div = 500;
+        int div = 1;
         final int EVIL_USERS = 50_000/div;
         final Boolean EVIL_USER_BLOCKED_CONDITION = Boolean.FALSE;
 
@@ -96,7 +96,6 @@ public class DevController {
         for (int i = 0; i < EVIL_USERS; i++) {
             user = new User();
             user.setEmail("user" + String.format("%06d",i) + "@trash.com");
-            System.out.println(user.getEmail());
             user.setPassword("12345");
             user.setBlocked(EVIL_USER_BLOCKED_CONDITION);
             userRepository.add(user);
@@ -113,7 +112,6 @@ public class DevController {
         for (int i = 0; i < EVIL_TEACHERS; i++) {
             user = new User();
             user.setEmail("teacher" + String.format("%06d",i) + "@trash.com");
-            System.out.println(user.getEmail());
             user.setPassword("12345");
             user.setBlocked(EVIL_USER_BLOCKED_CONDITION);
 
@@ -153,7 +151,6 @@ public class DevController {
                 question.getOptions().add(new QuestionAnswerOption("C", Boolean.FALSE));
                 question.getOptions().add(new QuestionAnswerOption("D", Boolean.FALSE));
                 questionRepository.merge(question);
-                System.out.println(question + " g=" + question.getGroupOfQuestion());
             }
         }
 
@@ -194,12 +191,11 @@ public class DevController {
 
         userRepository.add(user);
 
-        user = new User();
-        user.setEmail("teacher_sql");
-        user.setBlocked(Boolean.FALSE);
-        user.setPassword("12345");
-
-        userRepository.add(user);
+//        user = new User();
+//        user.setEmail("teacher_sql");
+//        user.setBlocked(Boolean.FALSE);
+//        user.setPassword("12345");
+//        userRepository.add(user);
 
         group = new Group();
         group.setGroupName("JAVA.BEGINNER.CORE.EXCEPTION");
@@ -209,9 +205,9 @@ public class DevController {
         group.setGroupName("JAVA.BEGINNER.CORE.STRING");
         groupRepository.add(group);
 
-        group = new Group();
-        group.setGroupName("SQL.BEGINNER");
-        groupRepository.add(group);
+//        group = new Group();
+//        group.setGroupName("SQL.BEGINNER");
+//        groupRepository.add(group);
 
         group = new Group();
         group.setGroupName("DEMO");
@@ -220,8 +216,8 @@ public class DevController {
         groupService.addUserToGroup("teacher_java","JAVA.BEGINNER.CORE.EXCEPTION");
         groupService.addUserToGroup("teacher_java","JAVA.BEGINNER.CORE.STRING");
         groupService.addUserToGroup("teacher_java","DEMO");
-        groupService.addUserToGroup("teacher_sql","SQL.BEGINNER");
-        groupService.addUserToGroup("teacher_sql","DEMO");
+//        groupService.addUserToGroup("teacher_sql","SQL.BEGINNER");
+//        groupService.addUserToGroup("teacher_sql","DEMO");
 
         for (int i=0;i<10;i++) {
             user = new User();
@@ -320,7 +316,7 @@ public class DevController {
         question.setTeacherComment("Demo");
         question.setReviewComment("-");
         question.setBody("Это пример вопроса.\n" +
-                "Пользователю не дается никаких подсказок.");
+                "Пользователю не дается никаких подсказок(1 ответ правильный).");
         question.getOptions().add(new QuestionAnswerOption("Ответ 1:",Boolean.FALSE));
         question.getOptions().add(new QuestionAnswerOption("Ответ 2:",Boolean.TRUE));
         question.getOptions().add(new QuestionAnswerOption("Ответ 3:",Boolean.FALSE));
@@ -379,7 +375,7 @@ public class DevController {
 
         exam = new Exam();
         exam.setName("Too late ...");
-        exam.setTestTimeInMinutes(30);
+        exam.setTestTimeInMinutes(60);
         exam.setShowResults(Boolean.TRUE);
         exam.setCreator(userRepository.getByMail("teacher_java"));
         exam.getRecievers().add(userRepository.getByMail("student00"));
@@ -399,37 +395,37 @@ public class DevController {
 
         exam = new Exam();
         exam.setName("Late ...");
-        exam.setTestTimeInMinutes(45);
+        exam.setTestTimeInMinutes(60);
         exam.setShowResults(Boolean.TRUE);
         exam.setCreator(userRepository.getByMail("teacher_java"));
         exam.getRecievers().add(userRepository.getByMail("student00"));
         exam.getRecievers().add(userRepository.getByMail("student01"));
-        exam.getQuestions().add(questionRepository.getById(Q00));
-        exam.getQuestions().add(questionRepository.getById(Q01));
         exam.getQuestions().add(questionRepository.getById(Q02));
         exam.getQuestions().add(questionRepository.getById(Q03));
         exam.getQuestions().add(questionRepository.getById(Q04));
         exam.getQuestions().add(questionRepository.getById(Q05));
         exam.getQuestions().add(questionRepository.getById(Q06));
+        exam.getQuestions().add(questionRepository.getById(Q00));
+        exam.getQuestions().add(questionRepository.getById(Q01));
         exam.setStartWindowOpen(new Date(System.currentTimeMillis()+10000));
         examService.saveNewExam(exam);
-        exam.setStartWindowOpen(new Date(System.currentTimeMillis()-60*16*1000));
+        exam.setStartWindowOpen(new Date(System.currentTimeMillis()-60*20*1000));
         examRepository.merge(exam);
 
         exam = new Exam();
         exam.setName("Future");
-        exam.setTestTimeInMinutes(45);
+        exam.setTestTimeInMinutes(60);
         exam.setShowResults(Boolean.TRUE);
         exam.setCreator(userRepository.getByMail("teacher_java"));
         exam.getRecievers().add(userRepository.getByMail("student00"));
         exam.getRecievers().add(userRepository.getByMail("student01"));
-        exam.getQuestions().add(questionRepository.getById(Q00));
-        exam.getQuestions().add(questionRepository.getById(Q01));
         exam.getQuestions().add(questionRepository.getById(Q02));
         exam.getQuestions().add(questionRepository.getById(Q03));
         exam.getQuestions().add(questionRepository.getById(Q04));
         exam.getQuestions().add(questionRepository.getById(Q05));
         exam.getQuestions().add(questionRepository.getById(Q06));
+        exam.getQuestions().add(questionRepository.getById(Q00));
+        exam.getQuestions().add(questionRepository.getById(Q01));
         exam.setStartWindowOpen(new Date(System.currentTimeMillis()+3*24*60*60*1000));
         examService.saveNewExam(exam);
 

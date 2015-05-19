@@ -24,10 +24,6 @@
 
 <h1 align="center">${msg}</h1>
 
-<h1 align="center">login =${login}</h1>
-
-<h1 align="center">admin =${admin}</h1>
-
 <h3 align="center">Creation time (ms): ${creationTime}</h3>
 </body>
 </html>

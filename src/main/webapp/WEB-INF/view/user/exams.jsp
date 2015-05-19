@@ -18,24 +18,18 @@
 <body align="center">
 <h1 align="center"> STUDENT EXAMS </h1>
 <a href="/home" align="center">Home</a>
-<a href="/teacher/questions" align="center">Question menu</a>
-<a href="/teacher/exams" align="center">Exam menu</a>
 <a href="/logout" align="center">Logout</a><br>
 
 <%-- Using JSTL forEach and out to loop a list and display items in table --%>
 <table align="center">
   <tbody>
   <tr>
-    <th>Invite id</th>
       <th>Exam name</th>
       <th>Exam start time</th>
       <th>Status</th>
   </tr>
   <c:forEach items="${requestScope.invitesList}" var="invite">
             <tr>
-                <td>
-                     <c:out value="${invite.id}"></c:out>
-                </td>
                 <td>
                      <c:out value="${invite.inviteExam.name}"></c:out>
                 </td>

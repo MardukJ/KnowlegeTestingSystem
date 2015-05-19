@@ -22,6 +22,8 @@
     <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>
 <body align="center">
+<h1 align="center"> USERS LIST </h1>
+
 <h1>${msg}</h1>
 
 <%-- Using JSTL forEach and out to loop a list and display items in table --%>
@@ -30,7 +32,7 @@
     <tr>
         <th>ID</th>
         <th>Login</th>
-        <th>Blocked?</th>
+        <th>Status</th>
     </tr>
     <c:forEach items="${requestScope.userList}" var="user">
         <tr>
@@ -68,9 +70,9 @@ Total ${totalPages}
     <label><input type="radio" name="blocked" value="blocked" ${blockedBlocked}/>blocked</label>
     <label><input type="radio" name="blocked" value="both" ${blockedBoth}/>both</label> <BR>
 
-    <label><input type="radio" name="role" value="student" ${roleStudent}/>student</label>
-    <label><input type="radio" name="role" value="teacher" ${roleTeacher}/>teacher</label>
-    <label><input type="radio" name="role" value="both" ${roleBoth}/>both</label> <BR>
+    <%--<label><input type="radio" name="role" value="student" ${roleStudent}/>student</label>--%>
+    <%--<label><input type="radio" name="role" value="teacher" ${roleTeacher}/>teacher</label>--%>
+    <%--<label><input type="radio" name="role" value="both" ${roleBoth}/>both</label> <BR>--%>
 
     <label><input type="radio" name="sort" value="increase" ${sortIncrease}/>A->Z</label>
     <label><input type="radio" name="sort" value="decrease" ${sortDecrease}/>Z->A</label>
@@ -79,19 +81,6 @@ Total ${totalPages}
     <label>Go to<input type="number" name="page" value="${currentPage}"/></label>
     <input type="submit" value="Go"/>
 </form>
-
-<%--pagination here--%>
-<%--<section class="container">--%>
-<%--<nav class="pagination">--%>
-<%--<a href="/admin/all_users" class="prev">&lt;</a>--%>
-<%--<a href="/admin/all_users">1</a>--%>
-<%--<a href="/admin/all_users">2</a>--%>
-<%--<a href="/admin/all_users">3</a>--%>
-<%--<span>4</span>--%>
-<%--<a href="/admin/all_users">5</a>--%>
-<%--<a href="/admin/all_users" class="next">&gt;</a>--%>
-<%--</nav>--%>
-<%--</section>--%>
 
 <section class="about">
     <h3>Creation time (ms): ${creationTime}</h3>

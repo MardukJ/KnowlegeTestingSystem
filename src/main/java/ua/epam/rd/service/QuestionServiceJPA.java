@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 public class QuestionServiceJPA implements QuestionService {
 
-    final static int PAGE_SIZE_BY_USER = 5;
+    final static int PAGE_SIZE_BY_USER = 2;
 
     @Autowired
     QuestionRepository questionRepostitory;

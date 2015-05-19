@@ -16,54 +16,43 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <link rel="stylesheet" href="/resources/css/main.css">
 </head>
-<body align="center">
+<body>
 <h1 align="center"> QUESTIONS OF GROUP </h1>
 <a href="/home" align="center">Home</a>
 <a href="/teacher/questions" align="center">Question menu</a>
-<a href="/teacher/exams" align="center">Exam menu</a>
+<a href="/teacher/exams" align="center">Exam management</a>
+<a href="/exams" align="center">My exams</a>
 <a href="/logout" align="center">Logout</a><br>
+<br>
 
 <h1 align="center">${msg}</h1>
 
 <h3><a href="/teacher/new_question?name=${groupName}">New question for group ${groupName}</a></h3>
 
 <%-- Using JSTL forEach and out to loop a list and display items in table --%>
-<table align="center">
+<table>
   <tbody>
   <c:forEach items="${requestScope.validQuestions}" var="question">
       <tr>
-          <th>
-              Question ID = ${question.id}
-              <form action="/teacher/delete_question" method="post">
-                  <input type="hidden" name = "idQuestion" value="${question.id}">
-                  <button type="submit">delete</button>
-              </form>
-              <form action="/teacher/edit_question" method="get">
-                  <input type="hidden" name = "idQuestion" value="${question.id}">
-                  <button type="submit">edit</button>
-              </form>
-          </th>
+          <th><b>Body:</b></th>
       </tr>
       <tr>
-          <th>Body:</th>
+          <th align="left">${fn:replace(question.body, newLineChar, "<BR>")}</th>
       </tr>
       <tr>
-          <th>${fn:replace(question.body, newLineChar, "<BR>")}</th>
+          <th><b>Teacher comment:</b></th>
       </tr>
       <tr>
-          <th>Teacher comment:</th>
+          <th align="left">${fn:replace(question.teacherComment, newLineChar, "<BR>")}</th>
       </tr>
       <tr>
-          <th>${fn:replace(question.teacherComment, newLineChar, "<BR>")}</th>
+          <th><b>Review comment:</b></th>
       </tr>
       <tr>
-          <th>Review comment:</th>
+          <th align="left">${fn:replace(question.reviewComment, newLineChar, "<BR>")}</th>
       </tr>
       <tr>
-          <th>${fn:replace(question.reviewComment, newLineChar, "<BR>")}</th>
-      </tr>
-      <tr>
-          <th>Current version:</th>
+          <th><b>Version:</b></th>
       </tr>
       <tr>
           <th>${question.version}</th>
@@ -83,10 +72,30 @@
                       ${option.optionText}
                   </td>
                   <td>
-                      ${option.correctAnswer}
+                      <c:choose>
+                          <c:when test="${option.correctAnswer}">
+                              <input type="checkbox" checked></input>
+                          </c:when>
+                          <c:otherwise>
+                              <input type="checkbox"></input>
+                          </c:otherwise>
+                      </c:choose>
                   </td>
               </tr>
           </c:forEach>
+      <tr>
+          <th>
+                  <%--Question ID = ${question.id}--%>
+              <form action="/teacher/delete_question" method="post">
+                  <input type="hidden" name = "idQuestion" value="${question.id}">
+                  <button type="submit">delete</button>
+              </form>
+              <form action="/teacher/edit_question" method="get">
+                  <input type="hidden" name = "idQuestion" value="${question.id}">
+                  <button type="submit">edit</button>
+              </form>
+          </th>
+      </tr>
   </c:forEach>
   </tbody>
 </table>

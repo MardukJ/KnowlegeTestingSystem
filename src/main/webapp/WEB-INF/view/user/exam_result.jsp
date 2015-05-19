@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <% pageContext.setAttribute("newLineChar", "\n"); %>
 
 <%--
@@ -18,11 +19,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <link rel="stylesheet" href="/resources/css/main.css">
 </head>
-<body align="center">
+<body>
 <h1 align="center">Test result</h1>
 <a href="/home" align="center">Home</a>
-<a href="/teacher/questions" align="center">Question menu</a>
-<a href="/teacher/exams" align="center">Exam menu</a>
+<a href="/exams" align="center">Exams</a>
 <a href="/logout" align="center">Logout</a><br>
 
 <BR>
@@ -30,30 +30,83 @@
     <c:when test="${invite.inviteExam.showResults && !invite.noShow}">
         <p>Test result: ${invite.result}/${invite.maxResult}</p>
         <c:forEach items="${requestScope.invite.inviteExam.questions}" var="question">
-            <tr>
-                <th>Body:</th>
-            </tr>
+            <%--<tr>--%>
+                <%--<th>Body:</th>--%>
+            <%--</tr>--%>
             <BR>
             <tr>
                 <th>${fn:replace(question.body, newLineChar, "<BR>")}</th>
             </tr>
             <BR>
             <tr>
-                <th>Comment:</th>
+                <th><br>Comment:</th>
             </tr>
             <BR>
             <tr>
-                <th>${fn:replace(question.reviewComment, newLineChar, "<BR>")}</th>
+                <th><b><i>${fn:replace(question.reviewComment, newLineChar, "<BR>")}</i></b><br>
+                </th>
             </tr>
             <BR>
             <c:forEach items="${question.options}" var="option">
-                <tr>
-                    <th>Correct answer: ${option.correctAnswer}</th>
-                    <BR>
-                    <c:set var="idQAO" value='${option.id}'/>
-                    <th>Student answer: ${requestScope.invite.getAnswerForQuestionOption(idQAO)} </th>
-                </tr>
+                <c:set var="idQAO" value='${option.id}'/>
+                <c:set var="crrAnsw" value='${option.correctAnswer}'/>
+                <c:set var="realAnsw" value='${requestScope.invite.getAnswerForQuestionOption(idQAO)}'/>
+
+                <c:choose >
+                    <c:when test="${crrAnsw eq realAnsw}">
+                        <tr>
+                            <th>Correct answer:
+                            <c:choose>
+                                <c:when test="${option.correctAnswer}">
+                                    <input type="checkbox" checked>
+                                </c:when>
+                                <c:otherwise>
+                                    <input type="checkbox">
+                                </c:otherwise>
+                            </c:choose>
+                            </th>
+                            <th>Student answer:
+                                <c:choose>
+                                    <c:when test="${requestScope.invite.getAnswerForQuestionOption(idQAO)}">
+                                        <input type="checkbox" checked>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <input type="checkbox">
+                                    </c:otherwise>
+                                </c:choose>
+                            </th>
+                        </tr>
+                    </c:when>
+                    <c:otherwise>
+                        <b><i>
+                        <tr>
+                            <th>Correct answer:
+                                <c:choose>
+                                    <c:when test="${option.correctAnswer}">
+                                        <input type="checkbox" checked>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <input type="checkbox">
+                                    </c:otherwise>
+                                </c:choose>
+                            </th>
+                            <th>Student answer:
+                                <c:choose>
+                                    <c:when test="${requestScope.invite.getAnswerForQuestionOption(idQAO)}">
+                                        <input type="checkbox" checked>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <input type="checkbox">
+                                    </c:otherwise>
+                                </c:choose>
+                            </th>
+                        </tr>
+                        </i></b>
+                    </c:otherwise>
+                </c:choose>
+                <br>
             </c:forEach>
+            <br>
         </c:forEach>
     </c:when>
     <c:otherwise>

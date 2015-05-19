@@ -19,20 +19,19 @@
 </head>
 <body align="center">
 <h1 align="center"> CREATE EXAM: STEP 3 </h1>
-
 <a href="/home" align="center">Home</a>
 <a href="/teacher/questions" align="center">Question menu</a>
-<a href="/teacher/exams" align="center">Exam menu</a>
-<a href="/logout" align="center">Logout</a><br> <BR>
-
-<h1 align="center">${msg}</h1><BR>
+<a href="/teacher/exams" align="center">Exam management</a>
+<a href="/exams" align="center">My exams</a>
+<a href="/logout" align="center">Logout</a><br>
 <h2>${exception.exceptionMsg}</h2>
+<h1 align="center">${msg}</h1>
 
-<form action="/teacher/create_exam_final" method="get">
-    <p>Exam name:</p><BR>
-    <input type="text" name="nameParam" value="${myExam.name}"><BR>
+<form action="/teacher/create_exam_final" method="post">
+    <p>Exam name:</p>
+    <input type="text" name="nameParam" value="${myExam.name}">
 
-    <p>Scoring algorithm:</p><BR>
+    <p>Scoring algorithm:</p>
     <select size="1" name="scoringAlgorithmParam">
         <c:set var="enumValues" value="<%=ua.epam.rd.domain.ScoringAlgorithm.values()%>"/>
         <c:forEach items="${enumValues}" var="enumValue">
@@ -40,20 +39,19 @@
         </c:forEach>
     </select>
 
-    <p>Exam start time:</p><BR>
+    <p>Exam start time:</p>
     <p><input type="date" name="startWindowOpenParamD" value="${YYYY}-${MONTH}-${DD}"/></p>
-    <p><input type="time" name="startWindowOpenParamT" value="${HH}:${MM}"/>
-    </p>
+    <p><input type="time" name="startWindowOpenParamT" value="${HH}:${MM}"/></p>
     <%--${myExam.startWindowOpen.hours}--%>
     <%--${myExam.startWindowOpen.minutes}--%>
 
-    <p>Allowed late window, minutes:</p><BR>
-    <p><input type="number" name="maxLateTimeInMinutesParam" min="0" max="1440" value="${myExam.maxLateTimeInMinutes}"></p><BR>
+    <p>Allowed late, minutes:</p>
+    <p><input type="number" name="maxLateTimeInMinutesParam" min="0" max="1440" value="${myExam.maxLateTimeInMinutes}"></p>
 
-    <p>Test time:</p><BR>
-    <p><input type="number" name="testTimeInMinutesParam" min="0" max="1440" value="${myExam.testTimeInMinutes}"></p><BR>
+    <p>Test time, minutes:</p>
+    <p><input type="number" name="testTimeInMinutesParam" min="0" max="1440" value="${myExam.testTimeInMinutes}"></p>
 
-    <p>Show results:</p><BR>
+    <p>Show results:</p>
     <select size="1" name="showResultsParam">
         <option >False</option>
         <option <c:if test="${myExam.showResults}">selected</c:if>>True</option>
@@ -61,7 +59,7 @@
     <button type="submit" name="action" value="create">Create</button>
 </form>
 
-<form action="/teacher/create_exam_user" method="get">
+<form action="/teacher/create_exam_user" method="post">
     <button type="submit">previous step</button>
 </form>
 

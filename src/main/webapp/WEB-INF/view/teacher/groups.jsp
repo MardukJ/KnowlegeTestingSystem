@@ -18,14 +18,16 @@
 <h1 align="center"> TEACHER GROUPS LIST </h1>
 <a href="/home" align="center">Home</a>
 <a href="/teacher/questions" align="center">Question menu</a>
-<a href="/teacher/exams" align="center">Exam menu</a>
+<a href="/teacher/exams" align="center">Exam management</a>
+<a href="/exams" align="center">My exams</a>
 <a href="/logout" align="center">Logout</a><br>
+<br>
 
 <%-- Using JSTL forEach and out to loop a list and display items in table --%>
 <table align="center">
   <tbody>
   <tr>
-    <th>Group</th>
+    <th>Groups:</th>
   </tr>
   <c:forEach items="${requestScope.groupList}" var="group">
         <c:choose>

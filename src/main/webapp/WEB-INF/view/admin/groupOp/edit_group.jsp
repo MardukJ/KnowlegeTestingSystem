@@ -12,17 +12,13 @@
     <title>User details</title>
     <link rel="stylesheet" href="/resources/css/main.css">
 </head>
-<body>
-
-<nav>
-    <ul id="n" class="clearfix">
-        <li><a href="/admin/home">Back to admin homepage</a></li>
-    </ul>
-</nav>
+<body align="center">
 
 <div id="content" class="clearfix">
     <section id="left">
         <div id="userStats" class="clearfix">
+            <h1 align="center"> GROUP INFO </h1>
+            <a href="/admin/home">Back to admin homepage</a>
             <h3>${msg}</h3>
 
             <h3>${exception.exceptionMsg}</h3>

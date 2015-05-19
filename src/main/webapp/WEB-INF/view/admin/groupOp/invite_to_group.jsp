@@ -13,23 +13,18 @@
   <title>User details</title>
   <link rel="stylesheet" href="/resources/css/main.css">
 </head>
-<body>
-
-<nav>
-  <ul id="n" class="clearfix">
-    <li><a href="/admin/home">Back to admin homepage</a></li>
-  </ul>
-</nav>
+<body align="center">
 
 <h1>Add user to group <a href="/admin/group_details?name=${name}">${name}</a></h1>
+<a href="/admin/home">Back to admin homepage</a>
 
 <h2 align="center">${msg}</h2>
 <h2 align="center">${exception.exceptionMsg}</h2>
 
-<form action="/admin/add_to_group" method="post">
+<form action="/admin/add_to_group" method="post" accept-charset="UTF-8">
     <input type="hidden" name="name" value="${name}">
-    <input type="search" name="login" value="${login}">
-    <input type="submit" value="Go">
+    <input type="search" name="login" value="${login}" placeholder="User email">
+    <input type="submit" value="Add">
 </form>
 <section class="about">
     <h3>Creation time (ms): ${creationTime}</h3>

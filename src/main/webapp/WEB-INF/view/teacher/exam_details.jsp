@@ -18,11 +18,13 @@
     <link rel="stylesheet" href="/resources/css/main.css">
 </head>
 <body align="center">
-<h1 align="center"> EXAMS INFO </h1>
+<h1 align="center"> EXAM INFO </h1>
 <a href="/home" align="center">Home</a>
 <a href="/teacher/questions" align="center">Question menu</a>
-<a href="/teacher/exams" align="center">Exam menu</a>
-<a href="/logout" align="center">Logout</a><br> <BR>
+<a href="/teacher/exams" align="center">Exam management</a>
+<a href="/exams" align="center">My exams</a>
+<a href="/logout" align="center">Logout</a><br>
+<br>
 
 <h1 align="center">${msg}</h1><BR>
 

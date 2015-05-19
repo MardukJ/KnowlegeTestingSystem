@@ -17,17 +17,12 @@
 <h1 align="center"> TEACHER HOME PAGE </h1>
 <a href="/home" align="center">Home</a>
 <a href="/teacher/questions" align="center">Question menu</a>
-<a href="/teacher/exams" align="center">Exam menu</a>
+<a href="/teacher/exams" align="center">Exam management</a>
+<a href="/exams" align="center">My exams</a>
 <a href="/logout" align="center">Logout</a><br>
 <br>
-<a href="/exams" align="center">student tests</a>
-
 
 <h1 align="center">${msg}</h1>
-
-<h1 align="center">login =${login}</h1>
-
-<h1 align="center">admin =${admin}</h1>
 
 <h3 align="center">Creation time (ms): ${creationTime}</h3>
 </body>

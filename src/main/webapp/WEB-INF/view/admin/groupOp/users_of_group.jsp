@@ -23,7 +23,7 @@
 </head>
 <body align="center">
 <h1>${msg}</h1>
-<h1>Users of group  <a href="/admin/group_details?name=${name}">${name}</a></h1>
+<h1>Users of <a href="/admin/group_details?name=${name}">${name}</a></h1>
 <%-- Using JSTL forEach and out to loop a list and display items in table --%>
 <table align="center">
   <tbody>
@@ -31,7 +31,7 @@
     <th>ID</th>
     <th>Login</th>
     <th>Status</th>
-    <th>Delete?</th>
+    <th>Delete</th>
   </tr>
   <c:forEach items="${requestScope.userList}" var="user">
     <tr>

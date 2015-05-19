@@ -7,8 +7,9 @@
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<% pageContext.setAttribute("newLineChar", "\n"); %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<% pageContext.setAttribute("newLineChar", "\n"); %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -19,71 +20,36 @@
 <body align="center">
 <h1 align="center"> CREATE EXAM: STEP 2 </h1>
 <h3 align="center"> add some students </h3>
-
 <a href="/home" align="center">Home</a>
 <a href="/teacher/questions" align="center">Question menu</a>
-<a href="/teacher/exams" align="center">Exam menu</a>
-<a href="/logout" align="center">Logout</a><br> <BR>
+<a href="/teacher/exams" align="center">Exam management</a>
+<a href="/exams" align="center">My exams</a>
+<a href="/logout" align="center">Logout</a><br>
 
-<h1 align="center">${msg}</h1><BR>
-<h2>${exception.exceptionMsg}</h2>
+<h1 align="center">${msg}</h1>
+<h3>${exception.exceptionMsg}</h3>
 
-<BR>
-<p>Invited students:</p><BR>
-<p>Register new email:</p><BR>
-<form action="/teacher/create_exam_user" method="get">
-    <label> <input type="text" name="userMail" value="%username%"/></label>
+<p>Invite new student:</p>
+<form action="/teacher/create_exam_user" method="post">
+    <label> <input type="text" name="userMail" value="" placeholder="User email"/></label>
     <input type="hidden" name="action" value="newU">
-    <input type="submit" value="Go"/>
-</form> <BR>
+    <input type="submit" value="Invite"/>
+</form>
 
 <%-- Using JSTL forEach and out to loop a list and display items in table --%>
 <table align="center">
     <tbody>
     <tr>
-        <th>Login</th>
-        <th></th>
-    </tr>
-    <c:forEach items="${requestScope.userListA}" var="user">
-        <tr>
-            <td>
-                <strike>
-                    <a href="/teacher/user_details?login=${user.email}">
-                        <c:out value="${user.email}"></c:out>
-                    </a>
-                </strike>
-            </td>
-            <td>
-                <form action="/teacher/create_exam_user" method="get">
-                    <input type="hidden" name="userMail" value="${user.email}">
-                    <input type="hidden" name="action" value="removeU">
-                    <input type="submit" value="Remove">
-                </form>
-            </td>
-        </tr>
-    </c:forEach>
-    </tbody>
-</table>
-<%--End fo table--%><BR>
-<p>Available students:</p><BR>
-<%-- Using JSTL forEach and out to loop a list and display items in table --%>
-<table align="center">
-    <tbody>
-    <tr>
-        <th>Login</th>
+        <th>Available students:</th>
         <th></th>
     </tr>
     <c:forEach items="${requestScope.userListE}" var="user">
         <tr>
             <td>
-                <strike>
-                <a href="/teacher/user_details?login=${user.email}">
-                    <c:out value="${user.email}"></c:out>
-                </a>
-                </strike>
+                <c:out value="${user.email}"></c:out>
             </td>
             <td>
-                <form action="/teacher/create_exam_user" method="get">
+                <form action="/teacher/create_exam_user" method="post">
                     <input type="hidden" name="userMail" value="${user.email}">
                     <input type="hidden" name="action" value="addU">
                     <input type="submit" value="Add">
@@ -98,7 +64,7 @@
 First ${firstPageE}
 Current ${currentPageE}
 Total ${totalPagesE}
-<form action="/teacher/create_exam_user" method="get">
+<form action="/teacher/create_exam_user" method="post">
     <label>Filter:<BR> <input type="search" name="expression" value="${loginRegexp}"></label> <BR>
 
     <label>Sort:</label>
@@ -109,22 +75,41 @@ Total ${totalPagesE}
     <label>Go to<input type="number" name="pageE" value="${currentPageE}"/></label>
     <input type="submit" value="Go"/>
 </form>
-<p>...</p><BR>
-<p>Invite new student by email:</p><BR>
-<p>...</p><BR>
+<%-- Using JSTL forEach and out to loop a list and display items in table --%>
+<table align="center">
+    <tbody>
+    <tr>
+        <th>Invited students:</th>
+        <th></th>
+    </tr>
+    <c:forEach items="${requestScope.userListA}" var="user">
+        <tr>
+            <td>
+                <c:out value="${user.email}"></c:out>
+            </td>
+            <td>
+                <form action="/teacher/create_exam_user" method="post">
+                    <input type="hidden" name="userMail" value="${user.email}">
+                    <input type="hidden" name="action" value="removeU">
+                    <input type="submit" value="Remove">
+                </form>
+            </td>
+        </tr>
+    </c:forEach>
+    </tbody>
+</table>
 
-
-<form action="/teacher/create_exam" method="get">
+<form action="/teacher/create_exam" method="post">
     <input type="hidden" name="action" value="reset">
     <button type="submit">Reset exam</button>
 </form>
 
-<form action="/teacher/create_exam" method="get">
+<form action="/teacher/create_exam" method="post">
     <button type="submit">previous step</button>
 </form>
 
 
-<form action="/teacher/create_exam_final" method="get">
+<form action="/teacher/create_exam_final" method="post">
     <button type="submit">next step</button>
 </form>
 

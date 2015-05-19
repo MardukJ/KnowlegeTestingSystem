@@ -117,8 +117,7 @@ public class ExamController {
 
         //Exam questions w pagination
         //2DO: refactor
-
-        final int PAGE_SIZE_BY_USER = 5;
+        final int PAGE_SIZE_BY_USER = 2;
         int totalPagesE = myExam.getQuestions().size();
         totalPagesE = (int) (totalPagesE / PAGE_SIZE_BY_USER + (totalPagesE % PAGE_SIZE_BY_USER == 0 ? 0 : 1));
         if (totalPagesE == 0) totalPagesE = 1;

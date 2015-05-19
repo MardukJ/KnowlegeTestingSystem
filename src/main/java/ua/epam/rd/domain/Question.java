@@ -139,6 +139,8 @@ public class Question {
                 it.remove();
             }
         }
+        //remove duplicates
+        //N.B. answers can be different, but options the same -> cans use Set
     }
 
     public int getCountPositiveAnswers() {

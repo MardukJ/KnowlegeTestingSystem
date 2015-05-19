@@ -171,16 +171,17 @@ VERSION 0.19
 +demo -> demo test for 2 users
 
 VERSION 0.20
-1) final test
+1) +test, bug list
 2) some frontend
-3) Post method only for some pages
+3) +Post method only for some pages
 4) Entity annotations (UNIQUE, NOT NULL, length)
 
 VERSION 0.21
-1) code review & refactoring
+1) +final test
 
 VERSION 1.0
-1) release
+1) +release
+2) +project demo ready
 
 
 exception localization support
@@ -219,3 +220,7 @@ Exam & question creation page -> only by post method
 если пользователь войдет по токену, не выполнив логаут, будут ли глюки? не забыть авто-логаут
 
 ... no details till everybody finish
+
+
+Qferry - генератор людей
+Есть проекты под генерацию lorem ipsum.

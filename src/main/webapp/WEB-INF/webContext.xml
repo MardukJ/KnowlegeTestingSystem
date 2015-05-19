@@ -73,7 +73,7 @@
     </bean>
 
     <!--default error page-->
-    <!--<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">-->
-        <!--<property name="defaultErrorView" value="not_found"/>-->
-    <!--</bean>-->
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="defaultErrorView" value="not_found"/>
+    </bean>
 </beans>

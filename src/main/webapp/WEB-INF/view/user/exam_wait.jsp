@@ -18,12 +18,10 @@
 <body align="center">
 <h1 align="center">Test has not started yet</h1>
 <a href="/home" align="center">Home</a>
-<a href="/teacher/questions" align="center">Question menu</a>
-<a href="/teacher/exams" align="center">Exam menu</a>
+<a href="/exams" align="center">Exams</a>
 <a href="/logout" align="center">Logout</a><br>
 
-<p>${requestScope.timerHH}:${requestScope.timerMM}:${requestScope.timerSS}</p>
-<BR>
+<p>Please wait ${requestScope.timerHH} hours:${requestScope.timerMM} minutes:${requestScope.timerSS} seconds</p>
 <p>Test name: ${invite.inviteExam.name}</p>
 <p>Test time: ${invite.inviteExam.testTimeInMinutes} minutes</p>
 <BR>

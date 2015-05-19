@@ -20,15 +20,17 @@
 <h1 align="center"> QUESTIONS EDITOR </h1>
 <a href="/home" align="center">Home</a>
 <a href="/teacher/questions" align="center">Question menu</a>
-<a href="/teacher/exams" align="center">Exam menu</a>
+<a href="/teacher/exams" align="center">Exam management</a>
+<a href="/exams" align="center">My exams</a>
 <a href="/logout" align="center">Logout</a><br>
+<br>
 
 <h1 align="center">${msg}</h1>
 
 <%-- Using JSTL forEach and out to loop a list and display items in table --%>
 <table align="center">
-  <form action="/teacher/edit_question" method="get">
-      Question ID = ${question.id}<BR>
+  <form action="/teacher/edit_question" method="post">
+      <%--Question ID = ${question.id}<BR>--%>
       <input type="hidden" name = "id" value="${question.id}">
 
       Body:<BR>
@@ -52,14 +54,12 @@
             <td>
                 <c:choose>
                     <c:when test="${option.correctAnswer}">
-                        True
-                        <label><input type="radio" name="correctAnswer${oIndex.index}" value="true" checked/>True</label>
-                        <label><input type="radio" name="correctAnswer${oIndex.index}" value="false"/>False</label>
+                        <label>Y<input type="radio" name="correctAnswer${oIndex.index}" value="true" checked/></label>
+                        <label><input type="radio" name="correctAnswer${oIndex.index}" value="false"/>N</label>
                     </c:when>
                     <c:otherwise>
-                        False
-                        <label><input type="radio" name="correctAnswer${oIndex.index}" value="true"/>True</label>
-                        <label><input type="radio" name="correctAnswer${oIndex.index}" value="false" checked/>False</label>
+                        <label>Y<input type="radio" name="correctAnswer${oIndex.index}" value="true"/></label>
+                        <label><input type="radio" name="correctAnswer${oIndex.index}" value="false" checked/>N</label>
                     </c:otherwise>
                 </c:choose>
             </td>

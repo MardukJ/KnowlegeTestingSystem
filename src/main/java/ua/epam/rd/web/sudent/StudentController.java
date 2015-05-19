@@ -112,31 +112,24 @@ public class StudentController {
             view = examResult;
         } else if ((status.equals(InviteStatus.NEW)) || (status.equals(InviteStatus.IN_PROGRESS))) {
             //check test timeout HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//            System.out.println("HI!!!!!"+action);
             if (invite.checkTimeout()) {
                 //timeout
+//                System.out.println("Timeout!!!!!");
                 inviteService.forceFinish(invite.getId());
                 invite =inviteService.getByIdWExamAndUser(inviteId);
                 model.addAttribute("invite", invite);
                 view = examResult;
             } else if ("finish".equals(action)) {
                 //finish
+//                System.out.println("FINISH!!!!!");
                 inviteService.forceFinish(invite.getId());
                 invite =inviteService.getByIdWExamAndUser(inviteId);
                 model.addAttribute("invite", invite);
                 view = examResult;
-            } else if ("do".equals(action) || status.equals(InviteStatus.IN_PROGRESS)) {
-                //simple exam page
-                //change invite status, if required
-                if (invite.getInviteStatus().equals(InviteStatus.NEW)) {
-                    invite.setInviteStatus(InviteStatus.IN_PROGRESS);
-                    inviteService.save(invite);
-                }
-                view = examAnswer;
-                model.addAttribute("invite",invite);
-                model.addAttribute("question", invite.getInviteExam().getQuestions().get(indexL.intValue()));
-                model.addAttribute("questionIndex",indexL);
             } else if ("save".equals(action)) {
                 //saving answers
+//                System.out.println("SAVE");
                 Map<String, String[]> params = webRequest.getParameterMap();
                 Question question = invite.getInviteExam().getQuestions().get(indexL.intValue());
                 for (QuestionAnswerOption o : question.getOptions()) {
@@ -163,7 +156,20 @@ public class StudentController {
                 model.addAttribute("invite",invite);
                 model.addAttribute("question",invite.getInviteExam().getQuestions().get(indexL.intValue()));
                 model.addAttribute("questionIndex",indexL);
-            } else {
+            } else if ("do".equals(action) || status.equals(InviteStatus.IN_PROGRESS)) {
+                //simple exam page
+                //change invite status, if required
+
+//                System.out.println("DO!!!!!");
+                if (invite.getInviteStatus().equals(InviteStatus.NEW)) {
+                    invite.setInviteStatus(InviteStatus.IN_PROGRESS);
+                    inviteService.save(invite);
+                }
+                view = examAnswer;
+                model.addAttribute("invite",invite);
+                model.addAttribute("question", invite.getInviteExam().getQuestions().get(indexL.intValue()));
+                model.addAttribute("questionIndex",indexL);
+            }  else {
                 //wait page
                 long waitTimer = invite.getInviteExam().getStartWindowOpen().getTime() - System.currentTimeMillis();
                 if (waitTimer > 0) {
