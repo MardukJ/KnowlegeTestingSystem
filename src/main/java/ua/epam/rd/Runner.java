@@ -39,7 +39,7 @@ public class Runner {
         for (int i=0;i<100;i++) {
             System.out.println(rnd.nextInt(2));
         }
-
+        userRepository.add(new User());
         appContext.close();
     }
 }
