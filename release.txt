@@ -1,0 +1,226 @@
+VERSION 0.1:
+23.04.2015.
+1)+ JPA+Hibernate+Postgresql - test
+2)+ Sring MVC - hello world
+
+
+VERSION 0.2:
+24.04.2015.
+1)+ DAO - User
+2)+ DAO - UT
+3)+ User - MD5 hash support
+4)+ Service - User
+5)+ Service - User - unit test
+6)+ Login page + Welcome-redirect page + Controller (session authentication)
+8)+ Logout controller
+9)+ Page 404 + auto-redirect in 5 seconds
+
+VERSION 0.3:
+26.04.2015
+1)+ Mailing system muck
+2)+ Mailing-confirmation system
+    + new table with tokens
+    + service functions - create token, verify token
+    - unit test
+    + controller
+3)+ Restore page + Controller
+4)+ Blocked users login forbidden
+
+VERSION 0.4
+27.04.2015
+1) +Admin-home page
+2) +User-list w pagination (admin-option)
+3) +User-edit page (admin-option)
+    + block/unblock
+4) +Find user (admin-option)
+5) +Not-very-awful-looking pages (CSS/HTML)
+6) +User home page
+
+VERSION 0.5
+28.04.2015
+1) +Filtered user list (blocked/unblocked/any by mail, users/teachers/any, sort by mail a-z/z-a/no-sort)
+2) +Filter refactoring
+3) +Internationalization & Localization support
+
+VERSION 0.6
+30.04.2015
+Admin options:
+1) +Group DAO
+2) +Group Repository
+3) +Group service
+4) +Group controller
+4.1) +Group list
+4.2) +View group info
+4.3) +Block/unblock
+4.4) +Create new group
+4.5) +Find group
+4.6) +Create group
+
+
+VERSION 0.7
+01.05.2015
+Admin options:
+1) +Group list - pagination & filter
+2) +View users of group
+3) +View groups of user
+4) +Add/remove users from group BUG: no info
+
+
+VERSION 0.8
+02.05.2015
+1) +Question DAO
+2) +Question Repository
+3) +Question service
+
+VERSION 0.9
+05.05.2015
+1) +privilege levels - user/teacher pages
+2) teacher/question menu:
+2.1) +My groups list
+2.2) +Question list by group
+2.3) +Create question
+2.4) +Delete question
+2.5) +Modify question
+
+VERSION 0.10
+1) +Exam DAO
+2) +Exam Repository
+3) +Exam service
+4) +Exam controller
+
+VERSION 0.11
+09.05.2015
+teachers options:
+1) +Create Exam (temporary - in session)
+2) +Add questions
+    + my available w pagination
+    + added to test w pagination
+3) +Modify questions list
+4) +Add user (existing)
+5) +Add user (register new)
+6) +Modify user list
+7) +Config test
+8) +Save test/cancel test mock(send invites -> later)
+
+VERSION 0.12
+1) +Invite DAO
+2) +Invite Repository
+3) +Invite service
+4) +Invite controller
+
+VERSION 0.13
+1) +Send invites by test
+2) +Send email when create invite
+3) +Sens email when registered
+
+VERSION 0.14
+12.05.2015
+Students options:
+1) +My test list (student)
+2) +Join test (student)
+3) +Test waiting page
+3) +Test question page (student)
+
+VERSION 0.15
+1) +Test result %
+2) +Detail test result
+3) +Pass test (student)
+5) +Correct test status
+6) +Exclude canceled test from students view)
+7) +Correct page redirect (wait, start, pass, result)
+
+VERSION 0.16
+13.05.2015
+1) +InviteField -> real finish time
+2) +Test timeout
+3) +No-show page
+4) +Mail w result
+
+VERSION 0.17
+1) +Teacher exams list
+2) +Teacher exam result view page
+3) +Exam result calculation
+4) +Calculation when teacher review test
+
+VERSION 0.18
+1) -Watchdog & exceptional situations (no show, etc.)
+3) +Default 500 page
+4) +Email pattern
+5) -Session time & remember me button
+
+VERSION 0.19
+1) +evil generator
++50000 users
++500 teachers
++100 groups
++each teacher - some groups
++each group - 100 questions
++each teacher 10 exams
+-exam per 10 users, 5 questions
+2) happiness generator
++admin
++blocked user
++teacherJAVA/SQL
++groups DEMO/JAVA/SQL
++students (10)
++JAVA/SQL questions (10)
++demo -> demo questions
++test -> too late
++test -> late
++test -> in future
++demo -> demo test for 2 users
+
+VERSION 0.20
+1) +test, bug list
+2) some frontend
+3) +Post method only for some pages
+4) Entity annotations (UNIQUE, NOT NULL, length)
+
+VERSION 0.21
+1) +final test
+
+VERSION 1.0
+1) +release
+2) +project demo ready
+
+
+exception localization support
+full website localization
+
+refactoring: security manager, static->bean
+
+MB additional features:
+admin panel -> user of groups -> pagination
+admin panel -> groups of user -> pagination
+removeUserFromGroup - JS confirmation
+
+database review, @Length, @NotNull, etc. annotations
+
+test for repository level
+test for service level (100%)
+
+repostiroy refactoring-> requests strings
+
+hibernate cache
+
+why service layer functions r so slow?
+
+service & repository refactoring -> criteria to JPQL
+
+refactor new_question/edit_question backend with MAP <String, String>
+    @RequestMapping(value = "/teacher/edit_question", params = "action")
+    public String editQuestion(@ModelAttribute Question question
+
+questions->block execution if script in body
+
+Exam & question creation page -> only by post method
+
+2do: should exam link to users? mb only
+
+если пользователь войдет по токену, не выполнив логаут, будут ли глюки? не забыть авто-логаут
+
+... no details till everybody finish
+
+
+Qferry - генератор людей
+Есть проекты под генерацию lorem ipsum.
